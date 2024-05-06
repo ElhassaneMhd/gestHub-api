@@ -16,6 +16,8 @@ trait Refactor
                 "profile_id"=>$profile->id,
                 "firstName"=>$profile->firstName,
                 "lastName"=>$profile->lastName,
+                'created_at'=>$profile->created_at->format('Y-m-d H:i:s'),
+                'updated_at'=>$profile->updated_at->format('Y-m-d H:i:s'),
                 "gender"=>$user->gender,
                 "email"=>$profile->email,
                 "phone"=>$profile->phone,
@@ -168,6 +170,8 @@ trait Refactor
             'status'=>$offer->status,
             'city'=>$offer->city,
             'publicationDate'=>$offer->created_at->format('Y-m-d H:i:s'),
+            'created_at'=>$offer->created_at->format('Y-m-d H:i:s'),
+            'updated_at'=>$offer->updated_at->format('Y-m-d H:i:s'),
             'demands'=>$demands
             ];
     }
@@ -189,7 +193,8 @@ trait Refactor
             "owner"=> $this->refactorProfile($profile),
             "offer"=> $offer,
             "files"=>$this->getElementFiles($demand),
-
+            'created_at'=>$demand->created_at->format('Y-m-d H:i:s'),
+            'updated_at'=>$demand->updated_at->format('Y-m-d H:i:s'),
         ];
     }
     public function refactorSettings($setting){

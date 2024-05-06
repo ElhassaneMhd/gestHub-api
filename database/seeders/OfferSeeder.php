@@ -6,14 +6,20 @@ use App\Models\Demand;
 use App\Models\Offer;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Faker\Factory as Faker;
+
 
 class OfferSeeder extends Seeder
 {
     /**
+     * $faker = Faker::create();
+
      * Run the database seeds.
      */
     public function run(): void
     {
+        $faker = Faker::create();
+
         $offersData = [
             [
                 'title' => 'E-commerce Developer ',
@@ -117,6 +123,7 @@ class OfferSeeder extends Seeder
             $demand = new Demand;
             $demand->offer_id = random_int(1,7);
             $demand->user_id = random_int(1,5);; // Replace with appropriate user ID
+            $demand->isRead = $faker->randomElement(["true", "false"]); // Replace with appropriate user ID
             $demand->motivationLetter = 'Motivated and eager to learn and contribute to the ' . $offer->title . ' project.';
             $demand->startDate = Carbon::now()->addDays(rand(1, 365));
             $demand->endDate = Carbon::now()->addDays(rand($demand->startDate->diffInDays(Carbon::now()) + 1, 365)); // Ensure end date is after start date
