@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "Running composer"
-composer global update
+composer global update --working-dir=/var/www/html
 composer install --no-dev  --working-dir=/var/www/html
 
 echo "Caching config..."
