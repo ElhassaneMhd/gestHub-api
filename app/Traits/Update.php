@@ -158,14 +158,14 @@ trait Update
         $offer->update($updateData);
         return $offer;
     }
-    public function updateDemand($request,$demand){
+    public function updateApplication($request,$application){
          $updateData = array_filter([
                 "user_id"=>   $request['user_id'] ?? null,
                 "offer_id"=>   $request['offer_id'] ?? null,
                 'startDate'=> $request['startDate'] ?? null,
                 'endDate'=> $request['endDate'] ?? null,
             ]);
-        $demand->update($updateData);
-        return $demand;
+        $application->update($updateData);
+        return $application;
     }
 }

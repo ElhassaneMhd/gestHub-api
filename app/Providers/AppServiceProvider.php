@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Demand;
+use App\Models\Application;
 use App\Models\Intern;
 use App\Models\Profile;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     {
       Relation::morphMap([
         'profile' => Profile::class,
-        'demand' => Demand::class,
+        'application' => Application::class,
         'intern' => Intern::class,
     ]);
     }

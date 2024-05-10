@@ -6,10 +6,10 @@ trait Refactor
         $files = $this->getElementFiles($profile);
         if ($profile->getRoleNames()[0]==='user'){
             $user = $profile->user;
-            $demandsData = $user->demands;
-            $demands = [];          
-            foreach($demandsData as $demand){
-                $demands[]=['id'=>$demand->id,"offer_id"=>$demand->offer_id];
+            $applicationsData = $user->applications;
+            $applications = [];          
+            foreach($applicationsData as $application){
+                $applications[]=['id'=>$application->id,"offer_id"=>$application->offer_id];
             } 
             $refactored = [
                 "id"=>$user->id,
@@ -24,7 +24,7 @@ trait Refactor
                 "role"=>$profile->getRoleNames()[0],
                 "academicLevel" => $user->academicLevel,
                 "establishment" => $user->establishment,
-                "demands"=>$demands,
+                "applications"=>$applications,
                 "files"=>$files
             ];
         return $refactored;
@@ -37,6 +37,7 @@ trait Refactor
                 "firstName"=>$profile->firstName,
                 "lastName"=>$profile->lastName,
                 "email"=>$profile->email,
+                "gender"=>$profile->gender,
                 "phone"=>$profile->phone,
                 "role"=>$profile->getRoleNames()[0],
                 "files"=>$files??[],
@@ -56,6 +57,7 @@ trait Refactor
                 "firstName"=>$profile->firstName,
                 "lastName"=>$profile->lastName,
                 "email"=>$profile->email,
+                "gender"=>$profile->gender,
                 "phone"=>$profile->phone,
                 "role"=>$profile->getRoleNames()[0],
                 "projects"=>$projects,
@@ -151,10 +153,10 @@ trait Refactor
                 ];
     }
     public function refactorOffer($offer){
-        $demandsData = $offer->demands;
-        $demands = [];
-        foreach($demandsData as $demand){
-            array_push($demands,['id'=>$demand->id,'status'=>$demand->status,"updated_at"=>$demand->updated_at->format('Y-m-d H:i:s')]);
+        $applicationsData = $offer->applications;
+        $applications = [];
+        foreach($applicationsData as $application){
+            array_push($applications,['id'=>$application->id,'status'=>$application->status,"updated_at"=>$application->updated_at->format('Y-m-d H:i:s')]);
         }
         return [
             "id"=> $offer->id,
@@ -172,29 +174,29 @@ trait Refactor
             'publicationDate'=>$offer->created_at->format('Y-m-d H:i:s'),
             'created_at'=>$offer->created_at->format('Y-m-d H:i:s'),
             'updated_at'=>$offer->updated_at->format('Y-m-d H:i:s'),
-            'demands'=>$demands
+            'applications'=>$applications
             ];
     }
-    public function refactorDemand($demand){
-        $offerData = $demand->offer;
-        if ( $demand->intern){
-            $profile = $demand->intern->profile;
+    public function refactorApplication($application){
+        $offerData = $application->offer;
+        if ( $application->intern){
+            $profile = $application->intern->profile;
         }else{
-            $profile = $demand->user->profile;
+            $profile = $application->user->profile;
         }
         $offer = $this->refactorOffer($offerData);
         return [
-            "id"=> $demand->id,
-            "startDate"=>$demand->startDate,
-            "endDate"=>$demand->endDate,
-            "motivationLetter"=>$demand->motivationLetter,
-            "status"=>$demand->status,
-            "isRead"=> $demand->isRead,
+            "id"=> $application->id,
+            "startDate"=>$application->startDate,
+            "endDate"=>$application->endDate,
+            "motivationLetter"=>$application->motivationLetter,
+            "status"=>$application->status,
+            "isRead"=> $application->isRead,
             "owner"=> $this->refactorProfile($profile),
             "offer"=> $offer,
-            "files"=>$this->getElementFiles($demand),
-            'created_at'=>$demand->created_at->format('Y-m-d H:i:s'),
-            'updated_at'=>$demand->updated_at->format('Y-m-d H:i:s'),
+            "files"=>$this->getElementFiles($application),
+            'created_at'=>$application->created_at->format('Y-m-d H:i:s'),
+            'updated_at'=>$application->updated_at->format('Y-m-d H:i:s'),
         ];
     }
     public function refactorSettings($setting){

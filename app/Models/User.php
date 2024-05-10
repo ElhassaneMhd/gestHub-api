@@ -22,7 +22,7 @@ class User extends Authenticatable
     public function profile(){
         return $this->belongsTo(Profile::class);
     }
-    public function demands(){
-        return $this->hasMany(Demand::class);
+    public function applications(){
+        return $this->hasMany(Application::class);
     }
 }

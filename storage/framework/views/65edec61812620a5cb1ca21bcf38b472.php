@@ -31,7 +31,7 @@
               Tout au long de cette période, Monsieur <?php echo e($firstName??'............'); ?> <?php echo e($lastName??'..............'); ?>  a su répondre à ses obligations de stagiaire,
                notamment dans l'exercice des missions qui lui ont été confiées. Il s'est par ailleurs montré(e) très attentive aux conseils et à la formation qui lui 
                ont été prodigués en vue d'exercer le métier de Developpement.</p>
-            <p>Cette attestation est délivrée à la demande du stagiaire pour servir et valoir ce que de droit.</p>
+            <p>Cette attestation est délivrée à la applicatione du stagiaire pour servir et valoir ce que de droit.</p>
               <div class=' mt-5 w-full d-flex justify-content-start gap-3'>
                  <p class="text-end">Fait le <?php echo e(date('d-m-y')); ?></p>
                  <p class="text-end">A Rabat</p>

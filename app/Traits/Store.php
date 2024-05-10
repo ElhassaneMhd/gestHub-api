@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 use App\Models\Admin;
-use App\Models\Demand;
+use App\Models\Application;
 use App\Models\Intern;
 use App\Models\Offer;
 use App\Models\Profile;
@@ -216,7 +216,7 @@ trait Store
 
         return $offer;
     }
-    public function storeDemand($request){
+    public function storeApplication($request){
         $request->validate([
             'offer_id' => 'required|exists:offers,id',
             'user_id' => 'required|exists:users,id',
@@ -225,30 +225,30 @@ trait Store
             'motivationLetter' => 'required|string',
             'cv' => 'nullable|file'
         ]);
-        $demande = new Demand;
-        $demande->offer_id = $request->input('offer_id');
-        $demande->user_id = $request->input('user_id');
-        $demande->startDate = $request->input('startDate');
-        $demande->endDate =  $request->input('endDate');
-        $demande->motivationLetter =  $request->input('motivationLetter');
-        $demande->save();
-        $profile=$demande->user->profile;
+        $applicatione = new Application;
+        $applicatione->offer_id = $request->input('offer_id');
+        $applicatione->user_id = $request->input('user_id');
+        $applicatione->startDate = $request->input('startDate');
+        $applicatione->endDate =  $request->input('endDate');
+        $applicatione->motivationLetter =  $request->input('motivationLetter');
+        $applicatione->save();
+        $profile=$applicatione->user->profile;
         if ($request->hasFile('cv')&&$profile) {
             $this->storeOneFile($request, $profile, 'cv');            
         }
-        if ($request->hasFile('demandeStage')&&$demande) {
-            $this->storeOneFile($request, $demande, 'demandeStage');            
+        if ($request->hasFile('applicationeStage')&&$applicatione) {
+            $this->storeOneFile($request, $applicatione, 'applicationeStage');            
         }
-        return response()->json($this->refactorDemand($demande));
+        return response()->json($this->refactorApplication($applicatione));
     }
     public function storInternFromUser($user){
-        $demand =$user->demands->where('status','=','Approved')->first();
-        if(!$demand){
-            return response()->json(['message' => 'this user has no aprouved demand'], 404);
+        $application =$user->applications->where('status','=','Approved')->first();
+        if(!$application){
+            return response()->json(['message' => 'this user has no aprouved application'], 404);
         }
-        $offer = $demand->offer;
+        $offer = $application->offer;
         $profile = $user->profile;
-        $demands = $user->demands;
+        $applications = $user->applications;
 
         DB::beginTransaction();
         $intern = new Intern;
@@ -256,20 +256,20 @@ trait Store
         $intern->academicLevel = $user['academicLevel'];
         $intern->establishment = $user['establishment'];
         $intern->gender = $user['gender'];
-        $intern->endDate = $demand['endDate'];
-        $intern->startDate = $demand['startDate'];
-        $intern->speciality = $offer['sector'];
+        $intern->endDate = $application['endDate'];
+        $intern->startDate = $application['startDate'];
+        $intern->specialty = $offer['sector'];
 
         $isCommited[]=$user->delete();
         $profile->removeRole('user'); 
         $profile->assignRole('intern');
         $isCommited[] = $profile->hasRole('intern');
         $isCommited[]=$intern->save();
-        $isCommited[]=$demand->intern_id = $intern->id;
-        $demand -> save();
-        foreach($demands as $otherDemand){
-            if($otherDemand->id !==$demand->id ){
-                $isCommited[]=$otherDemand->delete();
+        $isCommited[]=$application->intern_id = $intern->id;
+        $application -> save();
+        foreach($applications as $otherApplication){
+            if($otherApplication->id !==$application->id ){
+                $isCommited[]=$otherApplication->delete();
             }
         } 
         if(in_array(false||null,$isCommited)){

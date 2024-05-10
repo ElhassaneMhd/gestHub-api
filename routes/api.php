@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AttestationController;
 use App\Http\Controllers\GeneralController;
-use App\Http\Controllers\DemandController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\taskController;
 use Illuminate\Support\Facades\Route;
@@ -37,10 +37,10 @@ Route::middleware('checkorigin')->middleware('auth:sanctum')->group(function () 
     //Offers
     Route::apiResource('offers', OfferController::class);
    
-    Route::apiResource('demands', DemandController::class);
-    Route::put('demands/{id}/read', [DemandController::class,'markAsRead']);
-    //approve rejectDemand
-    Route::put('/demands/{id}/{traitement}', [DemandController::class,'accepteDemand']);
+    Route::apiResource('applications', ApplicationController::class);
+    Route::put('applications/{id}/read', [ApplicationController::class,'markAsRead']);
+    //approve rejectApplication
+    Route::put('/applications/{id}/{traitement}', [ApplicationController::class,'accepteApplication']);
     // Project
     Route::apiResource('projects', ProjectController::class);
     //tasks

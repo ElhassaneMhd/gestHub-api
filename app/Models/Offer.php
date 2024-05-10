@@ -22,8 +22,8 @@ class Offer extends Model
         'city',
     ];
     
-    public function demands(){
-        return $this->hasMany(Demand::class);
+    public function applications(){
+        return $this->hasMany(Application::class);
     }
 
 }

@@ -28,8 +28,8 @@ class Intern extends Authenticatable
       public function profile(){
         return $this->belongsTo(Profile::class);
     }
-       public function demands(){
-        return $this->hasMany(Demand::class);
+       public function applications(){
+        return $this->hasMany(Application::class);
     }
       public function projects(){
         return $this->belongsToMany(Project::class);

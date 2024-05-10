@@ -21,7 +21,7 @@ return new class extends Migration
             //intern_id is the prorject manager
             $table->foreignId('intern_id')->nullable()->constrained()->nullOnDelete();
             $table->softDeletes();
-            $table->timestamps();
+            $table->timestampsTz();
         });
     }
 

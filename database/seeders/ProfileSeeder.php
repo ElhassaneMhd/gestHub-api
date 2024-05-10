@@ -58,7 +58,7 @@ foreach ($roles as $role) {
                     'academicLevel' => 'Bac+2',
                     'establishment' => 'Ofppt',
                     'specialty' => 'Développement',
-                                        'gender' => $faker->randomElement(['M']),
+                    'gender' => $faker->randomElement(['M']),
                     'startDate' => $faker->dateTimeBetween('-1 years', '+1 years')->format('Y-m-d H:i:s'),
                     'endDate' => $faker->dateTimeBetween('+1 years', '+2 years')->format('Y-m-d H:i:s'),
                 ]);

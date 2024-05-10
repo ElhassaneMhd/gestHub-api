@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 use App\Models\Admin;
-use App\Models\Demand;
+use App\Models\Application;
 use App\Models\Intern;
 use App\Models\Offer;
 use App\Models\Profile;
@@ -68,10 +68,11 @@ trait Get
                 $all[]= $this->refactorOffer($offer);
           }            
         }
-        elseif ($data === 'demands') {
-            $demands = Demand::all();
-            foreach ($demands as $demand) {
-                $all[]= $this->refactorDemand($demand);
+        elseif ($data === 'applications') {
+            $user = auth()->user();
+            $applications = Application::all();
+            foreach ($applications as $application) {
+                $all[]= $this->refactorApplication($application);
             }            
             
         }elseif($data === 'settings'){
@@ -135,10 +136,10 @@ trait Get
                 $results= $this->refactorTask($task);
             }
         } 
-        elseif ($data === 'demands') {
-            $demand = Demand::find($id);
-            if ($demand){
-                $results= $this->refactorDemand($demand);
+        elseif ($data === 'applications') {
+            $application = Application::find($id);
+            if ($application){
+                $results= $this->refactorApplication($application);
             }
         }    
         elseif ($data === 'offers') {
@@ -158,7 +159,7 @@ trait Get
     public function getAllAcceptedUsers(){
         $users = User::all();
         foreach($users as $user){
-            if (count($user->demands->where('status','=','Approved'))>0 ){
+            if (count($user->applications->where('status','=','Approved'))>0 ){
                 $profile = $user->profile;
                 $accptedUsers[] = $this->refactorProfile($profile);
             }

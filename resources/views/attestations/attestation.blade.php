@@ -37,7 +37,7 @@
                 Par sa rigueur et ses qualités professionnelles et humaines, {{$gender??'M/Mme'}}. {{$firstName??'...........................' }} {{$lastName??'...........................'}} a su
               trouver sa place au sein de l'équipe. Sa présence a été satisfaisante à tous points de vue.
               </p>
-              <p>Cette attestation est délivrée à la demande du stagiaire pour servir et valoir ce que de droit.</p>
+              <p>Cette attestation est délivrée à la applicatione du stagiaire pour servir et valoir ce que de droit.</p>
                 <div class=' mt-5 w-full d-flex justify-content-start gap-3  pt-5'>
                   <p class="text-end">Fait a Rabat , le {{date('d-m-y')}} </p>
                 </div>           

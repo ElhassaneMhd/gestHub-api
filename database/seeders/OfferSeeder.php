@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Demand;
+use App\Models\Application;
 use App\Models\Offer;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -120,14 +120,14 @@ class OfferSeeder extends Seeder
         }
        
         for ($j = 1; $j <= 20; $j++) {
-            $demand = new Demand;
-            $demand->offer_id = random_int(1,7);
-            $demand->user_id = random_int(1,5);; // Replace with appropriate user ID
-            $demand->isRead = $faker->randomElement(["true", "false"]); // Replace with appropriate user ID
-            $demand->motivationLetter = 'Motivated and eager to learn and contribute to the ' . $offer->title . ' project.';
-            $demand->startDate = Carbon::now()->addDays(rand(1, 365));
-            $demand->endDate = Carbon::now()->addDays(rand($demand->startDate->diffInDays(Carbon::now()) + 1, 365)); // Ensure end date is after start date
-            $demand->save();
+            $application = new Application;
+            $application->offer_id = random_int(1,7);
+            $application->user_id = random_int(1,5);; // Replace with appropriate user ID
+            $application->isRead = $faker->randomElement(["true", "false"]); // Replace with appropriate user ID
+            $application->motivationLetter = 'Motivated and eager to learn and contribute to the ' . $offer->title . ' project.';
+            $application->startDate = Carbon::now()->addDays(rand(1, 365));
+            $application->endDate = Carbon::now()->addDays(rand($application->startDate->diffInDays(Carbon::now()) + 1, 365)); // Ensure end date is after start date
+            $application->save();
         }
 
     }
