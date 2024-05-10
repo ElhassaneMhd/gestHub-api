@@ -18,7 +18,7 @@ trait Update
                     'phone' =>'string',
                     'password' => [
                             'string',
-                            Password::min(8)->mixedCase()->numbers()->symbols(),
+                            Password::min(8)->numbers(),
                             'confirmed',
                         ]
             ]); 
@@ -30,7 +30,7 @@ trait Update
                         'phone' =>'string',
                         'password' => [
                             'string',
-                            Password::min(8)->mixedCase()->numbers()->symbols(),
+                            Password::min(8)->numbers(),
                             'confirmed',
                         ],                
             ]);
@@ -65,12 +65,12 @@ trait Update
         $validatedData = $request->validate([
                     'currentPassword' => [
                             'required',
-                            Password::min(8)->mixedCase()->numbers()->symbols(),
+                            Password::min(8)->numbers(),
                         ]  ,
                     'password' => [
                             'string',
                             'required',
-                            Password::min(8)->mixedCase()->numbers()->symbols(),
+                            Password::min(8)->numbers(),
                             'confirmed',
                         ]   
                     ]);

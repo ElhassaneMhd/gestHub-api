@@ -27,7 +27,7 @@ trait Store
             'password' => [
                 'required',
                 'string',
-                Password::min(8)->mixedCase()->numbers()->symbols(),
+                Password::min(8)->numbers(),
                 'confirmed',
             ],
             'role'=>'required|in:admin,supervisor,intern'
@@ -92,7 +92,7 @@ trait Store
             'password' => [
                 'required',
                 'string',
-                Password::min(8)->mixedCase()->numbers()->symbols(),
+                Password::min(8)->numbers(),
                 'confirmed',
             ],
             'academicLevel' => 'required|string',

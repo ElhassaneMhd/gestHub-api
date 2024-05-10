@@ -2,6 +2,8 @@
 
 - [x] Files Validation for uppercase extentions 
 - [] remove super admin from admins
+- [] add from excel
+- [] api slugs
 - [] timestimp laravel
 - [] add gender to all profiles
 - [] return updated at in all data
