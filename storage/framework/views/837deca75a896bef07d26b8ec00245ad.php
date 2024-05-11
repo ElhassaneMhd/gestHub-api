@@ -30,16 +30,17 @@
             </div>
             <div class="card-body pt-5">
               <p>Je soussigné(e), M. MOHAMED LOUDIFA, Chef division de centre informatique de la Direction du Système d'information, dont le siège social se situe a Rabat  
-                  atteste que {{$gender??'M/Mme'}}. {{$firstName??'.........................' }} {{$lastName??'...........................'}} a effectué un stage au sein de notre service d'une durée du 
-                  {{$startDate??'...........................'}} au {{$endDate??'...........................'}}
+                  atteste que <?php echo e($gender??'M/Mme'); ?>. <?php echo e($firstName??'.........................'); ?> <?php echo e($lastName??'...........................'); ?> a effectué un stage au sein de notre service d'une durée du 
+                  <?php echo e($startDate??'...........................'); ?> au <?php echo e($endDate??'...........................'); ?>
+
               </p>
               <p>
-                Par sa rigueur et ses qualités professionnelles et humaines, {{$gender??'M/Mme'}}. {{$firstName??'...........................' }} {{$lastName??'...........................'}} a su
+                Par sa rigueur et ses qualités professionnelles et humaines, <?php echo e($gender??'M/Mme'); ?>. <?php echo e($firstName??'...........................'); ?> <?php echo e($lastName??'...........................'); ?> a su
               trouver sa place au sein de l'équipe. Sa présence a été satisfaisante à tous points de vue.
               </p>
               <p>Cette attestation est délivrée à la applicatione du stagiaire pour servir et valoir ce que de droit.</p>
                 <div class=' mt-5 w-full d-flex justify-content-start gap-3  pt-5'>
-                  <p class="text-end">Fait a Rabat , le {{date('d-m-y')}} </p>
+                  <p class="text-end">Fait a Rabat , le <?php echo e(date('d-m-y')); ?> </p>
                 </div>           
                 <div class="col-md-6">
                   <p class="text-end">Signature</p>
@@ -57,3 +58,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php /**PATH C:\Users\Pro\Desktop\gestSTG\gestHub-api\resources\views/attestations/attestation.blade.php ENDPATH**/ ?>
