@@ -223,7 +223,7 @@ trait Store
             'startDate' => 'required|date',
             'endDate' => 'required|date|after_or_equal:startDate',
             'motivationLetter' => 'required|string',
-            'cv' => 'nullable|file'
+            'cv' => 'nullable'
         ]);
         $applicatione = new Application;
         $applicatione->offer_id = $request->input('offer_id');
@@ -236,8 +236,8 @@ trait Store
         if ($request->hasFile('cv')&&$profile) {
             $this->storeOneFile($request, $profile, 'cv');            
         }
-        if ($request->hasFile('applicationeStage')&&$applicatione) {
-            $this->storeOneFile($request, $applicatione, 'applicationeStage');            
+        if ($request->hasFile('applicationStage')&&$applicatione) {
+            $this->storeOneFile($request, $applicatione, 'applicationStage');            
         }
         return response()->json($this->refactorApplication($applicatione));
     }
