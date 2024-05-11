@@ -31,7 +31,7 @@ class AttestationController extends Controller
             $this->deletOldFiles($profile, 'attestation');
         }
          $profile->files()->create(
-            ['url' =>"attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf",
+            ['url' =>"/attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf",
                 'type' => 'attestation']
         );
         $pdf->save(public_path("attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf"));

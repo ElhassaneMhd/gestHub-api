@@ -221,7 +221,7 @@ trait Refactor
         if ($element){
             $files = $element->files;
             foreach($files as $file){
-                $Allfiles[] = ['url' => asset($file->url),'type'=>$file->type];
+                $Allfiles[] = ['url' => $file->url,'type'=>$file->type];
             }
         }
         return $Allfiles??[];
