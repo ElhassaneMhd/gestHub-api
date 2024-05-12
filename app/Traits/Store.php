@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\Supervisor;
 use App\Models\Task;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
@@ -242,14 +243,21 @@ trait Store
         return response()->json($this->refactorApplication($applicatione));
     }
     public function storInternFromUser($user){
-        $application =$user->applications->where('status','=','Approved')->first();
-        if(!$application){
+        $applications =$user->applications->where('status','=','Approved')->get();
+        if(count($applications)<=0){
             return response()->json(['message' => 'this user has no aprouved application'], 404);
         }
-        $offer = $application->offer;
+        $specialty = '';
+        foreach ($applications as $application){
+            $offer = $application->offer;
+            if (count_chars($specialty)>1){
+                $specialty += "| ".$offer['sector'];
+            }else{
+                $specialty +=$offer['sector'];
+            }
+        }
         $profile = $user->profile;
         $applications = $user->applications;
-
         DB::beginTransaction();
         $intern = new Intern;
         $intern->profile_id = $profile->id;
@@ -258,7 +266,7 @@ trait Store
         $intern->gender = $user['gender'];
         $intern->endDate = $application['endDate'];
         $intern->startDate = $application['startDate'];
-        $intern->specialty = $offer['sector'];
+        $intern->specialty = $specialty??'None';
 
         $isCommited[]=$user->delete();
         $profile->removeRole('user'); 
@@ -300,6 +308,25 @@ trait Store
                         'type' => $fileType]
         );
         $files->move(public_path('/'.$fileType),$unique.$name);
+    }
+    public function generateAttestation($id){
+          $profile = Intern::find($id)->profile;
+          $intern = $this->refactorProfile($profile);
+          $unique = uniqid();
+          if (date('Y-m-d') < $intern['endDate']){
+            return response()->json(['messsage' => 'the end stage date is not yet'], 400);
+        }
+        view()->share('attestations.attestation',$intern);
+        $pdf = Pdf::loadView('attestations.attestation', $intern);
+        
+        if ($profile->files->count()>0){
+            $this->deletOldFiles($profile, 'attestation');
+        }
+         $profile->files()->create(
+            ['url' =>"/attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf",
+                'type' => 'attestation']
+        );
+        $pdf->save(public_path("attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf"));
     }
     public function storAppSettings($request){
         $setting = Setting::first();

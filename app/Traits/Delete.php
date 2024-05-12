@@ -6,8 +6,9 @@ use App\Models\File;
 trait Delete
 {
     public function deleteProfile($profile){
-        $this->deletOldFiles($profile, 'avatar');
-        $this->deletOldFiles($profile, 'cv');
+        foreach(['avatar',"cv","attestation"] as $file){
+            $this->deletOldFiles($profile, $file);
+        }
         if($profile->delete()){
             return true;
         }

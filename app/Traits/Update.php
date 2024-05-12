@@ -168,4 +168,19 @@ trait Update
         $application->update($updateData);
         return $application;
     }
+    public function processApplication($application,$traitement){
+        if ($application->status !== 'Pending'){
+            return response()->json(['message' => 'application alraedy processed'], 404);
+        }
+        if($traitement==='approve'){
+            $application->status = 'Approved';
+            $application->save();
+            return response()->json(['message' => 'application approved succeffully'], 200);
+        }
+        if($traitement==='reject'){
+            $application->status='Rejected';
+            $application->save();
+            return response()->json(['message' => 'application rejected succeffully'], 200);
+        }
+    }
 }

@@ -33,19 +33,7 @@ class ApplicationController extends Controller
         if (!$application) {
             return response()->json(['message' => 'cannot '.$traitement.' undefined application!'], 404);
         }
-        if ($application->status !== 'Pending') {
-            return response()->json(['message' => 'application alraedy processed'], 404);
-        }
-        if($traitement==='approve'){
-            $application->status = 'Approved';
-            $application->save();
-            return response()->json(['message' => 'application approved succeffully'], 200);
-        }
-        if($traitement==='reject'){
-            $application->status='Rejected';
-            $application->save();
-            return response()->json(['message' => 'application rejected succeffully'], 200);
-        }
+        $this->processApplication($application,$traitement);
     }
     public function markAsRead($id){
         $application = application::find($id);

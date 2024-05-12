@@ -18,8 +18,7 @@ Route::get('/offers/{id}', [OfferController::class,'show']);
 
 // protected Routes
 Route::middleware('checkorigin')->middleware('auth:sanctum')->group(function () {
-    Route::post('/generate/attestations', [AttestationController::class,'generateAttestations']);
-    Route::post('/generate/attestation/{id}', [AttestationController::class,'generateAttestation']);
+    Route::post('/generate/attestation/{id}', [AttestationController::class,'generateOneAttestation']);
     Route::POST('/logout', [AuthController::class, 'logout']);
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
@@ -27,9 +26,10 @@ Route::middleware('checkorigin')->middleware('auth:sanctum')->group(function () 
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);
     Route::post('/users/accept', [GeneralController::class, 'storeNewIntern']);
+    Route::post('/multiple/{data}/{action}', [GeneralController::class, 'multipleActions']);
+    
     Route::get('/{data}', [GeneralController::class, 'index']);
     Route::get('/{data}/{id}', [GeneralController::class, 'show']);
-
     //CRUD all profiles Routes
     Route::apiResource('profiles', ProfileController::class);
     Route::post('profiles/{id}/password', [ProfileController::class,'updatePassword']);

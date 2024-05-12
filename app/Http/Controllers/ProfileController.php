@@ -39,16 +39,16 @@ class ProfileController extends Controller
 
 //delete profiles
     public function destroy(string $id){
-    $profile = Profile::find($id);
-        if (!$profile) {
-            return response()->json(['message' => 'profile non trouvé'], 404);
+        $profile = Profile::find($id);
+            if (!$profile) {
+                return response()->json(['message' => 'profile non trouvé'], 404);
+            }
+        $isDeleted =$this->deleteProfile($profile);
+        if ($isDeleted){       
+            return response()->json(['message' => 'profile deleted succsfully'],200);
         }
-    $isDeleted =$this->deleteProfile($profile);
-    if ($isDeleted){       
-        return response()->json(['message' => 'profile deleted succsfully'],200);
     }
-}
-
+   
     public function updatePassword(Request $request,$id){
         $profile = Profile::find($id);
          if (!$profile) {

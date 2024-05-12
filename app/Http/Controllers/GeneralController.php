@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
+use App\Models\Intern;
+use App\Models\Profile;
 use App\Models\User;
+use App\Traits\Delete;
 use App\Traits\Get;
 use App\Traits\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GeneralController extends Controller
 {
-    use Get,Store;
+    use Get,Store,Delete;
     
     public function __construct(){
         $this->middleware('role:admin|super-admin')->only('setAppSettings');
@@ -29,13 +34,58 @@ class GeneralController extends Controller
     }
     public function storeNewIntern(Request $request){
         $ids = $request['ids'];
-        foreach($ids as $id){
-            $user = User::find($id);
-            if(!$user){
-                return response()->json(['message' => 'user non trouvé'], 404);
+    }
+
+    public function multipleActions(Request $request,$data,$action){
+        $ids = $request['ids'];
+        if (in_array($data,['supervisors','interns','admins'] )&&$action==='delete' ){    
+            DB::beginTransaction();
+            foreach ($ids as $id){
+                if ( !$profile = Profile::find($id)){
+                    DB::rollBack();
+                    return response()->json(['message' => 'profile non trouvé'], 404);
+                }
+                $this->deleteProfile($profile);
             }
-            $this->storInternFromUser($user);
+            DB::commit();
+            return response()->json(['message' => count($ids).' profiles deleted succefully' ], 404);
         }
-        return response()->json(['message' => 'interns stored successfully'],200);
+        if ($data=="applications" && in_array($action,['approve','reject'])){
+            DB::beginTransaction();
+            foreach ($ids as $id){
+                if ( !$application = Application::find($id)){
+                    DB::rollBack();
+                    return response()->json(['message' => 'application non trouvé'], 404);
+                }
+                    $this->processApplication($application,$action);
+            }
+            DB::commit();
+            return response()->json(['message' => count($ids).' processed succefully' ], 404);
+        }
+        if ($data=="attestations" && $action=='generate'){
+            DB::beginTransaction();
+            foreach ($ids as $id){
+                if ( !Intern::find($id)){
+                    DB::rollBack();
+                    return response()->json(['message' => 'intern non trouvé'], 404);
+                }
+                $this->generateAttestation($id);
+            }
+            DB::commit();
+            return response()->json(['message' => count($ids).' attestations generated succefully' ], 404);
+        }
+        if ($data =='users' && $action==='accept'){
+            DB::beginTransaction();
+            foreach($ids as $id){
+                $user = User::find($id);
+                if(!$user){
+                    DB::rollBack();
+                    return response()->json(['message' => 'user non trouvé'], 404);
+                }
+                $this->storInternFromUser($user);
+            }
+            DB::commit();
+            return response()->json(['message' =>count($ids).' interns stored successfully'],200);
+        }
     }
 }
