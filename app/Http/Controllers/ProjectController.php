@@ -14,7 +14,7 @@ class ProjectController extends Controller
     use Refactor,Store,Update,Delete;
       public function __construct(){
         $this->middleware('role:admin|super-admin');
-        $this->middleware('role:supervisor')->except('store');
+        $this->middleware('role:supervisor')->only('update');
     }
     public function store(Request $request)
     {

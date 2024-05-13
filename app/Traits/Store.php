@@ -251,7 +251,7 @@ trait Store
         $specialty = '';
         foreach ($applications as $application){
             $offer = $application->offer;
-            if (count_chars($specialty)>1){
+            if (!$specialty==''){
                 $specialty = $specialty ." | ".$offer['sector'];
             }else{
                 $specialty =$offer['sector'];

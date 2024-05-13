@@ -13,7 +13,7 @@ class taskController extends Controller
 {
     use Store, Refactor,Update,Delete;
     public function __construct(){
-        $this->middleware('role:super-admin|supervisor|intern');
+        $this->middleware('role:super-admin|admin|supervisor|intern');
     }
     public function store(Request $request)
     {

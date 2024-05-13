@@ -18,7 +18,7 @@ class ProfileSeeder extends Seeder
 
 $faker = Faker::create();
 
-$roles = ['user', 'supervisor', 'admin', 'intern', 'super-admin'];
+$roles = ['user','intern', 'supervisor', 'admin', 'super-admin'];
 
 
 foreach ($roles as $role) {

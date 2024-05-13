@@ -11,16 +11,21 @@ use App\Models\Setting;
 use App\Models\Supervisor;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 trait Get
 {
     use Refactor;
     public function GetAll($data){
+        $profile = Auth::user();
         $all = [];
         if ($data === 'admins') {
             $admins = Admin::all();
             foreach ($admins as $admin) {
                 $profile = $admin->profile;
-                $all[]= $this->refactorProfile($profile);
+                dd($profile->getRoleNames());
+                if (!in_array('super-admin',$profile->getRoleNames()) ){
+                    $all[]= $this->refactorProfile($profile);
+                }
             }
         }
         elseif ($data === 'supervisors') {
@@ -51,16 +56,36 @@ trait Get
             }
         }
         elseif ($data === 'projects') {
-            $projects = Project::all();
-            foreach ($projects as $project) {
+            if ($profile->getRoleNames()[0]==='supervisor'){
+                $sup = $profile->supervisor;
+                $projects = $sup->projects;
+            }
+            if ($profile->getRoleNames()[0] === 'intern') {
+                $intern = $profile->intern;
+                $projects = $intern->projects;
+            }
+            if ($profile->getRoleNames()[0] ==='admin'||'super-admin') {
+                $projects = Project::all();
+            }
+            foreach ($projects??[] as $project) {
                 $all[]= $this->refactoProject($project);
             }
         }
         elseif ($data === 'tasks') {
-            $tasks = Task::all();
+            if ($profile->getRoleNames()[0] === 'supervisor'){
+                $sup = $profile->supervisor;
+                $tasks = Task::whereIn('project_id',$sup->projects->pluck('id'))->get();
+            }
+            if ($profile->getRoleNames()[0] === 'intern'){
+                $intern = $profile->intern;
+                $tasks = Task::whereIn('project_id',$intern->projects->pluck('id'))->get();
+            }
+            if ($profile->getRoleNames()[0] === ('admin' || 'super-admin')) {
+                $tasks = Task::all();
+            }
             foreach ($tasks as $task) {
                 $all[]= $this->refactorTask($task);
-        }            
+            }            
         }
         elseif ($data === 'offers') {
             $offers = Offer::all();
@@ -69,8 +94,13 @@ trait Get
           }            
         }
         elseif ($data === 'applications') {
-            $user = auth()->user();
-            $applications = Application::all();
+            if ($profile->getRoleNames()[0]==='user'){
+                $user = $profile->user;
+                $applications = $user->applications;
+            }
+            if ($profile->getRoleNames()[0] === 'admin' || 'super-admin') {
+                $applications = Application::all();
+            }
             foreach ($applications as $application) {
                 $all[]= $this->refactorApplication($application);
             }            

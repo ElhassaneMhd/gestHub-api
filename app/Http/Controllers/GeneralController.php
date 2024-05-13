@@ -31,9 +31,6 @@ class GeneralController extends Controller
     public function getAcceptedUsers(){  
         return $this->getAllAcceptedUsers();
     }
-    public function storeNewIntern(Request $request){
-        $ids = $request['ids'];
-    }
     public function multipleActions(Request $request,$data,$action){
         $ids = $request['ids'];
         if (in_array($data,['supervisors','interns','admins'] )&&$action==='delete' ){    
