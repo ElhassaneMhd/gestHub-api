@@ -54,6 +54,7 @@ class CreateSuperAdmin extends Command
             'firstName' => $firstName,
             'lastName' => $lastName,
             'email' => $email,
+            'gender' => $gender,
             'password' => Hash::make($password),
             'phone' => $phone,
         ]);
