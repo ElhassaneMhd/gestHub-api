@@ -25,11 +25,10 @@ Route::middleware('checkorigin')->middleware('auth:sanctum')->group(function () 
     
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);
-    Route::post('/users/accept', [GeneralController::class, 'storeNewIntern']);
     Route::post('/multiple/{data}/{action}', [GeneralController::class, 'multipleActions']);
-    
     Route::get('/{data}', [GeneralController::class, 'index']);
     Route::get('/{data}/{id}', [GeneralController::class, 'show']);
+    
     //CRUD all profiles Routes
     Route::apiResource('profiles', ProfileController::class);
     Route::post('profiles/{id}/password', [ProfileController::class,'updatePassword']);

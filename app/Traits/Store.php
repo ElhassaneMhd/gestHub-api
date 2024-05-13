@@ -243,7 +243,7 @@ trait Store
         return response()->json($this->refactorApplication($applicatione));
     }
     public function storInternFromUser($user){
-        $applications =$user->applications->where('status','=','Approved')->get();
+        $applications =$user->applications->where('status','=','Approved');
         if(count($applications)<=0){
             return response()->json(['message' => 'this user has no aprouved application'], 404);
         }
