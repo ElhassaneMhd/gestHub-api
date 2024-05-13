@@ -9,6 +9,23 @@ trait Delete
         foreach(['avatar',"cv","attestation"] as $file){
             $this->deletOldFiles($profile, $file);
         }
+        if ($profile->getRoleNames()[0]==='intern'){
+            $intern = $profile->intern;
+            $applications = $intern->applications;
+            foreach ($applications as $application){
+                    $this->deletOldFiles($application, 'applicationStage');
+                    $application->delete();
+                }
+        }
+        if ($profile->getRoleNames()[0]==='supervisor'){
+            $supervisor = $profile->supervisor;
+            $projects = $supervisor->projects;
+            foreach ($projects as $project){
+                $project->supervisor_id = null;
+                $project->save();
+            }
+        }
+
         if($profile->delete()){
             return true;
         }

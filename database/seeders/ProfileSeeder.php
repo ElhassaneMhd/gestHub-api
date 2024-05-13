@@ -29,6 +29,7 @@ foreach ($roles as $role) {
         $profile->email = $profile->firstName.'@gmail.com';
         $profile->password = Hash::make($profile->firstName.'123');
         $profile->phone = $faker->phoneNumber;
+        $profile->gender = $faker->randomElement(['M', "Mme"]);
         $profile->assignRole($role);
         $profile->save();
 
@@ -38,7 +39,6 @@ foreach ($roles as $role) {
                     'profile_id' => $profile->id,
                     'academicLevel' => 'Bac+2',
                     'establishment' => 'Ofppt',
-                    'gender' => $faker->randomElement(['M',"Mme"]),
                 ]);
                 break;
             case 'supervisor':
@@ -58,7 +58,6 @@ foreach ($roles as $role) {
                     'academicLevel' => 'Bac+2',
                     'establishment' => 'Ofppt',
                     'specialty' => 'Développement',
-                    'gender' => $faker->randomElement(['M',"Mme"]),
                     'startDate' => $faker->dateTimeBetween('-1 years', '+1 years')->format('Y-m-d H:i:s'),
                     'endDate' => $faker->dateTimeBetween('+1 years', '+2 years')->format('Y-m-d H:i:s'),
                 ]);

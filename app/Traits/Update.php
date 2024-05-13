@@ -16,7 +16,7 @@ trait Update
                     'firstName' =>'string',
                     'lastName' =>'string',
                     'phone' =>'string',
-                    'gender' =>'string',
+                    'gender' =>'string|in:M,Mme',
                     'password' => [
                             'string',
                             Password::min(8)->numbers(),
@@ -29,7 +29,7 @@ trait Update
                         'firstName' =>'string',
                         'lastName' =>'string',
                         'phone' =>'string',
-                        'gender' =>'string',
+                        'gender' =>'string|in:M,Mme',
                         'password' => [
                             'string',
                             Password::min(8)->numbers(),

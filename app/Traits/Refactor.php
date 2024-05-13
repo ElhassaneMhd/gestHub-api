@@ -18,7 +18,7 @@ trait Refactor
                 "lastName"=>$profile->lastName,
                 'created_at'=>$profile->created_at->format('Y-m-d H:i:s'),
                 'updated_at'=>$profile->updated_at->format('Y-m-d H:i:s'),
-                "gender"=>$user->gender,
+                "gender"=>$profile->gender,
                 "email"=>$profile->email,
                 "phone"=>$profile->phone,
                 "role"=>$profile->getRoleNames()[0],
@@ -82,7 +82,7 @@ trait Refactor
                 "profile_id"=>$profile->id,
                 "firstName"=>$profile->firstName,
                 "lastName"=>$profile->lastName,
-                "gender"=>$intern->gender,
+                "gender"=>$profile->gender,
                 "email"=>$profile->email,
                 "phone"=>$profile->phone,
                 "role"=>$profile->getRoleNames()[0],
@@ -122,7 +122,7 @@ trait Refactor
             "priority"=>$project->priority,
             'description'=>$project->description,
             'projectManager'=>!$projectManager?null:$projectManager->id,
-            'supervisor' => $supervisor->id,
+            'supervisor' => $supervisor->id??null,
             'teamMembers'=>$teamMembers,'tasks'=>$tasks];
     }
     public function refactorTask($task){

@@ -23,6 +23,7 @@ trait Store
         $validatedProfile = $request->validate([
             'firstName' => 'required|string',
             'lastName' => 'required|string',
+            'gender' => 'required|in:M,Mme',
             'phone' => 'required|string|unique:profiles,phone|max:255',
             'email' => 'required|email|unique:profiles,email|max:255',
             'password' => [
@@ -37,6 +38,7 @@ trait Store
             $profile = new Profile;
             $profile->firstName = $validatedProfile['firstName'];
             $profile->lastName = $validatedProfile['lastName'];
+            $profile->gender = $validatedProfile['gender'];
             $profile->email = $validatedProfile['email'];
             $profile->phone = $validatedProfile['phone'];
             $profile->password = bcrypt($validatedProfile['password']);
@@ -61,7 +63,6 @@ trait Store
                 $validatedIntern = $request->validate([
                 'academicLevel' => 'required|string',
                 'establishment' => 'required|string',
-                'gender' => 'required|in:M,Mme',
                 'specialty' => 'string',
                 'startDate' => 'required',
                 'endDate' => 'required',
@@ -107,6 +108,7 @@ trait Store
             $profile->email = $validatedData['email'];
             $profile->phone = $validatedData['phone'];
             $profile->password = bcrypt($validatedData['password']);
+            $profile->gender = $validatedData['gender'];
             $profile->assignRole('user');
             $profile->save();
            
@@ -114,7 +116,6 @@ trait Store
             $user->profile_id = $profile->id;
             $user->academicLevel = $validatedData['academicLevel'];
             $user->establishment = $validatedData['establishment'];
-            $user->gender = $validatedData['gender'];
             $isCommited =$user->save();
              if($isCommited){
                  DB::commit();
@@ -263,7 +264,6 @@ trait Store
         $intern->profile_id = $profile->id;
         $intern->academicLevel = $user['academicLevel'];
         $intern->establishment = $user['establishment'];
-        $intern->gender = $user['gender'];
         $intern->endDate = $application['endDate'];
         $intern->startDate = $application['startDate'];
         $intern->specialty = $specialty??'None';

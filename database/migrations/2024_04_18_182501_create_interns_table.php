@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('projectLink')->nullable();
             $table->string('academicLevel');
             $table->string('establishment');    
-            $table->string('gender')->nullable();    
             $table->string('specialty')->nullable();    
             $table->date('startDate');    
             $table->date('endDate');  
