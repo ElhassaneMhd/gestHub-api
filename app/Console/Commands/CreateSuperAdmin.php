@@ -31,8 +31,15 @@ class CreateSuperAdmin extends Command
     {
         $firstName = $this->ask('Enter First Name:');
         $lastName = $this->ask('Enter Last Name:');
+        $gender = $this->ask('Enter gender (M/Mme):');
+        $validator = Validator::make(['email' => $gender], [
+            'email' => 'required|in:M,Mme',
+        ]);
+         if ($validator->fails()) {
+            $this->error($validator->messages()->first());
+            return 1; 
+        }
         $email = $this->ask('Enter Email:');
-
         $validator = Validator::make(['email' => $email], [
             'email' => 'required|unique:profiles|email',
         ]);

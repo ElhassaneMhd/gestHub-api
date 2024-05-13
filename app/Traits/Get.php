@@ -22,8 +22,7 @@ trait Get
             $admins = Admin::all();
             foreach ($admins as $admin) {
                 $profile = $admin->profile;
-                dd($profile->getRoleNames());
-                if (!in_array('super-admin',$profile->getRoleNames()) ){
+                if ($profile->getRoleNames()[0]!=='super-admin' ){
                     $all[]= $this->refactorProfile($profile);
                 }
             }
@@ -57,14 +56,12 @@ trait Get
         }
         elseif ($data === 'projects') {
             if ($profile->getRoleNames()[0]==='supervisor'){
-                $sup = $profile->supervisor;
-                $projects = $sup->projects;
+                $projects  = $profile->supervisor->projects;
             }
             if ($profile->getRoleNames()[0] === 'intern') {
-                $intern = $profile->intern;
-                $projects = $intern->projects;
+                $projects  = $profile->intern->projects;
             }
-            if ($profile->getRoleNames()[0] ==='admin'||'super-admin') {
+             if ($profile->getRoleNames()[0] ===('admin'||'super-admin')) {
                 $projects = Project::all();
             }
             foreach ($projects??[] as $project) {
@@ -78,6 +75,7 @@ trait Get
             }
             if ($profile->getRoleNames()[0] === 'intern'){
                 $intern = $profile->intern;
+                $ids = $intern->projects->pluck('id');
                 $tasks = Task::whereIn('project_id',$intern->projects->pluck('id'))->get();
             }
             if ($profile->getRoleNames()[0] === ('admin' || 'super-admin')) {
@@ -98,7 +96,7 @@ trait Get
                 $user = $profile->user;
                 $applications = $user->applications;
             }
-            if ($profile->getRoleNames()[0] === 'admin' || 'super-admin') {
+            if ($profile->getRoleNames()[0] === ('admin' || 'super-admin')) {
                 $applications = Application::all();
             }
             foreach ($applications as $application) {
@@ -111,7 +109,6 @@ trait Get
                 $all= $this->refactorSettings($settings);
             }
         }
-
         if(isset($all) ){
             return response()->json($all);
         }
