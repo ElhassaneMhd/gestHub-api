@@ -251,9 +251,9 @@ trait Store
         foreach ($applications as $application){
             $offer = $application->offer;
             if (count_chars($specialty)>1){
-                $specialty += "| ".$offer['sector'];
+                $specialty = $specialty ." | ".$offer['sector'];
             }else{
-                $specialty +=$offer['sector'];
+                $specialty =$offer['sector'];
             }
         }
         $profile = $user->profile;
