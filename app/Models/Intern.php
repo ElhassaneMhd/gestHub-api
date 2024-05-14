@@ -22,7 +22,6 @@ class Intern extends Authenticatable
         'establishment',
         "startDate",
         'endDate',
-        "gender"
     ];
 
       public function profile(){

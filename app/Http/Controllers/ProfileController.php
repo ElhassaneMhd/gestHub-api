@@ -14,7 +14,7 @@ class ProfileController extends Controller
 {
     use Refactor, Store, Delete, Update;
     public function __construct(){
-        $this->middleware('role:admin|super-admin|supervisor')->only('store');
+        $this->middleware('role:admin|super-admin')->only('store');
     }
     //store all users 
     public function store(Request $request) {

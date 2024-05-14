@@ -16,7 +16,8 @@ class Profile extends Model
         'phone',
         'email',
         'password',
-        'role'
+        'role',
+        "gender"
         ];
         protected $hidden = [
         'password',

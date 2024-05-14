@@ -55,13 +55,13 @@ trait Get
             }
         }
         elseif ($data === 'projects') {
-            if ($profile->getRoleNames()[0]==='supervisor'){
+            if (Auth::user()->hasRole('supervisor')){
                 $projects  = $profile->supervisor->projects;
             }
-            if ($profile->getRoleNames()[0] === 'intern') {
+            if (Auth::user()->hasRole('intern')) {
                 $projects  = $profile->intern->projects;
             }
-             if ($profile->getRoleNames()[0] ==='admin'||$profile->getRoleNames()[0] ==='super-admin') {
+             if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
                 $projects = Project::all();
             }
             foreach ($projects??[] as $project) {
@@ -69,15 +69,15 @@ trait Get
             }
         }
         elseif ($data === 'tasks') {
-            if ($profile->getRoleNames()[0] === 'supervisor'){
+            if (Auth::user()->hasRole('supervisor')){
                 $sup = $profile->supervisor;
                 $tasks = Task::whereIn('project_id',$sup->projects->pluck('id'))->get();
             }
-            if ($profile->getRoleNames()[0] === 'intern'){
+            if (Auth::user()->hasRole('intern')){
                 $intern = $profile->intern;
                 $tasks = Task::whereIn('project_id',$intern->projects->pluck('id'))->get();
             }
-             if ($profile->getRoleNames()[0] ==='admin'||$profile->getRoleNames()[0] ==='super-admin') {
+             if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
                 $tasks = Task::all();
             }
             foreach ($tasks as $task) {
@@ -90,12 +90,12 @@ trait Get
                 $all[]= $this->refactorOffer($offer);
           }            
         }
-        elseif ($data === 'applications') {
-            if ($profile->getRoleNames()[0]==='user'){
+        elseif ($data === 'applications') {  
+            if (Auth::user()->hasRole('user')){
                 $user = $profile->user;
                 $applications = $user->applications;
             }
-             if ($profile->getRoleNames()[0] ==='admin'||$profile->getRoleNames()[0] ==='super-admin') {
+             if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
                 $applications = Application::all();
             }
             foreach ($applications as $application) {

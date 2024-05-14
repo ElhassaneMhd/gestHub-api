@@ -176,6 +176,7 @@ trait Update
         }
         if($traitement==='approve'){
             $application->status = 'Approved';
+            $application->isRead = 'false';
             $application->save();
             return response()->json(['message' => 'application approved succeffully'], 200);
         }

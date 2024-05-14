@@ -15,7 +15,6 @@ class User extends Authenticatable
         "academicLevel",
         "establishment",
         "startDate",
-        "gender",
         "endDate",
         "profile_id"
     ];

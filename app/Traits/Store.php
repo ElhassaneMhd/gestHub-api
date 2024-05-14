@@ -71,7 +71,6 @@ trait Store
             $intern->profile_id = $profile->id;
             $intern->academicLevel = $validatedIntern['academicLevel'];
             $intern->establishment = $validatedIntern['establishment'];
-            $intern->gender = $validatedIntern['gender'];
             $intern->specialty = $validatedIntern['specialty'];
             $intern->startDate = $validatedIntern['startDate'];
             $intern->endDate = $validatedIntern['endDate'];
