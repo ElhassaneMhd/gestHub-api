@@ -32,13 +32,6 @@ class CreateSuperAdmin extends Command
         $firstName = $this->ask('Enter First Name:');
         $lastName = $this->ask('Enter Last Name:');
         $gender = $this->ask('Enter gender (M/Mme):');
-        $validator = Validator::make(['email' => $gender], [
-            'email' => 'required|in:M,Mme',
-        ]);
-         if ($validator->fails()) {
-            $this->error($validator->messages()->first());
-            return 1; 
-        }
         $email = $this->ask('Enter Email:');
         $validator = Validator::make(['email' => $email], [
             'email' => 'required|unique:profiles|email',
@@ -50,14 +43,14 @@ class CreateSuperAdmin extends Command
         $password = $this->secret('Enter Password (will not be shown):');
         $phone = $this->ask('Enter Phone Number (optional):');
 
-        $profile = Profile::create([
-            'firstName' => $firstName,
-            'lastName' => $lastName,
-            'email' => $email,
-            'gender' => $gender,
-            'password' => Hash::make($password),
-            'phone' => $phone,
-        ]);
+        $profile = new Profile;
+        $profile->firstName = $firstName;
+        $profile->lastName = $lastName;
+        $profile->email = $email;
+        $profile->gender = $gender;
+        $profile->password = Hash::make($password);
+        $profile->phone = $phone;
+        $profile->save();
         $profile->assignRole('super-admin');
         $admin = new Admin;
         $admin->profile_id = $profile->id;
