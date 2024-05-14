@@ -61,7 +61,7 @@ trait Get
             if ($profile->getRoleNames()[0] === 'intern') {
                 $projects  = $profile->intern->projects;
             }
-             if ($profile->getRoleNames()[0] ===('admin'||'super-admin')) {
+             if ($profile->getRoleNames()[0] ==='admin'||$profile->getRoleNames()[0] ==='super-admin') {
                 $projects = Project::all();
             }
             foreach ($projects??[] as $project) {
@@ -75,10 +75,9 @@ trait Get
             }
             if ($profile->getRoleNames()[0] === 'intern'){
                 $intern = $profile->intern;
-                $ids = $intern->projects->pluck('id');
                 $tasks = Task::whereIn('project_id',$intern->projects->pluck('id'))->get();
             }
-            if ($profile->getRoleNames()[0] === ('admin' || 'super-admin')) {
+             if ($profile->getRoleNames()[0] ==='admin'||$profile->getRoleNames()[0] ==='super-admin') {
                 $tasks = Task::all();
             }
             foreach ($tasks as $task) {
@@ -96,7 +95,7 @@ trait Get
                 $user = $profile->user;
                 $applications = $user->applications;
             }
-            if ($profile->getRoleNames()[0] === ('admin' || 'super-admin')) {
+             if ($profile->getRoleNames()[0] ==='admin'||$profile->getRoleNames()[0] ==='super-admin') {
                 $applications = Application::all();
             }
             foreach ($applications as $application) {
