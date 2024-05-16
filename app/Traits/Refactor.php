@@ -4,7 +4,7 @@ trait Refactor
 {
     public function refactorProfile($profile){
         $files = $this->getElementFiles($profile);
-        if ($profile->getRoleNames()[0]==='user'){
+        if ($profile->hasRole('user')){
             $user = $profile->user;
             $applicationsData = $user->applications;
             $applications = [];          
@@ -44,7 +44,7 @@ trait Refactor
             ];
             return $refactored;
             } ;
-        if ($profile->getRoleNames()[0]==='supervisor'){
+        if ($profile->hasRole('supervisor')){
             $supervisor = $profile->supervisor;
             $projectsData = $supervisor->projects;
             $projects = [];
@@ -65,7 +65,7 @@ trait Refactor
             ];
             return $refactored;
             };
-        if($profile->getRoleNames()[0]==='intern'){
+        if($profile->hasRole('intern')){
             $intern = $profile->intern;
             $projectsData = $intern->projects;
             $projects = [];

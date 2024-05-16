@@ -58,16 +58,17 @@ class ProfileController extends Controller
         return $isUpdated;
 
     }   
-    public function storeAvatar(Request $request,$id){
+    public function storeFile(Request $request,$id){
+        $type = $request->input('type') ;
         $profile=Profile::find($id);
         if (!$profile) {
             return response()->json(['message' => 'profile non trouvé'], 404);
         }
-        if (!$request->hasFile('avatar')) {
-            $this->deletOldFiles($profile, 'avatar');
-            return response()->json(['message' => 'avatar deleted succcefully'], 200);
+        if (!$request->hasFile($type)) {
+            $this->deletOldFiles($profile, $type);
+            return response()->json(['message' => $type.' deleted succcefully'], 200);
         } 
-        $this->storeOneFile($request,$profile,'avatar');
-        return response()->json(['message' => 'new avatar added succcefully'], 200);
+        $this->storeOneFile($request,$profile, $type );
+        return response()->json(['message' => 'new '.$type.' added succcefully'], 200);
     }
 }

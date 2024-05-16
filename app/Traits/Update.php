@@ -12,29 +12,29 @@ trait Update
     use Refactor;
     public function updateProfile($data,$profile){
         $validatedData = $data->validate([
-                    'email' => 'email',
-                    'firstName' =>'string',
-                    'lastName' =>'string',
-                    'phone' =>'string',
-                    'gender' =>'string|in:M,Mme',
-                    'password' => [
-                            'string',
-                            Password::min(8)->numbers(),
-                            'confirmed',
-                        ]
-            ]); 
+            'email' => 'email',
+            'firstName' =>'string',
+            'lastName' =>'string',
+            'phone' =>'string',
+            'gender' =>'string|in:M,Mme',
+            'password' => [
+                'string',
+                Password::min(8)->numbers(),
+                'confirmed',
+            ]
+        ]); 
         if ($profile->email!==$data['email']){
             $validatedData = $data->validate([
-                        'email' => 'email|unique:profiles,email',
-                        'firstName' =>'string',
-                        'lastName' =>'string',
-                        'phone' =>'string',
-                        'gender' =>'string|in:M,Mme',
-                        'password' => [
-                            'string',
-                            Password::min(8)->numbers(),
-                            'confirmed',
-                        ],                
+                'email' => 'email|unique:profiles,email',
+                'firstName' =>'string',
+                'lastName' =>'string',
+                'phone' =>'string',
+                'gender' =>'string|in:M,Mme',
+                'password' => [
+                    'string',
+                    Password::min(8)->numbers(),
+                    'confirmed',
+                ],                
             ]);
         }   
         DB::beginTransaction();
@@ -54,6 +54,8 @@ trait Update
         if ($profile->getRoleNames()[0]=='intern') {
             $intern = $profile->intern;
             $isCommited=$intern->update($otherData);
+            $intern->projectLink = $data['projectLink'];
+            $isCommited=$intern->save();
         }   
         if($isCommited){
             DB::commit();

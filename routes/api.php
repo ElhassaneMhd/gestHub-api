@@ -32,7 +32,7 @@ Route::middleware('checkorigin')->middleware('auth:sanctum')->group(function () 
     //CRUD all profiles Routes
     Route::apiResource('profiles', ProfileController::class);
     Route::post('profiles/{id}/password', [ProfileController::class,'updatePassword']);
-    Route::post('/files/{id}', [ProfileController::class,'storeAvatar']);
+    Route::post('/files/{id}', [ProfileController::class,'storeFile']);
     //Offers
     Route::apiResource('offers', OfferController::class);
    

@@ -42,10 +42,10 @@ trait Store
             $profile->email = $validatedProfile['email'];
             $profile->phone = $validatedProfile['phone'];
             $profile->password = bcrypt($validatedProfile['password']);
-            $profile->assignRole($request->role) ;
+            $profile->assignRole($validatedProfile['role']) ;
             $profile->save();
             $isCommited = false;
-        if ($validatedProfile['admin']='admin' ) {
+        if ($validatedProfile['role']==='admin' ) {
            if( Auth::user()->hasRole('super-admin')){
                $admin = new Admin;
                $admin->profile_id = $profile->id;
@@ -54,13 +54,13 @@ trait Store
                 return response()->json(['error' => "You can't process this action "], 403);
             }
         }
-        if ($request->role == 'supervisor') {
+        if ($validatedProfile['role']==='supervisor') {
             $supervisor = new Supervisor;
             $supervisor->profile_id = $profile->id;
             $isCommited=$supervisor->save();
         }
-        if ($validatedProfile['role']== 'intern') {
-                $validatedIntern = $request->validate([
+        if ($validatedProfile['role']=== 'intern') {
+            $validatedIntern = $request->validate([
                 'academicLevel' => 'required|string',
                 'establishment' => 'required|string',
                 'specialty' => 'string',
@@ -81,7 +81,7 @@ trait Store
             return response()->json($this->refactorProfile($profile),200)  ;
         }else{
             DB::rollBack();
-            return response()->json(['message'=>'cannot store this :'.$request->role] ,404)  ;
+            return response()->json(['message'=>'cannot store this :'.$validatedProfile['role']] ,404)  ;
         }
     }
     public function storeUser($request){
