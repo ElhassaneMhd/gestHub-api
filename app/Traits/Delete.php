@@ -6,7 +6,7 @@ use App\Models\File;
 trait Delete
 {
     public function deleteProfile($profile){
-        foreach(['avatar',"cv","attestation"] as $file){
+        foreach(['avatar',"cv","attestation",'report'] as $file){
             $this->deletOldFiles($profile, $file);
         }
         if ($profile->getRoleNames()[0]==='intern'){

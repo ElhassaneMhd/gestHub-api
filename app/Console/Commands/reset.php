@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class reset extends Command
 {
@@ -35,7 +36,12 @@ class reset extends Command
         $this->call('db:seed');
 
         $this->info('app reseted  successfully!');
-
+        $folderName = 'attestation';
+        $path = public_path($folderName);
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0777, true, true);
+            $this->info("Directory '$folderName' created in public folder.");
+        }
         return 0;
     }
 }

@@ -292,7 +292,7 @@ trait Store
           $unique = uniqid();
         if (in_array($fileType ,['avatar',"appLogo"]) ) {
             $request->validate([
-                $fileType => 'file|mimes:jpg,JPG,jpeg,JPEG,,PNG,png,svg,SVG|max:5120',
+                $fileType => 'file|mimes:jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
             ]);
         } else {
             $request->validate([
