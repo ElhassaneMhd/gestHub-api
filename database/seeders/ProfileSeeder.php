@@ -15,11 +15,23 @@ class ProfileSeeder extends Seeder
      */
     public function run(): void
     {
+        $profile = new Profile;
+        $profile->firstName = 'Hassan';
+        $profile->lastName = 'Mehdioui';
+        $profile->email = 'Hassan.Mhd@gmail.com';
+        $profile->password = 'Hassan123';
+        $profile->phone = '0675175874';
+        $profile->gender = 'M';
+        $profile->assignRole('super-admin');
+        $profile->save();
+        DB::table('admins')->insert([
+            'profile_id' => $profile->id,
+        ]);
+
 
 $faker = Faker::create();
 
 $roles = ['user','intern', 'supervisor', 'admin', 'super-admin'];
-
 
 foreach ($roles as $role) {
     for ($i = 0; $i < 5; $i++) {
