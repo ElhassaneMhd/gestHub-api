@@ -1032,3 +1032,23 @@
 "} 
 =======
 >>>>>>> e198f7c476938b0d56fd06d81e88931ab7763da9
+[2024-05-18 19:45:26] local.ERROR: Call to undefined function Illuminate\Cache\apc_clear_cache() {"exception":"[object] (Error(code: 0): Call to undefined function Illuminate\\Cache\\apc_clear_cache() at C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\ApcWrapper.php:92)
+[stacktrace]
+#0 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\ApcStore.php(114): Illuminate\\Cache\\ApcWrapper->flush()
+#1 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\Repository.php(692): Illuminate\\Cache\\ApcStore->flush()
+#2 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Cache\\Console\\ClearCommand.php(69): Illuminate\\Cache\\Repository->__call('flush', Array)
+#3 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#4 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#5 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#6 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#7 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#8 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#9 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#10 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#11 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#12 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Cache\\Console\\ClearCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#13 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#14 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#15 C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#16 {main}
+"} 
