@@ -17,11 +17,11 @@ class ProfileSeeder extends Seeder
     {
         
         $profile = new Profile;
-        $profile->firstName = 'Hassan';
-        $profile->lastName = 'Mehdioui';
-        $profile->email = 'Hassan.Mhd@gmail.com';
-        $profile->password = Hash::make('Hassan123');
-        $profile->phone = '0675178574';
+        $profile->firstName = 'Bahae';
+        $profile->lastName = 'Halim';
+        $profile->email = 'Bahae.Halim@gmail.com';
+        $profile->password = Hash::make('Bahae123');
+        $profile->phone = '0677552200';
         $profile->gender = 'M';
         $profile->assignRole('super-admin');
         $profile->save();
@@ -78,8 +78,8 @@ class ProfileSeeder extends Seeder
         }
 
         $admins =[
-            ['firstName'=>'Bahae Eddine','lastName'=>'Halim','phoneNumber'=>'0666666666','gender'=>'M'],
-            ['firstName'=>'admin','lastName'=>'2','phoneNumber'=>'0600666666','gender'=>'M'],
+            ['firstName'=>'admin','lastName'=>'1','phoneNumber'=>'0600668866','gender'=>'M'],
+            ['firstName'=>'admin','lastName'=>'2','phoneNumber'=>'0600669966','gender'=>'Mme'],
         ];
          foreach ($admins as $admin) {
             $profile = new Profile;
@@ -97,8 +97,8 @@ class ProfileSeeder extends Seeder
         }
 
         $supervisors =[
-            ['firstName'=>'Bahae Eddine','lastName'=>'Halim','phoneNumber'=>'0665866666','gender'=>'M'],
-            ['firstName'=>'sup','lastName'=>'2','phoneNumber'=>'0666682666','gender'=>'M'],
+            ['firstName'=>'sup','lastName'=>'1','phoneNumber'=>'0666689966','gender'=>'Mme'],
+            ['firstName'=>'sup','lastName'=>'2','phoneNumber'=>'0666682666','gender'=>'Mme'],
         ];
          foreach ($supervisors as $supervisor) {
             $profile = new Profile;
