@@ -15,7 +15,7 @@ return [
 
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'profiles',
     ],
 
@@ -41,17 +41,17 @@ return [
             'driver' => 'session',
             'provider' => 'profiles',
         ],
-        'sanctum' => [
-            'driver' => 'sanctum',
+        'jwt' => [
+            'driver' => 'jwt',
             'provider' => 'profiles',
         ],
           'api' => [
-            'driver' => 'sanctum',
+            'driver' => 'jwt',
             'provider' => 'profiles',
             'hash' => false,
         ],
         'profile' => [
-            'driver' => 'sanctum',
+            'driver' => 'jwt',
             'provider' => 'profiles',
         ],
     ],

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('twitter')->nullable();
             $table->string('youtube')->nullable();
             $table->string('linkedin')->nullable();
-            $table->string('maps')->nullable();
+            $table->text('maps')->nullable();
             $table->string('location')->nullable();
             $table->text('aboutDescription')->nullable();
             $table->timestamps();

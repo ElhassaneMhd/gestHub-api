@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Permission\Traits\HasRoles;
-class Profile extends Model
+class Profile extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
     protected $fillable = [ 
@@ -26,6 +28,12 @@ class Profile extends Model
        protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+     public function getJWTIdentifier() {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims() {
+        return [];
+    }    
       public function admin(){
         return $this->hasOne(Admin::class);
     }

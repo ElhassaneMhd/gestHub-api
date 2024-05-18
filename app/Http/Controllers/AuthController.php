@@ -11,16 +11,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
+use Validator;
 
 
 class AuthController extends Controller
 {
     use Refactor;
+      public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
  
 // login a user methods
     public function login(LoginRequest $request) {
-
-        $data = $request->validated();
+     $data = $request->validated();
 
         $profile= Profile::where('email', $data['email'])->first();
             if (!$profile) {
@@ -34,36 +38,30 @@ class AuthController extends Controller
                 'message' => "The password you've entered is incorrect. Please check your password and try again."
             ], 401);
         }
-//check if the user is alraedy logged
-        $logged = DB::table('personal_access_tokens')
-            ->where('tokenable_id', '=', $profile->id)
-            ->get()->first();
-            if ($logged){
-                DB::table('personal_access_tokens')->where('id', $logged->id)->delete();
-                $token = $profile->createToken('auth_token')->plainTextToken;
-                $cookie = cookie('token', $token, 60 * 24); // 1 day
-                return response()->json([
-                'message' => 'alraedy logged',
-                ])->withCookie($cookie);
-            }
-//create personal access token
-        $token = $profile->createToken('auth_token')->plainTextToken;
-        $cookie = cookie('token', $token, 60 * 24); // 1 day
-        return response()->json(['data'=>$this->refactorProfile($profile),'token'=>$token])->withCookie($cookie);
+        
+        if (! $token = auth()->attempt($request->validated())) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+   
+        $logged=$this->createNewToken($token);
+        return response()->json(['user'=>$this->refactorProfile(auth()->user())])->withCookie($logged['access_token']);
     }
 // logout 
     public function logout(Request $request) {
-        $request->user()->currentAccessToken()->delete();
-        $cookie = cookie()->forget('token');
-        return response()->json([
-            'message' => 'Logged out successfully!'
-        ])->withCookie($cookie);
+        auth()->logout();
+        return response()->json(['message' => 'User successfully signed out']);
     }
 
 // get the authenticated user method
     public function user(Request $request) {
-        $user = Auth::user();
+        $user = auth()->user();
         return response()->json($this->refactorProfile($user));
+    }
+     protected function createNewToken($token){
+        return [
+            'access_token' => $token,
+            'expires_in' => auth('api')->factory()->getTTL() * 60,
+        ];
     }
 
 }

@@ -17,7 +17,9 @@ Route::get('/offers/visible', [OfferController::class,'index']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
 
 // protected Routes
-Route::middleware('checkorigin')->middleware('auth:sanctum')->group(function () {
+Route::group([
+    'middleware' => ['api', 'auth:api', 'jwt.auth'],
+], function ($router) {
     Route::post('/generate/attestation/{id}', [AttestationController::class,'generateOneAttestation']);
     Route::POST('/logout', [AuthController::class, 'logout']);
     Route::GET('/user', [AuthController::class, 'user']);

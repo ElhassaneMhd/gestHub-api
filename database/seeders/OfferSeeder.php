@@ -123,7 +123,7 @@ class OfferSeeder extends Seeder
             $application = new Application;
             $application->offer_id = random_int(1,7);
             $application->user_id = random_int(1,5);; // Replace with appropriate user ID
-            $application->isRead = $faker->randomElement(["true", "false"]); // Replace with appropriate user ID
+            $application->isRead = 'false'; // Replace with appropriate user ID
             $application->motivationLetter = 'Motivated and eager to learn and contribute to the ' . $offer->title . ' project.';
             $application->startDate = Carbon::now()->addDays(rand(1, 365));
             $application->endDate = Carbon::now()->addDays(rand($application->startDate->diffInDays(Carbon::now()) + 1, 365)); // Ensure end date is after start date
