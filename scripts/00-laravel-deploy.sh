@@ -13,3 +13,5 @@ php artisan route:cache
 
 echo "Running migrations..."
 php artisan migrate:fresh --seed --force
+
+mkdir storage/framework/{cache/data,views}
