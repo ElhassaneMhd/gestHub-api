@@ -44,7 +44,7 @@ class AuthController extends Controller
         }
    
         $logged=$this->createNewToken($token);
-        return response()->json(['user'=>$this->refactorProfile(auth()->user())])->withCookie($logged['access_token']);
+        return response()->json(['user'=>$this->refactorProfile(auth()->user())])->withCookie('token',$logged['access_token']);
     }
 // logout 
     public function logout(Request $request) {
