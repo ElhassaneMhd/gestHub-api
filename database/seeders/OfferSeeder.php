@@ -6,7 +6,6 @@ use App\Models\Application;
 use App\Models\Offer;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
 
 
 class OfferSeeder extends Seeder
@@ -18,7 +17,6 @@ class OfferSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
 
         $offersData = [
             [
@@ -122,7 +120,7 @@ class OfferSeeder extends Seeder
         for ($j = 1; $j <= 20; $j++) {
             $application = new Application;
             $application->offer_id = random_int(1,7);
-            $application->user_id = random_int(1,5);; // Replace with appropriate user ID
+            $application->user_id = random_int(1,2);; // Replace with appropriate user ID
             $application->isRead = 'false'; // Replace with appropriate user ID
             $application->motivationLetter = 'Motivated and eager to learn and contribute to the ' . $offer->title . ' project.';
             $application->startDate = Carbon::now()->addDays(rand(1, 365));

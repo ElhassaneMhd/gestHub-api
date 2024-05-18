@@ -19,6 +19,7 @@ class OfferController extends Controller
     }
     public function index(){
         $offers = Offer::where("visibility",'=','Visible')->get();
+        $all = [];
         foreach ($offers as $offer) {
             $all[] = $this->refactorOffer($offer);
         }            
