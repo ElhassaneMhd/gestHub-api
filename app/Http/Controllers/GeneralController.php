@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Intern;
 use App\Models\Profile;
+use App\Models\Setting;
 use App\Models\User;
 use App\Traits\Delete;
 use App\Traits\Get;
@@ -26,6 +27,12 @@ class GeneralController extends Controller
     } 
     public function setAppSettings(Request $request){  
         return response()->json($this->storAppSettings($request));
+    }
+    public function getSettings(){
+          $settings = Setting::first();
+            if($settings){
+                return $this->refactorSettings($settings);
+            }
     }
     public function getAcceptedUsers(){  
         return $this->getAllAcceptedUsers();

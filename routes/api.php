@@ -14,6 +14,7 @@ use App\Http\Controllers\ProjectController;
 Route::post('/register', [ProfileController::class,'register']);
 Route::POST('/login', [AuthController::class, 'login']);
 Route::get('/offers/visible', [OfferController::class,'index']);
+Route::get('/settings', [GeneralController::class,'getSettings']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
 
 // protected Routes
