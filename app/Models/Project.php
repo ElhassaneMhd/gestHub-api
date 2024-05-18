@@ -29,7 +29,7 @@ class Project extends Model
         return $this->belongsToMany(Intern::class);
     }
     public function tasks(){
-        return $this->hasMany(task::class);
+        return $this->hasMany(Task::class);
     }
      public function getSlugAttribute(){
         return Str::slug($this->subject, '-');
