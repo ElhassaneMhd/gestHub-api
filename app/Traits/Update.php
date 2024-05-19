@@ -46,6 +46,7 @@ trait Update
             'startDate' => $data['startDate'] ?? null,
             'specialty' => $data['specialty'] ?? null,
             'endDate' => $data['endDate'] ?? null,
+            'projectLink' => $data['projectLink'] ?? null,
         ]);
         if ($profile->getRoleNames()[0]=='user') {
             $user = $profile->user;
@@ -54,8 +55,6 @@ trait Update
         if ($profile->getRoleNames()[0]=='intern') {
             $intern = $profile->intern;
             $isCommited=$intern->update($otherData);
-            $intern->projectLink = $data['projectLink'];
-            $isCommited=$intern->save();
         }   
         if($isCommited){
             DB::commit();

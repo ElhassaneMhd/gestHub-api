@@ -6,6 +6,7 @@ use App\Models\Profile;
 
 use App\Traits\Refactor;
 
+use App\Traits\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +17,10 @@ use Validator;
 
 class AuthController extends Controller
 {
-    use Refactor;
+    use Refactor,Store;
       public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login','register']]);
     }
  
 // login a user methods
@@ -44,20 +45,26 @@ class AuthController extends Controller
         }
    
         $logged=$this->createNewToken($token);
-        return response()->json(['user'=>$this->refactorProfile(auth()->user())])->withCookie('token',$logged['access_token']);
+        return response()->json($this->refactorProfile(auth()->user()))->withCookie('token',$logged['access_token']);
+    }
+     public function register(Request $request){
+        $profile = $this->storeUser($request);
+        return response()->json($this->refactorProfile($profile));
     }
 // logout 
     public function logout(Request $request) {
         auth()->logout();
-        return response()->json(['message' => 'User successfully signed out']);
+        cookie()->forget('token');
+        return response()->json([
+            'message' => 'User successfully signed out'
+        ])->withCookie('token');
     }
-
 // get the authenticated user method
     public function user(Request $request) {
         $user = auth()->user();
         return response()->json($this->refactorProfile($user));
     }
-     protected function createNewToken($token){
+    protected function createNewToken($token){
         return [
             'access_token' => $token,
             'expires_in' => auth('api')->factory()->getTTL() * 60,

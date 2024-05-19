@@ -89,6 +89,7 @@ trait Refactor
                 "projects"=>$projects,
                 "academicLevel" => $intern->academicLevel,
                 "establishment" => $intern->establishment,
+                "projectLink" => $intern->projectLink,
                 "startDate" => $intern->startDate,
                 "specialty" => $intern->specialty,
                 "endDate" => $intern->endDate,

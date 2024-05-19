@@ -21,12 +21,6 @@ class ProfileController extends Controller
         $profile=$this->storeProfile($request);
         return $profile;
     }
-    public function register(Request $request){
-        $profile = $this->storeUser($request);
-        $token = $profile->createToken('auth_token')->plainTextToken;
-        $cookie = cookie('token', $token, 60 * 24); // 1 day
-        return response()->json($this->refactorProfile($profile))->withCookie($cookie);
-    }
 //update profiles
     public function update(Request $request, string $id){
         $profile = Profile::find($id);

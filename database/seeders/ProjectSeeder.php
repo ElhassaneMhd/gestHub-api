@@ -120,7 +120,7 @@ class ProjectSeeder extends Seeder
             $project->status = $projectData['status'];
             $project->priority = $projectData['priority'];
             $project->supervisor_id = random_int(1, 2); // replace with appropriate supervisor ID
-            $project->intern_id = random_int(1, 2);; // replace with appropriate intern ID
+            $project->intern_id = random_int(1, 3);; // replace with appropriate intern ID
             $project->save();
             // Attach the intern to the project with a pivot table
             $project->interns()->attach($project->intern_id);

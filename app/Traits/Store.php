@@ -321,11 +321,17 @@ trait Store
         if ($profile->files->count()>0){
             $this->deletOldFiles($profile, 'attestation');
         }
+        
+        DB::beginTransaction();
          $profile->files()->create(
             ['url' =>"/attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf",
                 'type' => 'attestation']
         );
-        $pdf->save(public_path("attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf"));
+        if($pdf->save(public_path("attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf"))){
+            DB::commit();
+        }else{
+            DB::rollBack();
+        }
     }
     public function storAppSettings($request){
         $setting = Setting::first();
