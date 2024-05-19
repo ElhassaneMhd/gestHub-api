@@ -15,7 +15,7 @@ class CheckOrigin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $allowedOrigins = ['https://gestHub.netlify.app',"http://localhost:5173"]; 
+        $allowedOrigins = ['https://gestHub.netlify.app/api/',"http://localhost:5173/api/",'http://localhost:8000']; 
         $origin = $request->headers->get('Origin');
         $acceptPath = $request->headers->get('Accept-Path');
         if (!in_array($origin, $allowedOrigins) || !$acceptPath) {

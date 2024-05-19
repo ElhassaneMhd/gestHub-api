@@ -22,6 +22,7 @@ class Intern extends Authenticatable
         'establishment',
         "startDate",
         'endDate',
+        'specialty'
     ];
 
       public function profile(){
