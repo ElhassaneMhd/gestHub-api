@@ -53,7 +53,8 @@ class ProfileSeeder extends Seeder
         }
         $interns =[
             ['firstName'=>'Walid','lastName'=>'Zakan','phoneNumber'=>'0675175874','gender'=>'M','academicLevel'=>'Bac+2',"establishment"=>'Ofppt'],
-            ['firstName'=>'Elhassane','lastName'=>'Mehdioui','phoneNumber'=>'0675175874','gender'=>'M','academicLevel'=>'Bac+2',"establishment"=>'Ofppt']
+            ['firstName'=>'Elhassane','lastName'=>'Mehdioui','phoneNumber'=>'0675175874','gender'=>'M','academicLevel'=>'Bac+2',"establishment"=>'Ofppt'],
+            ['firstName'=>'Rihame','lastName'=>'Bouchikhi','phoneNumber'=>'0666666666','gender'=>'Mme','academicLevel'=>'Bac+3',"establishment"=>'Fsr']
         ];
          foreach ($interns as $intern) {
             $profile = new Profile;
