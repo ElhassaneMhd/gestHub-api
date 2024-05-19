@@ -12,7 +12,7 @@ echo "Caching routes..."
 php artisan route:cache
 
 echo "Running migrations..."
-php artisan migrate:fresh --seed --force
+php artisan migrate --force
 
 mkdir storage/framework/{cache/data,views}
 mkdir public/attestation
