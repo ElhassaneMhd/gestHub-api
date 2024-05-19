@@ -15,3 +15,4 @@ echo "Running migrations..."
 php artisan migrate --force
 
 mkdir storage/framework/{cache/data,views}
+mkdir public/attestation
