@@ -24,7 +24,7 @@ Route::group([
 ], function ($router) {
     Route::post('/generate/attestation/{id}', [AttestationController::class,'generateOneAttestation']);
     Route::POST('/logout', [AuthController::class, 'logout']);
-    Route::POST('/session/{id}/abort', [AuthController::class, 'forgotSession']);
+    Route::POST('/sessions/{id}/abort', [AuthController::class, 'abortSession']);
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
     

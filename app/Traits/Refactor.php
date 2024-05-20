@@ -236,7 +236,7 @@ trait Refactor
             'fullName'=>$profile->firstName.' '.$profile->lastName ,
             'email'=>$profile->email ,    
             'ip'=>$session->ip,
-            'browser'=>$session->device,
+            'browser'=>$session->browser,
             'device'=>$session->device,
             'status'=>$status,
             'location'=>$session->location,
