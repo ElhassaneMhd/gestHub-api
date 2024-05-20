@@ -14,5 +14,8 @@ php artisan route:cache
 echo "Running migrations..."
 php artisan migrate --force
 
+echo "Optimize"
+php artisan optimize 
+
 mkdir storage/framework/{cache/data,views}
 mkdir public/attestation

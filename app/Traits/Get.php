@@ -7,6 +7,7 @@ use App\Models\Intern;
 use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\Session;
 use App\Models\Setting;
 use App\Models\Supervisor;
 use App\Models\Task;
@@ -102,10 +103,21 @@ trait Get
                 $all[]= $this->refactorApplication($application);
             }            
             
-        }elseif($data === 'settings'){
+        }
+        elseif($data === 'settings'){
             $settings = Setting::first();
             if($settings){
                 $all= $this->refactorSettings($settings);
+            }
+        }
+        elseif($data === 'sessions'){
+            if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
+                $sessions = Session::all();
+            }else{
+                $sessions = $profile->sessions;
+            }
+            foreach ($sessions as $session) {
+                $all[]= $this->refactorSession($session);
             }
         }
         if(isset($all) ){
@@ -172,6 +184,12 @@ trait Get
             $offer = Offer::Find($id);
             if ($offer){
                 $results= $this->refactorOffer($offer);
+            }
+        }     
+        elseif ($data === 'sessions') {
+            $session = Session::Find($id);
+            if ($session){
+                $results= $this->refactorSession($session);
             }
         }     
         else{

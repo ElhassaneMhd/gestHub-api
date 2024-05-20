@@ -13,6 +13,7 @@ use App\Http\Controllers\ProjectController;
 // public routes
 Route::post('/register', [AuthController::class,'register']);
 Route::POST('/login', [AuthController::class, 'login']);
+Route::get('/session', [AuthController::class, 'session']);
 Route::get('/offers/visible', [OfferController::class,'index']);
 Route::get('/settings', [GeneralController::class,'getSettings']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
@@ -23,6 +24,7 @@ Route::group([
 ], function ($router) {
     Route::post('/generate/attestation/{id}', [AttestationController::class,'generateOneAttestation']);
     Route::POST('/logout', [AuthController::class, 'logout']);
+    Route::POST('/refresh', [AuthController::class, 'refresh']);
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
     

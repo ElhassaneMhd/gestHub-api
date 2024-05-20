@@ -9,4 +9,7 @@
 - [x] return updated at in all data
 - [x] project permissions to admin
 - [x] all permissions to superAdmin admin
-
+- [] defaults settings
+- [] multiple
+- [] emailing
+- [] sessions

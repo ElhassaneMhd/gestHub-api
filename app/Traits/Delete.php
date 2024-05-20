@@ -17,6 +17,14 @@ trait Delete
                     $application->delete();
                 }
         }
+        if ($profile->getRoleNames()[0]==='user'){
+            $user = $profile->user;
+            $applications = $user->applications;
+            foreach ($applications as $application){
+                    $this->deletOldFiles($application, 'applicationStage');
+                    $application->delete();
+                }
+        }
         if ($profile->getRoleNames()[0]==='supervisor'){
             $supervisor = $profile->supervisor;
             $projects = $supervisor->projects;

@@ -25,10 +25,10 @@ class Profile extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
-       protected $casts = [
+    protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-     public function getJWTIdentifier() {
+    public function getJWTIdentifier() {
         return $this->getKey();
     }
     public function getJWTCustomClaims() {
@@ -37,18 +37,17 @@ class Profile extends Authenticatable implements JWTSubject
       public function admin(){
         return $this->hasOne(Admin::class);
     }
-    
-    public function intern()
-    {
+    public function intern(){
         return $this->hasOne(Intern::class);
     }
-    public function user()
-    {
+    public function user(){
         return $this->hasOne(User::class);
     }
-    public function supervisor()
-    {
+    public function supervisor(){
         return $this->hasOne(Supervisor::class);
+    }
+    public function sessions(){
+        return $this->hasMany(Session::class);
     }
     public function files() {
  	    return $this->morphMany(File::class, 'fileable'); 

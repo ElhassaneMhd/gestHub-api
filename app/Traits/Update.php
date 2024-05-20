@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use App\Models\Project;
+use App\Models\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -186,5 +187,10 @@ trait Update
             $application->save();
             return response()->json(['message' => 'application rejected succeffully'], 200);
         }
+    }
+    public function updateSession($id,$token){
+        $session = Session::where('profile_id', $id)->where('token', $token)->first();
+        $session->status = 'offline';
+        $session->save();
     }
 }

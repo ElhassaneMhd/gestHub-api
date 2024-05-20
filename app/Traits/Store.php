@@ -7,6 +7,7 @@ use App\Models\Intern;
 use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Project;
+use App\Models\Session;
 use App\Models\Setting;
 use App\Models\Supervisor;
 use App\Models\Task;
@@ -355,5 +356,20 @@ trait Store
             $this->storeOneFile($request,$setting,'appLogo');
         }
         return $this->refactorSettings($setting) ;
+    }
+
+    public function storeSession($id,$token){
+        $user_ip = getenv('REMOTE_ADDR');
+        $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
+        $location = $geo["geoplugin_city"] .' | '.$geo['geoplugin_countryName'];
+
+        $session = new Session();
+        $session->profile_id=$id;
+        $session->token = $token;
+        $session->status = 'online';
+        $session->ip = request()->ip();
+        $session->device = request()->userAgent();
+        $session->location = $location;
+        $session->save();
     }
 }

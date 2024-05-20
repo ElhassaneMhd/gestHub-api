@@ -1,5 +1,6 @@
 <?php
 namespace App\Traits;
+use App\Models\Profile;
 trait Refactor
 {
     public function refactorProfile($profile){
@@ -9,7 +10,7 @@ trait Refactor
             $applicationsData = $user->applications;
             $applications = [];          
             foreach($applicationsData as $application){
-                $applications[]=['id'=>$application->id,"offer_id"=>$application->offer_id];
+                $applications[]=['id'=>$application->id,"offer_id"=>$application->offer_id,'status'=>$application->status];
             } 
             $refactored = [
                 "id"=>$user->id,
@@ -137,7 +138,9 @@ trait Refactor
                     "profile_id" => $profile->id,
                     "firstName" => $profile->firstName,
                     "lastName" => $profile->lastName,
-                    "email" => $profile->email
+                    "gender" => $profile->gender,
+                    "email" => $profile->email,
+                    "files"=>$this->getElementFiles($profile),
                 ];
             }
             return [
@@ -216,6 +219,20 @@ trait Refactor
             "location"=>$setting->location,
             "aboutDescription"=>$setting->aboutDescription,
             "files"=>$files
+        ];
+    }
+    public function refactorSession($session){
+        $profile = Profile::find($session->profile_id);
+        return [
+            'id'=>$session->id,
+            'fullName'=>$profile->firstName.' '.$profile->lastName ,
+            'email'=>$profile->email ,    
+            'ip'=>$session->ip,
+            'device'=>$session->device,
+            'status'=>$session->status,
+            'location'=>$session->location,
+            'created_at'=>$session->created_at,
+            'updated_at'=>$session->updated_at,
         ];
     }
     public function getElementFiles($element){
