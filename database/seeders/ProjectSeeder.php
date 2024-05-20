@@ -20,7 +20,7 @@ class ProjectSeeder extends Seeder
         $projects = [
             [
                 'subject' => 'E-commerce Website Redesign',
-                'description' => 'Revamped the existing online store to improve user experience, enhance product visibility, and increase conversion rates. Implemented features include a new search bar, improved product filters, and a streamlined checkout process.',
+                'description' => 'Revamped the existing Online store to improve user experience, enhance product visibility, and increase conversion rates. Implemented features include a new search bar, improved product filters, and a streamlined checkout process.',
                 'status' => 'In Progress',
                 'priority' => 'High',
             ],

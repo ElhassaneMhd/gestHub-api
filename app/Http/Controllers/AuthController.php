@@ -4,24 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 
+use App\Models\Session;
 use App\Traits\Refactor;
 
 use App\Traits\Store;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
-use Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AuthController extends Controller
 {
     use Refactor,Store;
-      public function __construct()
-    {
+    public function __construct(){
         $this->middleware('auth:api', ['except' => ['login','register','session']]);
+        $this->middleware('role:super-admin')->only('abortSession');
     }
  
 // login a user methods
@@ -54,7 +53,8 @@ class AuthController extends Controller
     }
 // logout 
     public function logout(Request $request) {
-        $this->updateSession(auth()->user()->id,Cookie::get('token'));
+        $session = Session::where('profile_id', auth()->user()->id)->where('token', Cookie::get('token'))->first();
+        $this->updateSession($session);
         auth()->logout();
         cookie()->forget('token');
         return response()->json([
@@ -83,5 +83,18 @@ class AuthController extends Controller
             'expires_in' => auth('api')->factory()->getTTL() * 60,
         ];
     }
-
+    public function abortSession($id){
+        $session = Session::find($id);
+        if(!$session){
+            return response()->json(['message' => "cannot logout undefined session!!"], 404);
+        }
+        $session->status = 'Offline';
+        $session->save();
+        JWTAuth::setToken($session->token)->invalidate();
+        $isLoggedOut=$session->save();
+        if($isLoggedOut){
+            return response()->json(['message' => 'session logouted succsfully'],200);
+        }
+    }
+   
 }

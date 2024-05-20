@@ -1,6 +1,8 @@
 <?php
 namespace App\Traits;
 use App\Models\Profile;
+use App\Models\Session;
+use Illuminate\Support\Facades\Cookie;
 trait Refactor
 {
     public function refactorProfile($profile){
@@ -223,13 +225,19 @@ trait Refactor
     }
     public function refactorSession($session){
         $profile = Profile::find($session->profile_id);
+        $currentSession = Session::where('profile_id', $profile->id)->where('token', Cookie::get('token'))->first();
+        if($currentSession->id ===$session->id){
+            $status = 'Current';
+        } else{
+            $status = $session->status;
+        }
         return [
             'id'=>$session->id,
             'fullName'=>$profile->firstName.' '.$profile->lastName ,
             'email'=>$profile->email ,    
             'ip'=>$session->ip,
             'device'=>$session->device,
-            'status'=>$session->status,
+            'status'=>$status,
             'location'=>$session->location,
             'created_at'=>$session->created_at,
             'updated_at'=>$session->updated_at,

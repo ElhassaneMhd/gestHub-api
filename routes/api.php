@@ -20,11 +20,11 @@ Route::get('/offers/{id}', [OfferController::class,'show']);
 
 // protected Routes
 Route::group([
-    'middleware' => ['api', 'auth:api', 'jwt.auth'],
+    'middleware' => ['api', 'auth:api', 'jwt.auth','online'],
 ], function ($router) {
     Route::post('/generate/attestation/{id}', [AttestationController::class,'generateOneAttestation']);
     Route::POST('/logout', [AuthController::class, 'logout']);
-    Route::POST('/refresh', [AuthController::class, 'refresh']);
+    Route::POST('/session/{id}/abort', [AuthController::class, 'forgotSession']);
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
     

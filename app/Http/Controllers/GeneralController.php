@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Intern;
 use App\Models\Profile;
+use App\Models\Session;
 use App\Models\Setting;
 use App\Models\User;
 use App\Traits\Delete;
@@ -39,7 +40,7 @@ class GeneralController extends Controller
     }
     public function multipleActions(Request $request,$data,$action){
         $ids = $request['ids'];
-        if (in_array($data,['supervisors','interns','admins'] )&&$action==='delete' ){    
+        if (in_array($data,['supervisors','interns','admins','users'] )&&$action==='delete' ){    
             DB::beginTransaction();
             foreach ($ids as $id){
                 if ( !$profile = Profile::find($id)){
@@ -66,7 +67,7 @@ class GeneralController extends Controller
         if ($data == "applications" && $action== 'delete') {
             DB::beginTransaction();
             foreach ($ids as $id) {
-                $application = application::find($id);
+                $application = Application::find($id);
                 if (!$application) {
                     DB::rollBack();
                     return response()->json(['message' => 'cannot delete undefined application!'], 404);
@@ -76,6 +77,23 @@ class GeneralController extends Controller
             }
             DB::commit();
             return response()->json(['message' => count($ids).'applications deleted succefully' ], 200);
+        }
+        if ($data == "sessions" && in_array($action,['delete','abort'])) {
+            DB::beginTransaction();
+            foreach ($ids as $id) {
+                $session = Session::find($id);
+                if (!$session) {
+                    DB::rollBack();
+                    return response()->json(['message' => 'cannot delete undefined session!'], 404);
+                } 
+                if($action ==='abort'){
+                    $this->updateSession($session);
+                }else{
+                    $session->delete();
+                }
+            }
+            DB::commit();
+            return response()->json(['message' => count($ids).'sessions deleted succefully' ], 200);
         }
         if ($data=="attestations" && $action=='generate'){
             DB::beginTransaction();

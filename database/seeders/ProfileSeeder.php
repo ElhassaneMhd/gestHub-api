@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Profile;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -116,6 +117,7 @@ class ProfileSeeder extends Seeder
                 ]);
         }
 
-         
+        $setting = new Setting();
+        $setting->save();
     }
 }

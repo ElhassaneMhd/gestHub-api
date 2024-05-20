@@ -188,9 +188,8 @@ trait Update
             return response()->json(['message' => 'application rejected succeffully'], 200);
         }
     }
-    public function updateSession($id,$token){
-        $session = Session::where('profile_id', $id)->where('token', $token)->first();
-        $session->status = 'offline';
+    public function updateSession($session){
+        $session->status = 'Offline';
         $session->save();
     }
 }

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('profile_id')->constrained()->cascadeOnDelete();
             $table->text('token')->unique();
-            $table->string('status')->default('online');
+            $table->string('status')->default('Online');
+            $table->string('browser');
             $table->string('device');
             $table->string('ip');
             $table->string('location');

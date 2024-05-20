@@ -16,6 +16,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
+use Jenssegers\Agent\Agent;
 
 trait Store
 {
@@ -359,17 +360,32 @@ trait Store
     }
 
     public function storeSession($id,$token){
+        $agent = new Agent();
         $user_ip = getenv('REMOTE_ADDR');
         $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
         $location = $geo["geoplugin_city"] .' | '.$geo['geoplugin_countryName'];
+        $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
+        foreach($browsers as $browser){
+            if(str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA']),$browser)){
+                $browserAgent = $browser;
+                break;
+            }else{
+                $browserAgent = $_SERVER['HTTP_SEC_CH_UA'];
+            }
+        }
+        ($agent->isDesktop()) && $device = 'Desktop';
+        ($agent->isPhone()) && $device = 'Phone';
+        ($agent->isTablet())&& $device = 'Tablet';
 
         $session = new Session();
         $session->profile_id=$id;
         $session->token = $token;
-        $session->status = 'online';
-        $session->ip = request()->ip();
-        $session->device = request()->userAgent();
+        $session->status = 'Online';
+        $session->ip = request()->getClientIp();
+        $session->browser = $browserAgent;
+        $session->device =  $device;
         $session->location = $location;
         $session->save();
     }
+     
 }
