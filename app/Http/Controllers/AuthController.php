@@ -44,7 +44,10 @@ class AuthController extends Controller
         }
    
         $logged=$this->createNewToken($token);
-        $this->storeSession($profile->id, $logged['access_token']);
+        
+        $ip=$request->header('X-Forwarded-For');
+        $from = $request->header('X-From');
+        $this->storeSession($profile->id, $logged['access_token'],$from,$ip);
         return response()->json($this->refactorProfile(auth()->user()))->withCookie('token',$logged['access_token']);
     }
      public function register(Request $request){

@@ -359,19 +359,12 @@ trait Store
         return $this->refactorSettings($setting) ;
     }
 
-    public function storeSession($id,$token){
+    public function storeSession($id,$token,$location,$ip){
         $agent = new Agent();
-        $user_ip = getenv('REMOTE_ADDR');
-        $ch = curl_init("http://www.geoplugin.net/php.gp?ip=$user_ip");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $geoData = curl_exec($ch);
-        curl_close($ch);
-        $geo = unserialize($geoData);
-        $location = $geo["geoplugin_city"] .' | '.$geo['geoplugin_countryName'];
-        
+
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
         foreach($browsers as $browser){
-            if($_SERVER['HTTP_SEC_CH_UA'] && str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){
+            if($_SERVER && str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){
                 $browserAgent = $browser;
                 break;
             }else{
@@ -386,7 +379,7 @@ trait Store
         $session->profile_id=$id;
         $session->token = $token;
         $session->status = 'Online';
-        $session->ip = request()->getClientIp();
+        $session->ip = $ip;
         $session->browser = $browserAgent;
         $session->device =  $device;
         $session->location = $location;
