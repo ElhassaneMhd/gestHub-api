@@ -364,11 +364,11 @@ trait Store
         ($ip === 'Unkown' )&& $ip = request()->userAgent();
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
         foreach($browsers as $browser){
-            if($_SERVER && str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){
+            if(!$agent->isPhone()&& str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){
                 $browserAgent = $browser;
                 break;
             }else{
-                $browserAgent = 'unkonow';
+                $browserAgent = $agent->browser();
             }
         }
         ($agent->isDesktop()) && $device = 'Desktop';
