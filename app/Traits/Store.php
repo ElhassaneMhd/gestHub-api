@@ -361,7 +361,7 @@ trait Store
 
     public function storeSession($id,$token,$location,$ip){
         $agent = new Agent();
-
+        ($ip === 'Unkown' )&& $ip = request()->userAgent();
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
         foreach($browsers as $browser){
             if($_SERVER && str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){

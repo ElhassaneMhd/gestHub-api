@@ -22,7 +22,6 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login','register','session']]);
         $this->middleware('role:super-admin')->only('abortSession');
     }
- 
 // login a user methods
     public function login(LoginRequest $request) {
      $data = $request->validated();
