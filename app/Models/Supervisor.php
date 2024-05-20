@@ -3,15 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class Supervisor extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use  HasFactory, Notifiable;
 
      // Par défaut, le modèle Encadrant hérite de tous les attributs et relations du modèle Utilisateur
     protected $fillable = [

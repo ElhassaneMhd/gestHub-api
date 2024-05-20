@@ -7359,3 +7359,19 @@ Stack trace:
 [stacktrace]
 #0 {main}
 "} 
+[2024-05-20 19:22:00] local.ERROR: Trait "Laravel\Sanctum\HasApiTokens" not found {"userId":4,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Laravel\\Sanctum\\HasApiTokens\" not found at C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\app\\Models\\Supervisor.php:12)
+[stacktrace]
+#0 {main}
+"} 
+[2024-05-20 19:22:01] local.ERROR: Trait "Laravel\Sanctum\HasApiTokens" not found {"userId":5,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Laravel\\Sanctum\\HasApiTokens\" not found at C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\app\\Models\\Supervisor.php:12)
+[stacktrace]
+#0 {main}
+"} 
+[2024-05-20 19:33:30] local.ERROR: Trait "Laravel\Sanctum\HasApiTokens" not found {"userId":5,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Laravel\\Sanctum\\HasApiTokens\" not found at C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\app\\Models\\Supervisor.php:12)
+[stacktrace]
+#0 {main}
+"} 
+[2024-05-20 19:33:31] local.ERROR: Trait "Laravel\Sanctum\HasApiTokens" not found {"userId":4,"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Trait \"Laravel\\Sanctum\\HasApiTokens\" not found at C:\\Users\\Pro\\Desktop\\gestSTG\\gestHub-api\\app\\Models\\Supervisor.php:12)
+[stacktrace]
+#0 {main}
+"} 
