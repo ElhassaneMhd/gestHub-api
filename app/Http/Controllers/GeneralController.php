@@ -18,7 +18,7 @@ class GeneralController extends Controller
 {
     use Get,Store,Delete;
     public function __construct(){
-        $this->middleware('role:admin|super-admin')->only(['setAppSettings','getAcceptedUsers','storeNewIntern']);
+        $this->middleware('role:admin|super-admin')->only(['setAppSettings','getAcceptedUsers','storeNewIntern','multipleActions']);
     }
     public function index($data){
         return $this->GetAll($data);

@@ -225,8 +225,8 @@ trait Refactor
     }
     public function refactorSession($session){
         $profile = Profile::find($session->profile_id);
-        $currentSession = Session::where('profile_id', $profile->id)->where('token', Cookie::get('token'))->first();
-        if($currentSession->id ===$session->id){
+        $currentSession = Session::where('token', Cookie::get('token'))->first();
+        if($currentSession&&$currentSession->id ===$session->id){
             $status = 'Current';
         } else{
             $status = $session->status;
@@ -236,6 +236,7 @@ trait Refactor
             'fullName'=>$profile->firstName.' '.$profile->lastName ,
             'email'=>$profile->email ,    
             'ip'=>$session->ip,
+            'browser'=>$session->device,
             'device'=>$session->device,
             'status'=>$status,
             'location'=>$session->location,

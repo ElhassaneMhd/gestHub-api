@@ -19,7 +19,7 @@ class mustBeOnline
     public function handle(Request $request, Closure $next): Response
      {
         $user = auth()->user();
-        $session = Session::where('profile_id', $user->id)->where('token', Cookie::get('token'))->first();
+        $session = Session::where('token', Cookie::get('token'))->first();
         if ($session && $session->status==='Offline'){
             auth()->logout();
             cookie()->forget('token');

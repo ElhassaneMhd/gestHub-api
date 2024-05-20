@@ -362,15 +362,20 @@ trait Store
     public function storeSession($id,$token){
         $agent = new Agent();
         $user_ip = getenv('REMOTE_ADDR');
-        $geo = unserialize(file_get_contents("http://www.geoplugin.net/php.gp?ip=$user_ip"));
+        $ch = curl_init("http://www.geoplugin.net/php.gp?ip=$user_ip");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $geoData = curl_exec($ch);
+        curl_close($ch);
+        $geo = unserialize($geoData);
         $location = $geo["geoplugin_city"] .' | '.$geo['geoplugin_countryName'];
+        
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
         foreach($browsers as $browser){
-            if(str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA']),$browser)){
+            if($_SERVER['HTTP_SEC_CH_UA'] && str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){
                 $browserAgent = $browser;
                 break;
             }else{
-                $browserAgent = $_SERVER['HTTP_SEC_CH_UA'];
+                $browserAgent = 'unkonow';
             }
         }
         ($agent->isDesktop()) && $device = 'Desktop';

@@ -53,7 +53,7 @@ class AuthController extends Controller
     }
 // logout 
     public function logout(Request $request) {
-        $session = Session::where('profile_id', auth()->user()->id)->where('token', Cookie::get('token'))->first();
+        $session = Session::where('token', Cookie::get('token'))->first();
         $this->updateSession($session);
         auth()->logout();
         cookie()->forget('token');
