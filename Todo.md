@@ -16,4 +16,5 @@
 -   [] actevities by models observers
 -   [] nutificatioin
 -   [x] sessions
--   [x] sessions browser device
+-   [] sessions browser device
+-   [] delogg on delete session
