@@ -15,3 +15,4 @@
 -   [] emailing
 -   [x] sessions
 -   [] sessions browser device
+-   [] delogg on delete session
