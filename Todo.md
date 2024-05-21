@@ -13,8 +13,9 @@
 -   [] files doesnt stored in public directory
 -   [] multiple account
 -   [] emailing
--   [] actevities by models observers
+-   [x] actevities by models observers
 -   [] nutificatioin
 -   [x] sessions
--   [] sessions browser device
--   [] delogg on delete session
+-   [x] sessions browser device
+-   [x] delogg on delete session
+-   []trigger to delog expired tokens

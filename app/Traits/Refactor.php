@@ -231,9 +231,9 @@ trait Refactor
            $activities[]=$this->refactorActivity($actevitie);
         }
         if($currentSession&&$currentSession->id ===$session->id){
-            $status = 'Current';
+            $isCurent = 'true';
         } else{
-            $status = $session->status;
+            $isCurent= 'false';
         }
         return [
             'id'=>$session->id,
@@ -242,14 +242,15 @@ trait Refactor
             'ip'=>$session->ip,
             'browser'=>$session->browser,
             'device'=>$session->device,
-            'status'=>$status,
+            'status'=>$session->status,
+            'isCurent'=>$isCurent,
             'location'=>$session->location,
             'activities'=>$activities??[],
             'created_at'=>$session->created_at,
             'updated_at'=>$session->updated_at,
         ];
     }
-    public function refactorActivity($activitie){
+    public function refactorActivity($activitie){   
         $profile= $activitie->profile; 
         return [
             'id' => $activitie->id,
@@ -258,6 +259,7 @@ trait Refactor
             'action' => $activitie->action,
             'activity' => $activitie->activity,
             'object' => $activitie->object,
+            'created_at' => $activitie->created_at,
         ];
     }
     public function getElementFiles($element){

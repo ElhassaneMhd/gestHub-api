@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
+use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 
@@ -92,7 +93,13 @@ class AuthController extends Controller
         }
         $session->status = 'Offline';
         $session->save();
-        JWTAuth::setToken($session->token)->invalidate();
+        try {
+            JWTAuth::setToken($session->token);
+            JWTAuth::authenticate();
+            JWTAuth::invalidate();
+        } catch (JWTException $e) {
+            
+        }
         $isLoggedOut=$session->save();
         if($isLoggedOut){
             return response()->json(['message' => 'session logouted succsfully'],200);

@@ -22,6 +22,24 @@ class mustBeOnline
      {
         $token = Cookie::get('token');
         $session = Session::where('token', $token)->first();
+
+        session_start();
+        $timeout = 1800;
+        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $timeout)) {
+            session_unset();     
+            session_destroy();
+            $session->status = 'Offline';
+            $session->save();
+            auth()->logout();
+            cookie()->forget('token');
+            return response()->json([
+                'message' => 'You are offline. Please login again.'
+            ], 401)->withCookie('token');
+  
+        }
+
+        $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp4
+
         if ($session && $session->status==='Offline'){
             auth()->logout();
             cookie()->forget('token');
@@ -30,17 +48,12 @@ class mustBeOnline
             ], 401)->withCookie('token');
         }
         $payload = JWTAuth::manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray();
-
-        // Get the current time and the token expiration time
         $now = Carbon::now()->timestamp;
         $exp = $payload['exp'];
-
-        // If the token expiration is less than 10 minutes, refresh the token
         if ($exp - $now < 10 * 60) {
             $token = JWTAuth::refresh($token);
         }
 
-        $cookie = Cookie::make('token', $token, 60);
-        return $next($request)->withCookie($cookie);
+        return $next($request)->withCookie('token', $token);
    }
 }

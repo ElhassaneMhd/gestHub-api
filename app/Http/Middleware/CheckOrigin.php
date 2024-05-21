@@ -13,8 +13,7 @@ class CheckOrigin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
+    public function handle(Request $request, Closure $next): Response{
         $allowedOrigins = ['https://gestHub.netlify.app/api/',"http://localhost:5173/api/",'http://localhost:8000']; 
         $origin = $request->headers->get('Origin');
         $acceptPath = $request->headers->get('Accept-Path');
