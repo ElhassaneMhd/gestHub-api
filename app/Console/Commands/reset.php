@@ -42,6 +42,9 @@ class reset extends Command
             File::makeDirectory($path, 0777, true, true);
             $this->info("Directory '$folderName' created in public folder.");
         }
+        $this->info('Optimize database with sample data...');
+        $this->call('optimize');
+
         return 0;
     }
 }

@@ -16,7 +16,6 @@ class Profile extends Authenticatable implements JWTSubject
         'phone',
         'email',
         'password',
-        'role',
         "gender"
         ];
         protected $hidden = [
@@ -46,6 +45,9 @@ class Profile extends Authenticatable implements JWTSubject
     }
     public function sessions(){
         return $this->hasMany(Session::class);
+    }
+    public function activities(){
+        return $this->hasMany(Activitie::class);
     }
     public function files() {
  	    return $this->morphMany(File::class, 'fileable'); 

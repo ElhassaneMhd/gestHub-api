@@ -9,9 +9,11 @@
 -   [x] return updated at in all data
 -   [x] project permissions to admin
 -   [x] all permissions to superAdmin admin
--   [] defaults settings
+-   [x] defaults settings
 -   [] files doesnt stored in public directory
 -   [] multiple account
 -   [] emailing
+-   [] actevities by models observers
+-   [] nutificatioin
 -   [x] sessions
--   [] sessions browser device
+-   [x] sessions browser device

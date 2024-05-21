@@ -173,6 +173,7 @@ trait Update
         return $application;
     }
     public function processApplication($application,$traitement){
+        $profile = $application->user->profile;
         if ($application->status !== 'Pending'){
             return response()->json(['message' => 'application alraedy processed'], 404);
         }
@@ -180,11 +181,16 @@ trait Update
             $application->status = 'Approved';
             $application->isRead = 'false';
             $application->save();
+            $data = ['action' => 'Approve', 'model' => 'Application', 'activity'=>'accepte application ','object'=>$profile->firstName .' '.$profile->lastName ];
+            $this->storeActivite($data);
+
             return response()->json(['message' => 'application approved succeffully'], 200);
         }
         if($traitement==='reject'){
             $application->status='Rejected';
             $application->save();
+            $data = ['action' => 'Reject', 'model' => 'Application', 'activity'=>'reject application ','object'=>$profile->firstName .' '.$profile->lastName ];
+            $this->storeActivite($data);
             return response()->json(['message' => 'application rejected succeffully'], 200);
         }
     }

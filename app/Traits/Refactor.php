@@ -226,6 +226,10 @@ trait Refactor
     public function refactorSession($session){
         $profile = Profile::find($session->profile_id);
         $currentSession = Session::where('token', Cookie::get('token'))->first();
+        $allActivities = $session->activities;
+        foreach($allActivities as $actevitie){
+           $activities[]=$this->refactorActivity($actevitie);
+        }
         if($currentSession&&$currentSession->id ===$session->id){
             $status = 'Current';
         } else{
@@ -240,8 +244,20 @@ trait Refactor
             'device'=>$session->device,
             'status'=>$status,
             'location'=>$session->location,
+            'activities'=>$activities??[],
             'created_at'=>$session->created_at,
             'updated_at'=>$session->updated_at,
+        ];
+    }
+    public function refactorActivity($activitie){
+        $profile= $activitie->profile; 
+        return [
+            'id' => $activitie->id,
+            'initiator' => $profile->gender .' '.$profile->firstName.' '.$profile->lastName,
+            'model' => $activitie->model,
+            'action' => $activitie->action,
+            'activity' => $activitie->activity,
+            'object' => $activitie->object,
         ];
     }
     public function getElementFiles($element){

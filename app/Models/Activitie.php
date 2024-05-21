@@ -5,20 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Session extends Model
+class Activitie extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_profile',
-        'token',
-        'status',
-        'device',
-        'ip'
+        'action',
+        'model',
+        'activity',
+        'object',
+        'session_id',
+        'profile_id',
     ];
+    public function session(){
+        return $this->belongsTo(Session::class);
+    }
     public function profile(){
         return $this->belongsTo(Profile::class);
-    }
-    public function activities(){
-        return $this->hasMany(Activitie::class);
     }
 }

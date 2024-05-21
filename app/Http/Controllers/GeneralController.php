@@ -85,10 +85,9 @@ class GeneralController extends Controller
                 if (!$session) {
                     DB::rollBack();
                     return response()->json(['message' => 'cannot delete undefined session!'], 404);
-                } 
-                if($action ==='abort'){
-                    $this->updateSession($session);
-                }else{
+                }
+                $this->updateSession($session);
+                if($action ==='delete'){
                     $session->delete();
                 }
             }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use App\Models\Activitie;
 use App\Models\Admin;
 use App\Models\Application;
 use App\Models\Intern;
@@ -14,6 +15,7 @@ use App\Models\Task;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
 use Jenssegers\Agent\Agent;
@@ -358,7 +360,6 @@ trait Store
         }
         return $this->refactorSettings($setting) ;
     }
-
     public function storeSession($id,$token,$location,$ip){
         $agent = new Agent();
         ($ip === 'Unkown' )&& $ip = request()->userAgent();
@@ -385,5 +386,20 @@ trait Store
         $session->location = $location;
         $session->save();
     }
-     
+    public function storeActivite($data){
+        $session = Session::where('token', Cookie::get('token'))->first();
+        if ($session){
+            $sessionId = $session->id;
+        }else{
+            $sessionId = null;
+        }
+        $activity = new Activitie();
+        $activity->session_id = $sessionId;
+        $activity->profile_id =  auth()->user() &&auth()->user()->id;
+        $activity->action = $data['action'];
+        $activity->model = $data['model'];
+        $activity->activity = $data['activity'] ;
+        $activity->object = $data['object'];
+        $activity->save() ;
+    }
 }
