@@ -52,7 +52,7 @@ trait Refactor
             $projectsData = $supervisor->projects;
             $projects = [];
             foreach($projectsData as $project){
-                array_push($projects, $project->id);
+                $projects[]=["id" => $project->id,"status"=>$project->status];
             }
             $refactored = [
                 "id"=>$supervisor->id,
@@ -73,7 +73,7 @@ trait Refactor
             $projectsData = $intern->projects;
             $projects = [];
             foreach($projectsData as $project){
-                $projects[]=$project->id;
+                $projects[]=["id" => $project->id,"status"=>$project->status];
             }
             $tasksData = $intern->tasks;
             $tasks = [];
