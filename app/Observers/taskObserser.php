@@ -15,7 +15,7 @@ class taskObserser
     }
 
     public function updated(Task $task): void{
-        $data = ['action' => 'Update', 'model' => 'Task', 'activity'=>'Updated task : ','object'=>$task->project->subject . '/' . $task->title ];
+        $data = ['action' => 'Update', 'model' => 'Task', 'activity'=>'Updated task : ','object'=>['object'=>$task->project->subject . '/' . $task->title,'status'=>$task->status] ];
         $this->storeActivite($data);
     }
 

@@ -19,3 +19,8 @@
 -   [x] sessions browser device
 -   [x] delogg on delete session
 -   []trigger to delog expired tokens
+
+-   [] toggle dark mode
+-   [] generate attestation
+-   []  attestation must contain project subject
+-   []  implement chat
