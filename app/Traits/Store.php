@@ -388,16 +388,9 @@ trait Store
     }
     public function storeActivite($data){
         $session = Session::where('token', Cookie::get('token'))->first();
-        if ($session){
-            $sessionId = $session->id;
-        }else{
-            $sessionId = null;
-        }
-        if (auth()->user()){
-            $profileId = auth()->user()->id;
-        }else{
-            $profileId = null;
-        }
+        ($session)?$sessionId = $session->id:$sessionId = null;
+        (auth()->user())? $profileId = auth()->user()->id:$profileId = null;
+    
         $activity = new Activitie();
         $activity->session_id = $sessionId;
         $activity->profile_id =  $profileId;

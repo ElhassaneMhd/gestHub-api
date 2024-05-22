@@ -19,9 +19,7 @@ class applicationObserser
             $firstName=$user->profile->firstName;
             $lastName = $user->profile->lastName;
         }else{
-            $firstName='unknown';
-            $lastName ='unknown';
-
+            return;
         }
         $data = [
             'action' => 'Delete', 
