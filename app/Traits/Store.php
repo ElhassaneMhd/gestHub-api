@@ -393,9 +393,14 @@ trait Store
         }else{
             $sessionId = null;
         }
+        if (auth()->user()){
+            $profileId = auth()->user()->id;
+        }else{
+            $profileId = null;
+        }
         $activity = new Activitie();
         $activity->session_id = $sessionId;
-        $activity->profile_id =  auth()->user() &&auth()->user()->id;
+        $activity->profile_id =  $profileId;
         $activity->action = $data['action'];
         $activity->model = $data['model'];
         $activity->activity = $data['activity'] ;
