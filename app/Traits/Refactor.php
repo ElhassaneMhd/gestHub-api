@@ -231,9 +231,9 @@ trait Refactor
            $activities[]=$this->refactorActivity($actevitie);
         }
         if($currentSession&&$currentSession->id ===$session->id){
-            $isCurent = 'true';
+            $isCurrent = 'true';
         } else{
-            $isCurent= 'false';
+            $isCurrent= 'false';
         }
         return [
             'id'=>$session->id,
@@ -243,7 +243,7 @@ trait Refactor
             'browser'=>$session->browser,
             'device'=>$session->device,
             'status'=>$session->status,
-            'isCurent'=>$isCurent,
+            'isCurrent'=>$isCurrent,
             'location'=>$session->location,
             'activities'=>$activities??[],
             'created_at'=>$session->created_at,
@@ -254,7 +254,7 @@ trait Refactor
         $profile= $activitie->profile; 
         return [
             'id' => $activitie->id,
-            'initiator' => $profile->gender .' '.$profile->firstName.' '.$profile->lastName,
+            'initiator' => $profile->gender .'. '.$profile->firstName.' '.$profile->lastName,
             'model' => $activitie->model,
             'action' => $activitie->action,
             'activity' => $activitie->activity,

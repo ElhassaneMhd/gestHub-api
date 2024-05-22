@@ -13,8 +13,12 @@ class userObserser
     use Store;
     public function updated(User $user): void{
         $profile = $user->profile;
-        $data = ['action' => 'Update', 'model' => 'User', 'activity'=>'update user ','object'=>$profile->firstName .' '.$profile->lastName ];
-        $this->storeActivite($data);
+        $data = [
+            'action' => 'Update', 
+            'model' => 'User', 
+            'activity'=>'Updated the user profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName
+        ];        $this->storeActivite($data);
     }
 
 

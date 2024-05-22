@@ -23,8 +23,13 @@ class applicationObserser
     // }
 
     public function deleted(Application $application): void{
-        $data = ['action' => 'Delete', 'model' => 'Application', 'activity'=>'Delete application ','object'=>$application->user->firstName .' '.$application->user->lastName ];
-        $this->storeActivite($data);
+        $data = [
+            'action' => 'Delete', 
+            'model' => 'Application', 
+            'activity'=>'Deleted application for : ', 
+            'object'=>$application->user->firstName .' '.$application->user->lastName
+        ];
+       $this->storeActivite($data);
     }
 
   

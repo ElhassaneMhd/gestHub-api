@@ -11,21 +11,38 @@ use Illuminate\Support\Facades\Cookie;
 class offerObserser
 {
     use Store;
-    public function created(Offer $offer): void{
-        $data = ['action' => 'Create', 'model' => 'Offer', 'activity'=>'store offer ','object'=>$offer->title ];
+    public function created(Offer $offer): void
+    {
+        $data = [
+            'action' => 'Create', 
+            'model' => 'Offer', 
+            'activity'=>'Created a new offer : ', 
+            'object'=>$offer->title 
+        ];
         $this->storeActivite($data);
-    }  
-    public function updated(Offer $offer): void{
-        $data = ['action' => 'Update', 'model' => 'Offer', 'activity'=>'update offer','object'=>$offer->title];
+    }
+
+    public function updated(Offer $offer): void
+    {
+        $data = [
+            'action' => 'Update', 
+            'model' => 'Offer', 
+            'activity'=>'Updated offer : ', 
+            'object'=>$offer->title 
+        ];
         $this->storeActivite($data);
     }
 
     public function deleted(Offer $offer): void
     {
-        $data = ['action' => 'Delete', 'model' => 'Offer', 'activity'=>'delete offer ','object'=>$offer->title ];
+        $data = [
+            'action' => 'Delete', 
+            'model' => 'Offer', 
+            'activity'=>'Deleted offer : ', 
+            'object'=>$offer->title 
+        ];
         $this->storeActivite($data);
     }
-
     public function restored(Offer $offer): void
     {
         //

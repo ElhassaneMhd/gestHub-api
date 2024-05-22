@@ -13,23 +13,21 @@ class projectObserser
     use Store;
     public function created(Project $project): void
     {
-        $data = ['action' => 'Create', 'model' => 'Project', 'activity'=>'create project ','object'=>$project->subject ];
+        $data = ['action' => 'Create', 'model' => 'Project', 'activity'=>'Created a new project : ','object'=>$project->subject ];
         $this->storeActivite($data);
     }
 
     public function updated(Project $project): void
     {
-        $data = ['action' => 'Update', 'model' => 'Project', 'activity'=>'update project','object'=>$project->subject ];
+        $data = ['action' => 'Update', 'model' => 'Project', 'activity'=>'Updated project : ','object'=>$project->subject ];
         $this->storeActivite($data);
     }
-
 
     public function deleted(Project $project): void
     {
-        $data = ['action' => 'Delete', 'model' => 'Project', 'activity'=>'delete project ','object'=>$project->subject ];
+        $data = ['action' => 'Delete', 'model' => 'Project', 'activity'=>'Deleted project : ','object'=>$project->subject ];
         $this->storeActivite($data);
     }
-
 
     public function restored(Project $project): void
     {

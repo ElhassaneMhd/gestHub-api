@@ -11,7 +11,12 @@ class internObserser
     public function updated(Intern $intern): void
     {
         $profile = $intern->profile;
-        $data = ['action' => 'Update', 'model' => 'User', 'activity'=>'update user ','object'=>$profile->firstName .' '.$profile->lastName ];
+        $data = [
+            'action' => 'Update', 
+            'model' => 'User', 
+            'activity'=>'Updated the intern profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName
+        ];
         $this->storeActivite($data);
     }
     public function deleted(Intern $intern): void

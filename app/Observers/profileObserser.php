@@ -12,24 +12,41 @@ class profileObserser
 {
     use Store;
 
-    public function created(Profile $profile): void{
+    public function created(Profile $profile): void
+    {
         $role = request('role');  
-        $data = ['action' => 'Create', 'model' => ucfirst($role) , 'activity'=>'craete profile ','object'=>$profile->firstName .' '.$profile->lastName ];
+        $data = [
+            'action' => 'Create', 
+            'model' => ucfirst($role), 
+            'activity'=>'Created a new ' . $role . ' profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName 
+        ];
         $this->storeActivite($data);
-
     }
 
-    public function updated(Profile $profile): void{
+    public function updated(Profile $profile): void
+    {
         $role = $profile->getRoleNames()[0];
-        $data = ['action' => 'Update', 'model' => $role, 'activity'=>'update ' . ucfirst($role),'object'=>$profile->firstName .' '.$profile->lastName ];
+        $data = [
+            'action' => 'Update', 
+            'model' => ucfirst($role), 
+            'activity'=>'Updated the ' . $role . ' profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName 
+        ];
         $this->storeActivite($data);    
     }
 
-    public function deleted(Profile $profile): void{
-         $data = ['action' => 'Delete', 'model' => ucfirst( $profile->getRoleNames()[0]), 'activity'=>'delete user ' ,'object'=>$profile->firstName .' '.$profile->lastName ];
+    public function deleted(Profile $profile): void
+    {
+        $role = $profile->getRoleNames()[0];
+        $data = [
+            'action' => 'Delete', 
+            'model' => ucfirst($role), 
+            'activity'=>'Deleted the ' . $role . ' profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName 
+        ];
         $this->storeActivite($data); 
     }
-
     public function restored(Profile $profile): void
     {
         //

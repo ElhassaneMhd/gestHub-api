@@ -181,7 +181,7 @@ trait Update
             $application->status = 'Approved';
             $application->isRead = 'false';
             $application->save();
-            $data = ['action' => 'Approve', 'model' => 'Application', 'activity'=>'accepte application ','object'=>$profile->firstName .' '.$profile->lastName ];
+            $data = ['action' => 'Approve', 'model' => 'Application', 'activity'=>'Approved application for : ','object'=>$profile->firstName .' '.$profile->lastName ];
             $this->storeActivite($data);
 
             return response()->json(['message' => 'application approved succeffully'], 200);
@@ -189,7 +189,7 @@ trait Update
         if($traitement==='reject'){
             $application->status='Rejected';
             $application->save();
-            $data = ['action' => 'Reject', 'model' => 'Application', 'activity'=>'reject application ','object'=>$profile->firstName .' '.$profile->lastName ];
+            $data = ['action' => 'Reject', 'model' => 'Application', 'activity'=>'Rejected application for : ','object'=>$profile->firstName .' '.$profile->lastName ];
             $this->storeActivite($data);
             return response()->json(['message' => 'application rejected succeffully'], 200);
         }

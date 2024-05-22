@@ -15,7 +15,12 @@ class adminObserser
     public function updated(Admin $admin): void
     {     
         $profile= $admin->profile;
-        $data = ['action' => 'Update', 'model' => 'Admin', 'activity'=>'Update admin','object'=>$profile->firstName .' '.$profile->lastName];
+        $data = [
+            'action' => 'Update', 
+            'model' => 'Admin', 
+            'activity'=>'Updated the admin profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName
+        ];
         $this->storeActivite($data);
     }
 

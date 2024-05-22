@@ -12,7 +12,12 @@ class supervisorObserser
     public function updated(Supervisor $supervisor): void
     {
         $profile = $supervisor->profile;
-        $data = ['action' => 'Update', 'model' => 'User', 'activity'=>'update user ','object'=>$profile->firstName .' '.$profile->lastName ];
+        $data = [
+            'action' => 'Update', 
+            'model' => 'User', 
+            'activity'=>'Updated the supervisor profile for : ', 
+            'object'=>$profile->firstName .' '.$profile->lastName
+        ];
         $this->storeActivite($data);
 
     }
