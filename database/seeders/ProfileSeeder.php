@@ -55,7 +55,8 @@ class ProfileSeeder extends Seeder
         $interns =[
             ['firstName'=>'Walid','lastName'=>'Zakan','phoneNumber'=>'0675175874','gender'=>'M','academicLevel'=>'Bac+2',"establishment"=>'Ofppt'],
             ['firstName'=>'Elhassane','lastName'=>'Mehdioui','phoneNumber'=>'0675175874','gender'=>'M','academicLevel'=>'Bac+2',"establishment"=>'Ofppt'],
-            ['firstName'=>'Rihame','lastName'=>'Bouchikhi','phoneNumber'=>'0666666666','gender'=>'Mme','academicLevel'=>'Bac+3',"establishment"=>'Fsr']
+            ['firstName'=>'Rihame','lastName'=>'Bouchikhi','phoneNumber'=>'0666666666','gender'=>'Mme','academicLevel'=>'Bac+3',"establishment"=>'Fsr'],
+            ['firstName'=>'Salim','lastName'=>'Alami','phoneNumber'=>'0688666666','gender'=>'M','academicLevel'=>'Bac+5',"establishment"=>'Ensa']
         ];
          foreach ($interns as $intern) {
             $profile = new Profile;
@@ -107,7 +108,7 @@ class ProfileSeeder extends Seeder
             $profile->firstName = $supervisor["firstName"];
             $profile->lastName = $supervisor["lastName"];
             $profile->email = $profile->firstName.'.'.$profile->lastName.'2@gmail.com';
-            $profile->password = Hash::make($profile->firstName.'123');
+            $profile->password = Hash::make('supervisor123');
             $profile->phone = $supervisor['phoneNumber'];
             $profile->gender = $supervisor['gender'];
             $profile->assignRole('supervisor');
