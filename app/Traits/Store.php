@@ -316,9 +316,6 @@ trait Store
           $profile = Intern::find($id)->profile;
           $intern = $this->refactorProfile($profile);
           $unique = uniqid();
-          if (date('Y-m-d') < $intern['endDate']){
-            return response()->json(['messsage' => 'the end stage date is not yet'], 400);
-        }
         view()->share('attestations.attestation',$intern);
         $pdf = Pdf::loadView('attestations.attestation', $intern);
         

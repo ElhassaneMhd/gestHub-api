@@ -25,7 +25,7 @@ class applicationObserser
             'action' => 'Delete', 
             'model' => 'Application', 
             'activity'=>'Deleted application for : ', 
-            'object'=>$firstName??'unknown' .' '.$lastName??'unknown'
+            'object'=>$firstName??'unknown' .' '.$lastName??'unknown' .' --> '.$application->offer->title??'unknown'
         ];
 
        $this->storeActivite($data);
