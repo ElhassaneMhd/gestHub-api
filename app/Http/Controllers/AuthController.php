@@ -12,15 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\LoginRequest;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class AuthController extends Controller
 {
     use Refactor,Store;
     public function __construct(){
-        $this->middleware('auth:api', ['except' => ['login','register','session']]);
         $this->middleware('role:super-admin')->only('abortSession');
     }
 // login a user methods
@@ -39,16 +36,15 @@ class AuthController extends Controller
             ], 401);
         }
         
-        if (! $token = auth()->attempt($request->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-   
-        $logged=$this->createNewToken($token);
+        //create personal access token
+        $token = $profile->createToken('auth_token')->plainTextToken;
         
         $ip=$request->headers->get('Accept-For');
         $from=$request->headers->get('Accept-From');
-        $this->storeSession($profile->id, $logged['access_token'],$from,$ip);
-        return response()->json($this->refactorProfile(auth()->user()))->withCookie('token',$logged['access_token']);
+        $this->storeSession($profile->id,$token,$from,$ip);
+        $cookie = cookie('token', $token, 60 ); // 1 day
+        return response()->json(['data'=>$this->refactorProfile($profile),'token'=>$token])->withCookie($cookie);
+
     }
      public function register(Request $request){
         $profile = $this->storeUser($request);
@@ -56,36 +52,18 @@ class AuthController extends Controller
     }
 // logout 
     public function logout(Request $request) {
-        $session = Session::where('token', Cookie::get('token'))->first();
-        $this->updateSession($session);
-        auth()->logout();
+        $request->user()->currentAccessToken()->delete();
         cookie()->forget('token');
         return response()->json([
-            'message' => 'User successfully signed out'
+            'message' => 'Logged out successfully!'
         ])->withCookie('token');
     }
-    public function refresh(){
-        $logged= $this->createNewToken(auth()->refresh());
-        return response()->json($this->refactorProfile(auth()->user()))->withCookie('token',$logged['access_token']);
-    }
-    public function session(){
-        $session = [
-           'userAgent'=> request()->userAgent(),
-           'ip'=> request()->ip(),
-        ];
-        return response()->json($session);
-    }
-// get the authenticated user method
+
     public function user(Request $request) {
         $user = auth()->user();
         return response()->json($this->refactorProfile($user));
     }
-    protected function createNewToken($token){
-        return [
-            'access_token' => $token,
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-        ];
-    }
+
     public function abortSession($id){
         $session = Session::find($id);
         if(!$session){
@@ -93,13 +71,6 @@ class AuthController extends Controller
         }
         $session->status = 'Offline';
         $session->save();
-        try {
-            JWTAuth::setToken($session->token);
-            JWTAuth::authenticate();
-            JWTAuth::invalidate();
-        } catch (JWTException $e) {
-            
-        }
         $isLoggedOut=$session->save();
         if($isLoggedOut){
             return response()->json(['message' => 'session logouted succsfully'],200);
