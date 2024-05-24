@@ -1,5 +1,4 @@
 # Todo
-
 -   [x] Files Validation for uppercase extentions
 -   [x] remove super admin from admins
 -   [] add from excel
@@ -10,7 +9,7 @@
 -   [x] project permissions to admin
 -   [x] all permissions to superAdmin admin
 -   [x] defaults settings
--   [] files doesnt stored in public directory
+-   [] files doesnt stored in public directory on render
 -   [] multiple account
 -   [] emailing
 -   [x] actevities by models observers
@@ -18,9 +17,7 @@
 -   [x] sessions
 -   [x] sessions browser device
 -   [x] delogg on delete session
--   []trigger to delog expired tokens
-
--   [] toggle dark mode
--   [] generate attestation
--   []  attestation must contain project subject
--   []  implement chat
+-   [] trigger to delog expired tokens
+-   [x] filter specialty from accepted applications
+-   [] attestation must contain project subject
+-   [] implement chat

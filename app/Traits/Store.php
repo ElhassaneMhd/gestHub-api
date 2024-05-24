@@ -253,12 +253,15 @@ trait Store
         }
         $specialty = '';
         foreach ($applications as $application){
-            $offer = $application->offer;
-            if (!$specialty==''){
-                $specialty = $specialty ." | ".$offer['sector'];
-            }else{
-                $specialty =$offer['sector'];
+            $sector = $application->offer->sector;
+            if (!str_contains($specialty,$sector)){
+                if (!$specialty==''){
+                    $specialty = $specialty ." | ".$sector;
+                }else{
+                    $specialty =$sector;
+                }
             }
+
         }
         $profile = $user->profile;
         $applications = $user->applications;
@@ -272,8 +275,7 @@ trait Store
         $intern->specialty = $specialty??'None';
 
         $isCommited[]=$user->delete();
-        $profile->removeRole('user'); 
-        $profile->assignRole('intern');
+        $profile->syncRoles(['intern']);
         $isCommited[] = $profile->hasRole('intern');
         $isCommited[]=$intern->save();
         $isCommited[]=$application->intern_id = $intern->id;

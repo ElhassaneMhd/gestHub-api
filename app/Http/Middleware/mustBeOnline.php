@@ -2,14 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Events\AuthLogout;
 use App\Models\Session;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class mustBeOnline
 {
@@ -41,6 +39,7 @@ class mustBeOnline
         // $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp4
 
         if ($session && $session->status==='Offline'){
+            $request->user()->currentAccessToken()->delete();
             auth()->logout();
             cookie()->forget('token');
             return response()->json([
