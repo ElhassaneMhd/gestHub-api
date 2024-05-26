@@ -341,18 +341,18 @@ trait Store
         if (!$setting){
             $setting = new Setting;
         }
-        $setting->appName = $request->input('appName');
+        $setting->appName = $request->input('appName')??null;
         $setting->companyName = $request->input('companyName');
-        $setting->email = $request->input('email');
-        $setting->phone =  $request->input('phone');
-        $setting->facebook =  $request->input('facebook');
-        $setting->instagram =  $request->input('instagram');
-        $setting->twitter =  $request->input('twitter');
-        $setting->youtube =  $request->input('youtube');
-        $setting->linkedin =  $request->input('linkedin');
-        $setting->maps =  $request->input('maps');
-        $setting->location =  $request->input('location');
-        $setting->aboutDescription =  $request->input('aboutDescription');
+        $setting->email = $request->input('email')??null;
+        $setting->phone =  $request->input('phone')??null;
+        $setting->facebook =  $request->input('facebook')??null;
+        $setting->instagram =  $request->input('instagram')??null;
+        $setting->twitter =  $request->input('twitter')??null;
+        $setting->youtube =  $request->input('youtube')??null;
+        $setting->linkedin =  $request->input('linkedin')??null;
+        $setting->maps =  $request->input('maps')??null;
+        $setting->location =  $request->input('location')??null;
+        $setting->aboutDescription =  $request->input('aboutDescription')??null;
         $setting->save();
         if($request->hasFile('appLogo')){
             $this->storeOneFile($request,$setting,'appLogo');

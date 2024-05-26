@@ -14,11 +14,15 @@ class CheckOrigin
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response{
-        $allowedOrigins = ['https://gestHub.netlify.app/api/',"http://localhost:5173/api/",'http://localhost:8000']; 
-        $origin = $request->headers->get('Origin');
+        $allowedOrigins = ["http://localhost:5173",'https://gestHub.netlify.app']; 
+        $referer = $request->headers->get('Referer');
         $acceptPath = $request->headers->get('Accept-Path');
-        if (!in_array($origin, $allowedOrigins) || !$acceptPath) {
-            return response()->json(['message'=>'Unauthorized to perform this action' ], 401);
+        foreach($allowedOrigins as $origin){
+            if (!$acceptPath || !str_contains($referer,$origin)) {
+                return response()->json(['message'=>'Unauthorized to perform this action' ], 401);
+            }else{
+                break;
+            }
         }
         return $next($request);
     }
