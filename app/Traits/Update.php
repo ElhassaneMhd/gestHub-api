@@ -188,7 +188,6 @@ trait Update
         }
         if($traitement==='approve'){
             $application->status = 'Approved';
-            $application->isRead = 'false';
             $application->save();
             $data = ['action' => 'Approve', 'model' => 'Application', 'activity'=>'Approved application for : ','object'=>$profile->firstName .' '.$profile->lastName .' --> '.$application->offer->title ];
             $notifData = [

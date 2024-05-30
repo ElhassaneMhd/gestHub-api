@@ -12,7 +12,6 @@ class Application extends Model
         "motivationLetter",
         'offre_id',
         'user_id',
-        "isRead",
         "startDate",
         "endDate"
     ];   

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     use HasFactory;
-    protected $fillable = ['model','isRead','subject','initiator','receiver'];
+    protected $fillable = ['model','isRead','object','action','activity','initiator','receiver'];
     public function initiator(){
         return $this->belongsTo(Profile::class, 'initiator');
     }
