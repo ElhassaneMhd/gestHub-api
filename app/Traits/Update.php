@@ -116,6 +116,7 @@ trait Update
         return $project;
     }
     public function updateTask($request,$task){
+        $profile = $task->intern->profile;
         $validatedData = $request->validate([
         'title' => 'nullable|max:255',
         'description' => 'nullable|string',
@@ -125,6 +126,15 @@ trait Update
         'intern_id' => 'nullable|exists:interns,id',
         'project_id' => 'exists:projects,id',
     ]);
+        if ($validatedData['status'] === 'Done') {
+            $notifData = [
+                'activity'=>'Your task has been completed succesfully',
+                'object'=>$task->title,
+                'action'=>'Task Completed',
+                'receiver'=>$profile->id
+            ];
+            $this->storeNotification($notifData);
+        }
         $task->update($validatedData);
         $this->updateProjectStatus($task->project_id);
         return $task;
@@ -134,7 +144,6 @@ trait Update
         $todoCount = $project->tasks()->where('status', 'To Do')->count();
         $progressCount = $project->tasks()->where('status', 'In Progress')->count();
         $doneCount = $project->tasks()->where('status', 'Done')->count();
-
         if ($doneCount > 0 && $todoCount == 0 && $progressCount == 0) {
             $project->status = "Completed";
         } elseif ($progressCount > 0 || $doneCount > 0) {
@@ -182,6 +191,13 @@ trait Update
             $application->isRead = 'false';
             $application->save();
             $data = ['action' => 'Approve', 'model' => 'Application', 'activity'=>'Approved application for : ','object'=>$profile->firstName .' '.$profile->lastName .' --> '.$application->offer->title ];
+            $notifData = [
+                'activity'=>'Your application has been approved ',
+                'object'=>$application->offer->title,
+                'action'=>'acceptedApplication',
+                'receiver'=>$profile->id
+                ];
+            $this->storeNotification($notifData);
             $this->storeActivite($data);
 
             return response()->json(['message' => 'application approved succeffully'], 200);

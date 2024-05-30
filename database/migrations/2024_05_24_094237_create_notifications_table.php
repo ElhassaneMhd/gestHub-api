@@ -14,9 +14,14 @@ return new class extends Migration
         Schema::disableForeignKeyConstraints();
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->integer('initiator')->nullable()->references('id')->on('profiles');
-            $table->integer('reciver')->nullable()->references('id')->on('profiles');
-            $table->string('model');
+            $table->unsignedBigInteger('initiator')->nullable();
+            $table->foreign('initiator')->nullable()->references('id')->on('profiles');
+            $table->unsignedBigInteger('receiver')->nullable();
+            $table->foreign('receiver')->references('id')->on('profiles');
+            $table->string('activity');
+            $table->string('object');
+            $table->string('action');
+            $table->enum('isRead',['false','true']);
             $table->timestamps();
         });
     }

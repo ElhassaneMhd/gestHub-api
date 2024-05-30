@@ -3,6 +3,7 @@
 use App\Http\Controllers\AttestationController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\DemandController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\taskController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ Route::get('/session', [AuthController::class, 'session']);
 Route::get('/offers/visible', [OfferController::class,'index']);
 Route::get('/settings', [GeneralController::class,'getSettings']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
+Route::apiResource('/contact', DemandController::class);
 
 // protected Routes
 Route::group([
@@ -31,6 +33,7 @@ Route::group([
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);
     Route::post('/multiple/{data}/{action}', [GeneralController::class, 'multipleActions']);
+    Route::put('notifications/{id}/read', [GeneralController::class,'markNotificationAsRead']);
     Route::get('/{data}', [GeneralController::class, 'index']);
     Route::get('/{data}/{id}', [GeneralController::class, 'show']);
     
@@ -42,7 +45,6 @@ Route::group([
     Route::apiResource('offers', OfferController::class);
    
     Route::apiResource('applications', ApplicationController::class);
-    Route::put('applications/{id}/read', [ApplicationController::class,'markAsRead']);
     //approve rejectApplication
     Route::put('/applications/{id}/{traitement}', [ApplicationController::class,'accepteApplication']);
     // Project

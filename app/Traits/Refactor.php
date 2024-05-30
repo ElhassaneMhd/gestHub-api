@@ -271,4 +271,18 @@ trait Refactor
         }
         return $Allfiles??[];
     }
+    public function refactorNotification($notification){
+        function getFullName($profile){
+            return $profile->firstName. ' '. $profile->lastName;
+        }
+        return [
+            'id'=>$notification->id,
+            'activity'=>$notification->activity,
+            'action'=>$notification->action,
+            'object'=>$notification->object,
+            'receiver'=>getFullName($notification->receiver),
+            'initiator'=>getFullName($notification->initiator),
+            'created_at'=>$notification->created_at,
+        ];
+    }
 }

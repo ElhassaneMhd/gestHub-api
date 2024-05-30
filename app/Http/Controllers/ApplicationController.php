@@ -35,15 +35,6 @@ class ApplicationController extends Controller
         }
         $this->processApplication($application,$traitement);
     }
-    public function markAsRead($id){
-        $application = application::find($id);
-        if (!$application) {
-            return response()->json(['message' => ' undefined application!'], 404);
-        }
-        $application->isRead = 'true';
-        $application->save();
-        return response()->json(['message' => 'application is readed now'],200);
-    }
     public function destroy($id){
         $application = application::find($id);
         if (!$application) {

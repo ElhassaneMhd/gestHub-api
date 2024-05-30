@@ -9,7 +9,17 @@ class taskObserser
 {
     use Store;
     public function created(Task $task): void{
+        $profile = $task->intern->profile;
         $data = ['action' => 'Create', 'model' => 'Task', 'activity'=>'Created a new task : ','object'=>$task->project->subject . '/' . $task->title];
+        
+        $notifData = [
+            'activity'=>'You have been assigned a new task',
+             'object'=>$task->project->subject. '/' . $task->title,
+             'action'=>'newTask',
+            'receiver'=>$profile->id
+            ];
+        $this->storeNotification($notifData);
+
         $this->storeActivite($data);
 
     }

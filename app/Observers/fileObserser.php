@@ -17,6 +17,15 @@ class fileObserser
             'activity'=>'Uploaded a new file of type: ', 
             'object'=> ucfirst($file->type)
         ];
+        if ($file->type==='attestation'){
+            $notifData = [
+                'activity'=>'Your attestaion is now available ',
+                'object'=>'attestaion stage',
+                'action'=>'newFile',
+                'receiver'=>$file->fileable_id
+            ];
+            $this->storeNotification($notifData);
+        }
         $this->storeActivite($data);
     }
 

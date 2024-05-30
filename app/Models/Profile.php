@@ -47,6 +47,9 @@ class Profile extends Authenticatable
     public function files() {
  	    return $this->morphMany(File::class, 'fileable'); 
 	}
+    public function notifications(){
+        return $this->hasMany(Notification::class, 'receiver');
+    }
      protected static function boot()
     {
         parent::boot();

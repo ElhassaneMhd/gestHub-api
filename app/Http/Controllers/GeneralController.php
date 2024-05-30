@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\Demand;
 use App\Models\Intern;
+use App\Models\Notification;
 use App\Models\Profile;
 use App\Models\Session;
 use App\Models\Setting;
@@ -39,7 +41,7 @@ class GeneralController extends Controller
         return $this->getAllAcceptedUsers();
     }
     public function multipleActions(Request $request,$data,$action){
-        $ids = $request['ids'];
+        $ids = $request['ids']??null;
         if (in_array($data,['supervisors','interns','admins','users'] )&&$action==='delete' ){    
             DB::beginTransaction();
             foreach ($ids as $id){
@@ -119,5 +121,24 @@ class GeneralController extends Controller
             DB::commit();
             return response()->json(['message' =>count($ids).' interns stored successfully'],200);
         }
+        if ($data == 'notifications' && $action === 'read') {
+            $id = auth()->user()->id;
+            $profile = Profile::find($id);
+            $notifications = $profile->notifications;
+            foreach($notifications as $notification){
+                $notification->isRead = 'true';
+                $notification->save();
+            }
+        }
     }
+    public function markNotificationAsRead($id){
+        $notification = Notification::find($id);
+        if (!$notification) {
+            return response()->json(['message' => ' undefined notification!'], 404);
+        }
+        $notification->isRead = 'true';
+        $notification->save();
+        return response()->json(['message' => 'notification is readed now'],200);
+    }
+
 }

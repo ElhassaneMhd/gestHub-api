@@ -3,7 +3,9 @@
 namespace App\Traits;
 use App\Models\Admin;
 use App\Models\Application;
+use App\Models\Demand;
 use App\Models\Intern;
+use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Project;
@@ -120,6 +122,19 @@ trait Get
                 $all[]= $this->refactorSession($session);
             }
         }
+        elseif($data === 'notifications'){
+            $profile = auth()->user();
+            $notifications = $profile->notifications;
+             foreach ($notifications as $notification) {
+                $all[]= $this->refactorNotification($notification);
+            }
+        }
+        elseif($data === 'contacts'){
+            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::all() :$contacts = [];
+            foreach ($contacts as $session) {
+                $all[]= $this->refactorSession($session);
+            }
+        }
         if(isset($all) ){
             return response()->json($all);
         }
@@ -192,6 +207,15 @@ trait Get
                 $results= $this->refactorSession($session);
             }
         }     
+        elseif ($data === 'notifications') {
+            $notification = Notification::Find($id);
+            if ($notification){
+                $results = $this->refactorNotification($notification);
+            }
+        } elseif($data === 'contacts'){
+            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) && $contact = Demand::Find($id) ;
+            $results = $contact??null;
+        }    
         else{
             return response()->json(['message' => 'Looking for undefined api'], 404);
         }        

@@ -5,6 +5,7 @@ use App\Models\Activitie;
 use App\Models\Admin;
 use App\Models\Application;
 use App\Models\Intern;
+use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Project;
@@ -290,6 +291,13 @@ trait Store
             return response()->json(['message'=>'error , save this intern'],400) ;
         }else{
             DB::commit();
+            $notifData = [
+                'activity'=>'Congratulations , you have been selected to be an intern ',
+                'object'=>null,
+                'action'=>'newIntern',
+                'receiver'=>$profile->id
+            ];
+            $this->storeNotification($notifData);
         } 
     }   
     public function storeOneFile($request,$element,$fileType){
@@ -341,18 +349,18 @@ trait Store
         if (!$setting){
             $setting = new Setting;
         }
-        $setting->appName = $request->input('appName')??null;
-        $setting->companyName = $request->input('companyName');
-        $setting->email = $request->input('email')??null;
-        $setting->phone =  $request->input('phone')??null;
-        $setting->facebook =  $request->input('facebook')??null;
-        $setting->instagram =  $request->input('instagram')??null;
-        $setting->twitter =  $request->input('twitter')??null;
-        $setting->youtube =  $request->input('youtube')??null;
-        $setting->linkedin =  $request->input('linkedin')??null;
-        $setting->maps =  $request->input('maps')??null;
-        $setting->location =  $request->input('location')??null;
-        $setting->aboutDescription =  $request->input('aboutDescription')??null;
+        $setting->appName = $request->input('appName')??$setting->appName??null;
+        $setting->companyName = $request->input('companyName')?? $setting->companyName??null;
+        $setting->email = $request->input('email')?? $setting->email??null;
+        $setting->phone =  $request->input('phone')??$setting->phone??null;
+        $setting->facebook =  $request->input('facebook')??$setting->facebook??null;
+        $setting->instagram =  $request->input('instagram')??$setting->instagram ??null;
+        $setting->twitter =  $request->input('twitter')??$setting->twitter??null;
+        $setting->youtube =  $request->input('youtube')?? $setting->youtube??null;
+        $setting->linkedin =  $request->input('linkedin')??$setting->linkedin??null;
+        $setting->maps =  $request->input('maps')??$setting->maps??null;
+        $setting->location =  $request->input('location')??$setting->location??null;
+        $setting->aboutDescription =  $request->input('aboutDescription')?? $setting->aboutDescription??null;
         $setting->save();
         if($request->hasFile('appLogo')){
             $this->storeOneFile($request,$setting,'appLogo');
@@ -398,5 +406,15 @@ trait Store
         $activity->activity = $data['activity'] ;
         $activity->object = $data['object'];
         $activity->save() ;
+    }
+    public function storeNotification($data){
+        (auth()->user())? $initiatorId = auth()->user()->id:$initiatorId = null;
+        $notification = new Notification();
+        $notification->object = $data['object'];
+        $notification->action = $data['action'];
+        $notification->activity = $data['activity'];
+        $notification->receiver = $data['receiver'];
+        $notification->initiator = $initiatorId;
+        $notification->save();
     }
 }
