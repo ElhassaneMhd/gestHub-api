@@ -19,9 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('receiver')->nullable();
             $table->foreign('receiver')->references('id')->on('profiles');
             $table->string('activity');
-            $table->string('object');
+            $table->string('object')->nullable();;
             $table->string('action');
-            $table->enum('isRead',['false','true']);
+            $table->enum('isRead',['false','true'])->default('false');
             $table->timestamps();
         });
     }
