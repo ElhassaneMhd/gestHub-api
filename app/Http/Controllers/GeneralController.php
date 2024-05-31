@@ -140,5 +140,8 @@ class GeneralController extends Controller
         $notification->save();
         return response()->json(['message' => 'notification is readed now'],200);
     }
-
+    public function deleteNotification($id){
+        $notification = Notification::find($id);
+        $notification->delete();
+    }
 }

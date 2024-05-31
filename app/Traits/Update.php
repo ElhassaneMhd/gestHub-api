@@ -130,7 +130,7 @@ trait Update
             $notifData = [
                 'activity'=>'Your task has been completed succesfully',
                 'object'=>$task->title,
-                'action'=>'Task Completed',
+                'action'=>'completedTask',
                 'receiver'=>$profile->id
             ];
             $this->storeNotification($notifData);

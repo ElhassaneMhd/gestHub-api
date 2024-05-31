@@ -34,6 +34,7 @@ Route::group([
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);
     Route::post('/multiple/{data}/{action}', [GeneralController::class, 'multipleActions']);
     Route::put('notifications/{id}/read', [GeneralController::class,'markNotificationAsRead']);
+    Route::delete('notifications/{id}', [GeneralController::class,'deleteNotification']);
     Route::get('/{data}', [GeneralController::class, 'index']);
     Route::get('/{data}/{id}', [GeneralController::class, 'show']);
     

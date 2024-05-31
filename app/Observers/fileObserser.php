@@ -19,8 +19,8 @@ class fileObserser
         ];
         if ($file->type==='attestation'){
             $notifData = [
-                'activity'=>'Your attestaion is now available ',
-                'object'=>'attestaion stage',
+                'activity'=>'Your attestation is now available ',
+                'object'=>'Internship attestation',
                 'action'=>'newFile',
                 'receiver'=>$file->fileable_id
             ];
