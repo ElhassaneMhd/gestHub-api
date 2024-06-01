@@ -22,8 +22,9 @@ class GeneralController extends Controller
     public function __construct(){
         $this->middleware('role:admin|super-admin')->only(['setAppSettings','getAcceptedUsers','storeNewIntern','multipleActions']);
     }
-    public function index($data){
-        return $this->GetAll($data);
+    public function index(Request $request,$data){
+        $limit = $request->input('limit', 10);
+        return $this->GetAll($data,$limit);
     }
     public function show($data,$id){
         return $this->GetByDataId($data,$id);

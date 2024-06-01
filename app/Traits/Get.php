@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Auth;
 trait Get
 {
     use Refactor;
-    public function GetAll($data){
+    public function GetAll($data,$limit){
         $profile = Auth::user();
         $all = [];
         if ($data === 'admins') {
-            $admins = Admin::all();
+            $admins = Admin::paginate($limit);
             foreach ($admins as $admin) {
                 $profile = $admin->profile;
                 if ($profile->getRoleNames()[0]!=='super-admin' ){
@@ -31,21 +31,21 @@ trait Get
             }
         }
         elseif ($data === 'supervisors') {
-            $supervisors = Supervisor::all();
+            $supervisors = Supervisor::paginate($limit);
             foreach ($supervisors as $supervisor) {
                 $profile = $supervisor->profile;
                 $all[]= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'interns') {
-            $interns = Intern::all();
+            $interns = Intern::paginate($limit);
             foreach ($interns as $intern) {
                 $profile = $intern->profile;
                 $all[]= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'users') {
-            $users = User::all();
+            $users = User::paginate($limit);
             foreach ($users as $user) {
                 $profile = $user->profile;
                 $all[]= $this->refactorProfile($profile);
@@ -99,7 +99,7 @@ trait Get
                 $applications = $user->applications;
             }
              if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
-                $applications = Application::all();
+                $applications = Application::paginate($limit);
             }
             foreach ($applications as $application) {
                 $all[]= $this->refactorApplication($application);
@@ -114,7 +114,7 @@ trait Get
         }
         elseif($data === 'sessions'){
             if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
-                $sessions = Session::all();
+                $sessions = Session::paginate($limit);
             }else{
                 $sessions = $profile->sessions;
             }
@@ -130,7 +130,7 @@ trait Get
             }
         }
         elseif($data === 'contacts'){
-            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::all() :$contacts = [];
+            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::paginate($limit) :$contacts = [];
             foreach ($contacts as $session) {
                 $all[]= $this->refactorSession($session);
             }

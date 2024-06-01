@@ -369,10 +369,10 @@ trait Store
     }
     public function storeSession($id,$token,$location,$ip){
         $agent = new Agent();
-        ($ip === 'Unkown' )&& $ip = request()->userAgent();
+        $ip = request()->userAgent()??'Unkown' ;
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
         foreach($browsers as $browser){
-            if(!$agent->isPhone()&& str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA'] ),$browser)){
+            if(!$agent->isPhone()&& str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA']??'' ),$browser)){
                 $browserAgent = $browser;
                 break;
             }else{
@@ -389,8 +389,8 @@ trait Store
         $session->status = 'Online';
         $session->ip = $ip;
         $session->browser = $browserAgent;
-        $session->device =  $device;
-        $session->location = $location;
+        $session->device =  $device??"unknown";
+        $session->location = $location??"unknown";
         $session->save();
     }
     public function storeActivite($data){
