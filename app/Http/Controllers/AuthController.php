@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Profile;
 
 use App\Models\Session;
+use App\Traits\Get;
 use App\Traits\Refactor;
 
 use App\Traits\Store;
@@ -16,7 +17,7 @@ use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
-    use Refactor,Store;
+    use Refactor,Store,Get;
     public function __construct(){
         $this->middleware('role:super-admin')->only('abortSession');
     }

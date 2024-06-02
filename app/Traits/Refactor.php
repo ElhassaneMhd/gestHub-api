@@ -91,7 +91,8 @@ trait Refactor
                 "startDate" => $intern->startDate,
                 "specialty" => $intern->specialty,
                 "endDate" => $intern->endDate,
-                "files"=>$files??[]
+                "files"=>$files??[],
+                "tasks"=>$intern->tasks()->count()
             ];
             return $refactored;
         }
@@ -254,15 +255,6 @@ trait Refactor
             'object' => $activitie->object,
             'created_at' => $activitie->created_at,
         ];
-    }
-    public function getElementFiles($element){
-        if ($element){
-            $files = $element->files;
-            foreach($files as $file){
-                $Allfiles[] = ['url' =>$file->url,'type'=>$file->type];
-            }
-        }
-        return $Allfiles??[];
     }
     public function refactorNotification($notification){
         return [

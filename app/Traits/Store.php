@@ -199,7 +199,7 @@ trait Store
         'experience' => 'required|in:Expert,Intermediate,Beginner',
         'skills' => 'nullable',
         'duration' => 'numeric|min:1|max:24',
-        'direction' => 'required|string',
+        'company' => 'required|string',
         'visibility'=>'required|in:Visible,Hidden',
         'status'=>'required|in:Normal,Urgent',
         'city'=>'required|string',
@@ -213,7 +213,7 @@ trait Store
         $offer->experience = $validatedData['experience'];
         $offer->skills = $validatedData['skills'];
         $offer->duration = $validatedData['duration'];
-        $offer->direction = $validatedData['direction'];
+        $offer->company = $validatedData['company'];
         $offer->visibility = $validatedData['visibility'];
         $offer->status = $validatedData['status'];
         $offer->city = $validatedData['city'];

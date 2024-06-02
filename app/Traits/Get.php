@@ -17,19 +17,24 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use League\Flysystem\UrlGeneration\PublicUrlGenerator;
+use Schema;
 trait Get
 {
-    use Refactor;
     public function GetAll($data,$limit){
         $profile = Auth::user();
         $all = [];
+        if(Schema::hasTable($data)){
+            $count = DB::table($data)->count();
+            $pages = ceil($count / $limit);
+            $all['total'] = $count;
+            $all['totalPages'] = $pages;
+        }
         if ($data === 'admins') {
             $admins = Admin::paginate($limit);
             foreach ($admins as $admin) {
                 $profile = $admin->profile;
                 if ($profile->getRoleNames()[0]!=='super-admin' ){
-                    $all[]= $this->refactorProfile($profile);
+                    $all['data']= $this->refactorProfile($profile);
                 }
             }
         }
@@ -37,27 +42,21 @@ trait Get
             $supervisors = Supervisor::paginate($limit);
             foreach ($supervisors as $supervisor) {
                 $profile = $supervisor->profile;
-                $all[]= $this->refactorProfile($profile);
+                $all['data']= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'interns') {
             $interns = Intern::paginate($limit);
             foreach ($interns as $intern) {
                 $profile = $intern->profile;
-                $all[]= $this->refactorProfile($profile);
+                $all['data']= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'users') {
             $users = User::paginate($limit);
             foreach ($users as $user) {
                 $profile = $user->profile;
-                $all[]= $this->refactorProfile($profile);
-            }
-        }
-        elseif ($data === 'profiles') {
-            $profiles = Profile::all();
-            foreach ($profiles as $profile) {
-                $all[]= $this->refactorProfile($profile);
+                $all['data']= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'projects') {
@@ -68,32 +67,16 @@ trait Get
                 $projects  = $profile->intern->projects;
             }
              if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
-                $projects = Project::all();
+                $projects =Project::paginate($limit);
             }
             foreach ($projects??[] as $project) {
-                $all[]= $this->refactoProject($project);
+                $all['data']= $this->refactoProject($project);
             }
-        }
-        elseif ($data === 'tasks') {
-            if (Auth::user()->hasRole('supervisor')){
-                $sup = $profile->supervisor;
-                $tasks = Task::whereIn('project_id',$sup->projects->pluck('id'))->get();
-            }
-            if (Auth::user()->hasRole('intern')){
-                $intern = $profile->intern;
-                $tasks = Task::whereIn('project_id',$intern->projects->pluck('id'))->get();
-            }
-             if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
-                $tasks = Task::all();
-            }
-            foreach ($tasks as $task) {
-                $all[]= $this->refactorTask($task);
-            }            
         }
         elseif ($data === 'offers') {
-            $offers = Offer::all();
+            $offers = Offer::paginate($limit);
             foreach ($offers as $offer) {
-                $all[]= $this->refactorOffer($offer);
+                $all['data']= $this->refactorOffer($offer);
           }            
         }
         elseif ($data === 'applications') {  
@@ -105,7 +88,7 @@ trait Get
                 $applications = Application::paginate($limit);
             }
             foreach ($applications as $application) {
-                $all[]= $this->refactorApplication($application);
+                $all['data']= $this->refactorApplication($application);
             }            
             
         }
@@ -122,7 +105,7 @@ trait Get
                 $sessions = $profile->sessions;
             }
             foreach ($sessions as $session) {
-                $all[]= $this->refactorSession($session);
+                $all['data']= $this->refactorSession($session);
             }
         }
         elseif($data === 'notifications'){
@@ -134,15 +117,15 @@ trait Get
         }
         elseif($data === 'contacts'){
             (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::paginate($limit) :$contacts = [];
-                $all[]=$contacts ;
+                $all['data']=$contacts ;
         }
         elseif($data==='sectors'){
-            $sectors = Offer::all()->pluck('sector');
-            $all=$sectors;
+            $sectors = Offer::all()->pluck('sector')->values()->toArray();
+            $all= array_values(array_unique($sectors));
         }
         elseif($data==='cities'){
-            $cities = Offer::all()->pluck('city');
-            $all = $cities;
+            $cities = Offer::all()->pluck('city')->values()->toArray();
+            $all= array_values(array_unique($cities));
         }
         if(isset($all) ){
             return response()->json($all);
@@ -242,6 +225,15 @@ trait Get
             }
         }
         return response()->json($accptedUsers??[],200);
+    }
+     public function getElementFiles($element){
+        if ($element){
+            $files = $element->files;
+            foreach($files as $file){
+                $Allfiles[] = ['url' =>$file->url,'type'=>$file->type];
+            }
+        }
+        return $Allfiles??[];
     }
     Public function getAllStats(){
         $profile = Auth::user();
