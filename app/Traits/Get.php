@@ -22,7 +22,7 @@ trait Get
 {
     public function GetAll($data,$limit){
         $profile = Auth::user();
-        $all = ['data'=>[],'total'=>0,'totalPages'=>0];
+        $all = ['data'=>[]];
         $count = 0;
         if(Schema::hasTable($data)){
             $count = DB::table($data)->count();
@@ -128,11 +128,11 @@ trait Get
         }
         elseif($data==='sectors'){
             $sectors = Offer::all()->pluck('sector')->values()->toArray();
-            $all= array_values(array_unique($sectors));
+            return array_values(array_unique($sectors));
         }
         elseif($data==='cities'){
             $cities = Offer::all()->pluck('city')->values()->toArray();
-            $all= array_values(array_unique($cities));
+            return array_values(array_unique($cities));
         }
         if(!isset($all) ){
             return response()->json($all);
@@ -284,7 +284,6 @@ trait Get
                 ];
                 
             })->values();
-            dd($latestOffers);
             $offers = compact('totalOffers','latestOffers');
         
             $allTasks = Task::all();
