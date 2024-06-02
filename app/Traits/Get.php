@@ -118,8 +118,9 @@ trait Get
             $notifications = $profile->notifications;
             $count =count($notifications);
              foreach ($notifications as $notification) {
-                $all['data'][]= $this->refactorNotification($notification);
+                $allNotifications[]= $this->refactorNotification($notification);
             }
+            return $allNotifications;
         }
         elseif($data === 'contacts'){
             $count = Demand::all()->count();
@@ -254,7 +255,7 @@ trait Get
             foreach($allTasks as $task){
                 $tasks[]= ['created_at'=>$task->created_at,'updated_at'=>$task->updated_at,'status'=>$task->status,'dueDate'=>$task->dueDate] ;
              }
-            return $tasks;
+            return $tasks??[];
         }
         if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) {
 

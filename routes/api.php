@@ -30,6 +30,7 @@ Route::group([
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
     Route::get('/stats', [GeneralController::class,'getStats']);
+    Route::get('/offer', [OfferController::class,'GetByIndex']);
     
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);

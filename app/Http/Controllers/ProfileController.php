@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use App\Traits\Delete;
+use App\Traits\Get;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Traits\Refactor;
 use App\Traits\Store;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    use Refactor, Store, Delete, Update;
+    use Refactor, Store, Delete, Update,Get;
     public function __construct(){
         $this->middleware('role:admin|super-admin')->only('store');
     }

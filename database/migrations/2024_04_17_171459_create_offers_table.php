@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->index(['title', 'sector']);
             $table->string('sector');
             $table->string('experience');
             $table->string('skills')->nullable();
