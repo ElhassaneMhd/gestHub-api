@@ -19,3 +19,4 @@ php artisan optimize
 
 mkdir storage/framework/{cache/data,views}
 mkdir public/attestation
+chmod -R 777 storage bootstrap/cache public/attestation
