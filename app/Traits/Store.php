@@ -199,7 +199,7 @@ trait Store
         'experience' => 'required|in:Expert,Intermediate,Beginner',
         'skills' => 'nullable',
         'duration' => 'numeric|min:1|max:24',
-        'company' => 'required|string',
+        'direction' => 'required|string',
         'visibility'=>'required|in:Visible,Hidden',
         'status'=>'required|in:Normal,Urgent',
         'city'=>'required|string',
@@ -213,7 +213,7 @@ trait Store
         $offer->experience = $validatedData['experience'];
         $offer->skills = $validatedData['skills'];
         $offer->duration = $validatedData['duration'];
-        $offer->company = $validatedData['company'];
+        $offer->direction = $validatedData['direction'];
         $offer->visibility = $validatedData['visibility'];
         $offer->status = $validatedData['status'];
         $offer->city = $validatedData['city'];
@@ -369,7 +369,7 @@ trait Store
     }
     public function storeSession($id,$token,$location,$ip){
         $agent = new Agent();
-        $ip = request()->userAgent()??'Unkown' ;
+        ($ip === 'Unknown') && $ip = request()->userAgent();
         $browsers = ['Chrome', 'YaBrowser', 'Brave', 'Safari', 'Edge','Firefox','Opera','DuckDuck'];
         foreach($browsers as $browser){
             if(!$agent->isPhone()&& str_contains(str_replace('"','',$_SERVER['HTTP_SEC_CH_UA']??'' ),$browser)){
@@ -387,10 +387,10 @@ trait Store
         $session->profile_id=$id;
         $session->token = $token;
         $session->status = 'Online';
-        $session->ip = $ip;
+        $session->ip = $ip??'Unknown';
         $session->browser = $browserAgent;
         $session->device =  $device??"unknown";
-        $session->location = $location??"unknown";
+        $session->location = $location??'Unknown';
         $session->save();
     }
     public function storeActivite($data){

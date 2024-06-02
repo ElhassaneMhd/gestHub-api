@@ -289,10 +289,10 @@ trait Get
             $totalTasks = getLengthElement('tasks');
             $toDoTasks = Task::where('status', 'To Do')->count(); 
             $inProgressTasks = Task::where('status', 'In Progress')->count(); 
-            $doneTasks = Task::where('status', 'Done')->count(); 
+            $completedTasks = Task::where('status', 'Done')->count(); 
             $overdueTasks = Task::where('dueDate','<', Carbon::now())->count();
             $tasks = reafctorDashboardTasks($allTasks);
-            $tasks = compact('tasks','totalTasks','toDoTasks','inProgressTasks','doneTasks','overdueTasks');
+            $tasks = compact('tasks','totalTasks','toDoTasks','inProgressTasks','completedTasks','overdueTasks');
 
             $totalProjects = getLengthElement('projects');
             $completedProjects = Project::where('status', 'Completed')->count();
@@ -305,26 +305,44 @@ trait Get
         }
         if(Auth::user()->hasRole('intern')) {
             $allTasks = Auth::user()->intern->tasks;
-            $totalTasks = Auth::user()->intern->tasks->count();
+            $totalTasks = Auth::user()->intern->tasks()->count();
+            $toDoTasks = Task::where('intern_id', $profile->intern->id)->where('status', 'To Do')->count();
             $completedTasks = Task::where('intern_id', $profile->intern->id)->where('status', 'Done')->count();
+            $inProgressTasks = Task::where('intern_id', $profile->intern->id)->where('status', 'In Progress')->count();
             $overdueTasks = Task::where('intern_id', $profile->intern->id)->where('dueDate','<', Carbon::now())->count();
             $totalProjects = Auth::user()->intern->projects->count();
             $tasks = reafctorDashboardTasks($allTasks);
-            $tasks = compact('totalTasks',"completedTasks",'overdueTasks','tasks');
-            return compact('totalProjects','tasks');
+            $tasks = compact('totalTasks','toDoTasks','inProgressTasks',"completedTasks",'overdueTasks','tasks');
+            $projects = compact('totalProjects');
+            return compact('projects','tasks');
         }
         if (Auth::user()->hasRole('supervisor')) {
-            $totalProjects = Auth::user()->supervisor->projects->count();
+            $totalProjects = Auth::user()->supervisor->projects()->count();
             $allProjects = Auth::user()->supervisor->projects;
             $completedProjects = Project::where('supervisor_id', $profile->supervisor->id)->where('status', 'Completed')->count();
             $overdueProjects = Project::where('supervisor_id', $profile->supervisor->id)->where('endDate','<', Carbon::now())->count();
             $notStartedProjects = Project::where('supervisor_id', $profile->supervisor->id)->where('status', 'Not Started')->count();
+            $inProgressProjects = Project::where('status', 'In Progress')->count();
 
             $tasks = [];
+            $toDoTasks = 0;
+            $overdueTasks = 0;
+            $inProgressTasks = 0;
+            $completedTasks = 0;
             foreach($allProjects as $project){
               $tasks=  array_merge($tasks, reafctorDashboardTasks($project->tasks));
             }
-            return compact('totalProjects','completedProjects','notStartedProjects','overdueProjects','tasks');
+            $totalTasks = count($tasks);
+            foreach($tasks as $task){
+                ($task['status'] === 'To Do') && $toDoTasks +=1; 
+                ($task['status'] === 'Done') && $completedTasks +=1; 
+                ($task['status'] === 'In Progress') && $inProgressTasks +=1; 
+                ($task['dueDate'] < Carbon::now() ) && $overdueTasks +=1; 
+            }
+            $tasks = compact('totalTasks','toDoTasks','inProgressTasks','completedTasks','overdueTasks','tasks');
+            $projects = compact('totalProjects','completedProjects','notStartedProjects','inProgressProjects','overdueProjects');
+
+            return compact('projects','tasks');
         } 
     }
     

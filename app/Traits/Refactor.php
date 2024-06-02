@@ -75,11 +75,6 @@ trait Refactor
             foreach($projectsData as $project){
                 $projects[]=["id" => $project->id,"status"=>$project->status];
             }
-            $tasksData = $intern->tasks;
-            $tasks = [];
-            foreach($tasksData as $task){
-                $tasks[]=$this->refactorTask($task);
-            }
             $refactored = [
                 "id"=>$intern->id,
                 "profile_id"=>$profile->id,
@@ -96,8 +91,7 @@ trait Refactor
                 "startDate" => $intern->startDate,
                 "specialty" => $intern->specialty,
                 "endDate" => $intern->endDate,
-                "files"=>$files??[],
-                "tasks"=>$tasks,
+                "files"=>$files??[]
             ];
             return $refactored;
         }

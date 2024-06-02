@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /vendor
+/public/cv
+/public/avatar
+/public/attestation
+/public/applicationStage
 .env
 .phpunit.result.cache
 Homestead.json

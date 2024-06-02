@@ -21,5 +21,6 @@
 -   [x] filter specialty from accepted applications
 -   [] attestation must contain project subject
 -   [] implement chat
--   [] api/stats dashboard api
--   [] api/sectors cities 
+-   [x] api/stats dashboard api
+-   [x] api/sectors cities 
+-   [x]ip adresse
