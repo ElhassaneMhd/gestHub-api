@@ -22,7 +22,8 @@ trait Get
 {
     public function GetAll($data,$limit){
         $profile = Auth::user();
-        $all = [];
+        $all = ['data'=>[],'total'=>0,'totalPages'=>0];
+        $count = 0;
         if(Schema::hasTable($data)){
             $count = DB::table($data)->count();
             $pages = ceil($count / $limit);
@@ -34,7 +35,7 @@ trait Get
             foreach ($admins as $admin) {
                 $profile = $admin->profile;
                 if ($profile->getRoleNames()[0]!=='super-admin' ){
-                    $all['data']= $this->refactorProfile($profile);
+                    $all['data'][]= $this->refactorProfile($profile);
                 }
             }
         }
@@ -42,53 +43,56 @@ trait Get
             $supervisors = Supervisor::paginate($limit);
             foreach ($supervisors as $supervisor) {
                 $profile = $supervisor->profile;
-                $all['data']= $this->refactorProfile($profile);
+                $all['data'][]= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'interns') {
             $interns = Intern::paginate($limit);
             foreach ($interns as $intern) {
                 $profile = $intern->profile;
-                $all['data']= $this->refactorProfile($profile);
+                $all['data'][]= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'users') {
             $users = User::paginate($limit);
             foreach ($users as $user) {
                 $profile = $user->profile;
-                $all['data']= $this->refactorProfile($profile);
+                $all['data'][]= $this->refactorProfile($profile);
             }
         }
         elseif ($data === 'projects') {
             if (Auth::user()->hasRole('supervisor')){
                 $projects  = $profile->supervisor->projects;
+                $count =count($projects);
             }
             if (Auth::user()->hasRole('intern')) {
                 $projects  = $profile->intern->projects;
+                $count =count($projects);
             }
              if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
                 $projects =Project::paginate($limit);
             }
             foreach ($projects??[] as $project) {
-                $all['data']= $this->refactoProject($project);
+                $all['data'][]= $this->refactoProject($project);
             }
         }
         elseif ($data === 'offers') {
             $offers = Offer::paginate($limit);
             foreach ($offers as $offer) {
-                $all['data']= $this->refactorOffer($offer);
+                $all['data'][]= $this->refactorOffer($offer);
           }            
         }
         elseif ($data === 'applications') {  
             if (Auth::user()->hasRole('user')){
                 $user = $profile->user;
                 $applications = $user->applications;
+                $count =count($applications);
             }
              if (Auth::user()->hasRole('admin')||Auth::user()->hasRole('super-admin')) {
                 $applications = Application::paginate($limit);
             }
             foreach ($applications as $application) {
-                $all['data']= $this->refactorApplication($application);
+                $all['data'][]= $this->refactorApplication($application);
             }            
             
         }
@@ -103,21 +107,24 @@ trait Get
                 $sessions = Session::paginate($limit);
             }else{
                 $sessions = $profile->sessions;
+                $count =count($sessions);
             }
             foreach ($sessions as $session) {
-                $all['data']= $this->refactorSession($session);
+                $all['data'][]= $this->refactorSession($session);
             }
         }
         elseif($data === 'notifications'){
             $profile = auth()->user();
             $notifications = $profile->notifications;
+            $count =count($notifications);
              foreach ($notifications as $notification) {
-                $all[]= $this->refactorNotification($notification);
+                $all['data'][]= $this->refactorNotification($notification);
             }
         }
         elseif($data === 'contacts'){
+            $count = Demand::all()->count();
             (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::paginate($limit) :$contacts = [];
-                $all['data']=$contacts ;
+                $all['data'][]=$contacts ;
         }
         elseif($data==='sectors'){
             $sectors = Offer::all()->pluck('sector')->values()->toArray();
@@ -127,10 +134,13 @@ trait Get
             $cities = Offer::all()->pluck('city')->values()->toArray();
             $all= array_values(array_unique($cities));
         }
-        if(isset($all) ){
+        if(!isset($all) ){
             return response()->json($all);
         }
         else{
+            $pages = ceil($count / $limit);
+            $all['total'] = $count;
+            $all['totalPages'] = $pages;
             return response()->json($all, 200);
         }
     }
@@ -261,20 +271,20 @@ trait Get
 
             $totalOffers = getLengthElement('offers');
 
-            $latestOffers = Offer::withCount('applications')->get()->sortBy('applications_count')->take(7)->map(function ($offer) {
+            $latestOffers = Offer::withCount('applications')->get()->sortBy('applications_count',SORT_REGULAR,true)->take(7)->map(function ($offer) {
                 $approved = 0;
                 $rejected = 0;
                 foreach ($offer->applications as $application) {
                     $application->status==='Approved' && $approved += 1;
                     $application->status==='Rejected' && $rejected += 1;
                 }
-                if($offer->applications_count>0){
-                    return [
-                        'name' => $offer->title,
-                        'applications' => compact('approved','rejected')         
-                    ];
-                }
+                return [
+                    'name' => $offer->title,
+                    'applications' => compact('approved','rejected')         
+                ];
+                
             })->values();
+            dd($latestOffers);
             $offers = compact('totalOffers','latestOffers');
         
             $allTasks = Task::all();
