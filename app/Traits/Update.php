@@ -162,7 +162,7 @@ trait Update
                 'experience'=> $request['experience'] ?? null,
                 'skills'=>  $request['skills'] ?? null,
                 'duration'=>  $request['duration'] ?? null,
-                'direction'=>  $request['direction'] ?? null,
+                'company'=>  $request['company'] ?? null,
                 'visibility'=>  $request['visibility'] ?? null,
                 'status'=> $request['status'] ?? null,
                 'city'=>  $request['city'] ?? null,

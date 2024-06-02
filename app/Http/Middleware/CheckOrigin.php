@@ -20,10 +20,13 @@ class CheckOrigin
         if (env('APP_ENV')==='devloppement'){
             return $next($request);     
         }
-        if (!$acceptPath || !$origin===$allowedOrigins) {
-            return response()->json(['message'=>'Unauthorized to perform this action' ], 401);
+        if($origin){
+            if (!$acceptPath || !$origin===$allowedOrigins) {
+                return response()->json(['message'=>'Unauthorized to perform this action' ], 401);
+            }
+            return $next($request);     
         }
-        
+       
         return $next($request);
     }
 }

@@ -29,6 +29,9 @@ class GeneralController extends Controller
     public function show($data,$id){
         return $this->GetByDataId($data,$id);
     } 
+    public function getStats(){
+        return $this->getAllStats();
+    }
     public function setAppSettings(Request $request){  
         return response()->json($this->storAppSettings($request));
     }

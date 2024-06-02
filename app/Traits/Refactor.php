@@ -171,7 +171,7 @@ trait Refactor
             "sector"=> $offer->sector,
             'experience'=>$offer->experience,
             'skills'=>$offer->skills,
-            'direction'=>$offer->direction,
+            'company'=>$offer->company,
             'duration'=>$offer->duration,
             'type'=>$offer->type,
             'visibility'=>$offer->visibility,

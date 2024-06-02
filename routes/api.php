@@ -18,7 +18,7 @@ Route::get('/session', [AuthController::class, 'session']);
 Route::get('/offers/visible', [OfferController::class,'index']);
 Route::get('/settings', [GeneralController::class,'getSettings']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
-Route::apiResource('/contact', DemandController::class);
+Route::apiResource('/contacts', DemandController::class);
 
 // protected Routes
 Route::group([
@@ -29,6 +29,7 @@ Route::group([
     Route::POST('/sessions/{id}/abort', [AuthController::class, 'abortSession']);
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
+    Route::get('/stats', [GeneralController::class,'getStats']);
     
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);

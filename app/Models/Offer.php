@@ -14,7 +14,7 @@ class Offer extends Model
         'sector',
         'experience',
         'skills',
-        'direction',
+        'company',
         'duration',
         'type',
         'visibility',

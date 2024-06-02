@@ -14,7 +14,10 @@ use App\Models\Setting;
 use App\Models\Supervisor;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use League\Flysystem\UrlGeneration\PublicUrlGenerator;
 trait Get
 {
     use Refactor;
@@ -131,9 +134,15 @@ trait Get
         }
         elseif($data === 'contacts'){
             (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::paginate($limit) :$contacts = [];
-            foreach ($contacts as $session) {
-                $all[]= $this->refactorSession($session);
-            }
+                $all[]=$contacts ;
+        }
+        elseif($data==='sectors'){
+            $sectors = Offer::all()->pluck('sector');
+            $all=$sectors;
+        }
+        elseif($data==='cities'){
+            $cities = Offer::all()->pluck('city');
+            $all = $cities;
         }
         if(isset($all) ){
             return response()->json($all);
@@ -234,4 +243,89 @@ trait Get
         }
         return response()->json($accptedUsers??[],200);
     }
+    Public function getAllStats(){
+        $profile = Auth::user();
+        function getLengthElement($element){
+            return DB::table($element)->count();
+        }
+        function reafctorDashboardTasks($allTasks){
+            foreach($allTasks as $task){
+                $tasks[]= ['created_at'=>$task->created_at,'updated_at'=>$task->updated_at,'status'=>$task->status,'dueDate'=>$task->dueDate] ;
+             }
+            return $tasks;
+        }
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) {
+
+            $admins = getLengthElement('admins');
+            $interns = getLengthElement('interns');
+            $supervisors = getLengthElement('supervisors');
+            $personnel = compact('admins','interns','supervisors');
+
+            $totalApplications = getLengthElement('applications');
+            $pendingApplications = Application::where('status','Pending')->count();
+            $approvedApplications = Application::where('status','Approved')->count();
+            $rejectedApplications = Application::where('status','Rejected')->count();
+            $applications = compact('totalApplications','pendingApplications','approvedApplications','rejectedApplications');
+
+            $totalOffers = getLengthElement('offers');
+
+            $latestOffers = Offer::withCount('applications')->get()->sortBy('applications_count')->take(7)->map(function ($offer) {
+                $approved = 0;
+                $rejected = 0;
+                foreach ($offer->applications as $application) {
+                    $application->status==='Approved' && $approved += 1;
+                    $application->status==='Rejected' && $rejected += 1;
+                }
+                if($offer->applications_count>0){
+                    return [
+                        'name' => $offer->title,
+                        'applications' => compact('approved','rejected')         
+                    ];
+                }
+            })->values();
+            $offers = compact('totalOffers','latestOffers');
+        
+            $allTasks = Task::all();
+            $totalTasks = getLengthElement('tasks');
+            $toDoTasks = Task::where('status', 'To Do')->count(); 
+            $inProgressTasks = Task::where('status', 'In Progress')->count(); 
+            $doneTasks = Task::where('status', 'Done')->count(); 
+            $overdueTasks = Task::where('dueDate','<', Carbon::now())->count();
+            $tasks = reafctorDashboardTasks($allTasks);
+            $tasks = compact('tasks','totalTasks','toDoTasks','inProgressTasks','doneTasks','overdueTasks');
+
+            $totalProjects = getLengthElement('projects');
+            $completedProjects = Project::where('status', 'Completed')->count();
+            $inProgressProjects = Project::where('status', 'In Progress')->count();
+            $notStartedProjects = Project::where('status', 'Not Started')->count();
+            $overdueProjects = Project::where('endDate','<' ,Carbon::now())->count();
+            $projects = compact('totalProjects','completedProjects','notStartedProjects','inProgressProjects','overdueProjects');
+      
+            return compact('personnel','projects','offers','applications','tasks');
+        }
+        if(Auth::user()->hasRole('intern')) {
+            $allTasks = Auth::user()->intern->tasks;
+            $totalTasks = Auth::user()->intern->tasks->count();
+            $completedTasks = Task::where('intern_id', $profile->intern->id)->where('status', 'Done')->count();
+            $overdueTasks = Task::where('intern_id', $profile->intern->id)->where('dueDate','<', Carbon::now())->count();
+            $totalProjects = Auth::user()->intern->projects->count();
+            $tasks = reafctorDashboardTasks($allTasks);
+            $tasks = compact('totalTasks',"completedTasks",'overdueTasks','tasks');
+            return compact('totalProjects','tasks');
+        }
+        if (Auth::user()->hasRole('supervisor')) {
+            $totalProjects = Auth::user()->supervisor->projects->count();
+            $allProjects = Auth::user()->supervisor->projects;
+            $completedProjects = Project::where('supervisor_id', $profile->supervisor->id)->where('status', 'Completed')->count();
+            $overdueProjects = Project::where('supervisor_id', $profile->supervisor->id)->where('endDate','<', Carbon::now())->count();
+            $notStartedProjects = Project::where('supervisor_id', $profile->supervisor->id)->where('status', 'Not Started')->count();
+
+            $tasks = [];
+            foreach($allProjects as $project){
+              $tasks=  array_merge($tasks, reafctorDashboardTasks($project->tasks));
+            }
+            return compact('totalProjects','completedProjects','notStartedProjects','overdueProjects','tasks');
+        } 
+    }
+    
 }
