@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use App\Traits\Delete;
+use App\Traits\Get;
 use App\Traits\Refactor;
 use App\Traits\Store;
 use App\Traits\Update;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class taskController extends Controller
 {
-    use Store, Refactor,Update,Delete;
+    use Store, Refactor,Update,Delete,Get;
     public function __construct(){
         $this->middleware('role:super-admin|admin|supervisor|intern');
     }

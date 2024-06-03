@@ -21,4 +21,10 @@ class Session extends Model
     public function activities(){
         return $this->hasMany(Activitie::class);
     }
+    protected static function boot(){
+        parent::boot();
+            static::deleting(function ($session) {
+                $session->activities()->delete();          
+            });
+    }
 }

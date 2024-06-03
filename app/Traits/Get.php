@@ -120,7 +120,7 @@ trait Get
              foreach ($notifications as $notification) {
                 $allNotifications[]= $this->refactorNotification($notification);
             }
-            return $allNotifications;
+            return $allNotifications??[];
         }
         elseif($data === 'contacts'){
             $count = Demand::all()->count();

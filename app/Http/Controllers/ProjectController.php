@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Traits\Delete;
+use App\Traits\Get;
 use App\Traits\Refactor;
 use App\Traits\Store;
 use App\Traits\Update;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    use Refactor,Store,Update,Delete;
+    use Refactor,Store,Update,Delete,Get;
       public function __construct(){
         $this->middleware('role:admin|super-admin|supervisor');
     }

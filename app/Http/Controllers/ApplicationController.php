@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\Get;
 use App\Traits\Refactor;
 use App\Models\Application;
 use App\Traits\Store;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
-    use Refactor, Store,Update;
+    use Refactor, Store,Update,Get;
     public function __construct(){
         $this->middleware('role:user|super-admin')->only(['store','markAsRead','update']);
         $this->middleware('role:admin|super-admin')->only(['accepteApplication','destroy']);

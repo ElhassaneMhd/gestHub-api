@@ -313,7 +313,7 @@ trait Store
                 $fileType => 'file|mimes:doc,DOC,DOCX,docx,PDF,pdf|max:5120',
             ]);
         }
-        if ($element->files->count()>0){
+        if ($element->files()->count()>0){
             $this->deletOldFiles($element, $fileType);
         }
          $element->files()->create(
