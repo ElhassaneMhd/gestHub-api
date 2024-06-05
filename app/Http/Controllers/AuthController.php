@@ -49,7 +49,13 @@ class AuthController extends Controller
     }
      public function register(Request $request){
         $profile = $this->storeUser($request);
-        return response()->json($this->refactorProfile($profile));
+        $token = $profile->createToken('auth_token')->plainTextToken;
+        $ip=$request->headers->get('Accept-For');
+        $from=$request->headers->get('Accept-From');
+        $this->storeSession($profile->id,$token,$from,$ip);
+        $cookie = cookie('token', $token, 60 ); // 1 day
+
+        return response()->json($this->refactorProfile($profile))->withCookie($cookie);;
     }
 // logout 
     public function logout(Request $request) {

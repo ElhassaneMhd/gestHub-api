@@ -17,6 +17,8 @@ Route::POST('/login', [AuthController::class, 'login']);
 Route::get('/session', [AuthController::class, 'session']);
 Route::get('/offers/visible', [OfferController::class,'index']);
 Route::get('/settings', [GeneralController::class,'getSettings']);
+Route::get('/cities', [GeneralController::class,'cities']);
+Route::get('/sectors', [GeneralController::class,'sectors']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
 Route::apiResource('/contacts', DemandController::class);
 

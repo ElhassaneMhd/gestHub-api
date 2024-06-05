@@ -6,6 +6,7 @@ use App\Models\Application;
 use App\Models\Demand;
 use App\Models\Intern;
 use App\Models\Notification;
+use App\Models\Offer;
 use App\Models\Profile;
 use App\Models\Session;
 use App\Models\Setting;
@@ -23,8 +24,7 @@ class GeneralController extends Controller
         $this->middleware('role:admin|super-admin')->only(['setAppSettings','getAcceptedUsers','storeNewIntern','multipleActions']);
     }
     public function index(Request $request,$data){
-        $limit = $request->input('limit', 10);
-        return $this->GetAll($data,$limit);
+        return $this->GetAll($data,);
     }
     public function show($data,$id){
         return $this->GetByDataId($data,$id);
@@ -44,6 +44,17 @@ class GeneralController extends Controller
     public function getAcceptedUsers(){  
         return $this->getAllAcceptedUsers();
     }
+    public function cities(){
+            $cities = Offer::all()->pluck('city')->values()->toArray();
+            return array_values(array_unique($cities));
+
+    }
+    
+    public function sectors(){
+        $sectors = Offer::all()->pluck('sector')->values()->toArray();
+        return array_values(array_unique($sectors));
+    }
+    
     public function multipleActions(Request $request,$data,$action){
         $ids = $request['ids']??null;
         if (in_array($data,['supervisors','interns','admins','users'] )&&$action==='delete' ){    

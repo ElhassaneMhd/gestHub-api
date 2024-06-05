@@ -19,7 +19,7 @@ class updatePassword extends Command
         $email = $this->ask('Enter Email:');
 
          $validator = Validator::make(['email' => $email], [
-            'email' => 'required|exists:profiles|email',
+            'email' => 'required|exists:profiles,email',
         ]);
         if ($validator->fails()) {
             $this->error($validator->messages()->first());
