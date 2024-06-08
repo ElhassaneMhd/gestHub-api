@@ -3,7 +3,7 @@
 namespace App\Traits;
 use App\Models\Admin;
 use App\Models\Application;
-use App\Models\Demand;
+use App\Models\Email;
 use App\Models\Intern;
 use App\Models\Notification;
 use App\Models\Offer;
@@ -110,9 +110,9 @@ trait Get
             }
             return $allNotifications??[];
         }
-        elseif($data === 'contacts'){
-            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $contacts = Demand::all() :$contacts = [];
-                $all[]=$contacts ;
+        elseif($data === 'emails'){
+            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $emails = Email::all() :$emails = [];
+                $all[]=$emails ;
         }
         if(!isset($all) ){
             return response()->json($all);
@@ -191,9 +191,10 @@ trait Get
             if ($notification){
                 $results = $this->refactorNotification($notification);
             }
-        } elseif($data === 'contacts'){
-            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) && $contact = Demand::Find($id) ;
-            $results = $contact??null;
+        } 
+        elseif($data === 'emails'){
+            (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) && $email = Email::Find($id) ;
+            $results = $email??null;
         }    
         else{
             return response()->json(['message' => 'Looking for undefined api'], 404);

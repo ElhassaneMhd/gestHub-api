@@ -17,7 +17,7 @@ class projectObserser
             $notifData = [
                 'activity'=>'You have been assigned a new project',
                 'object'=>$project->subject,
-                'action'=>'','newProject',
+                'action'=>'newProject',
                 'receiver'=>$project->supervisor->profile->id
             ];
             $this->storeNotification($notifData);

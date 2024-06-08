@@ -3,7 +3,7 @@
 use App\Http\Controllers\AttestationController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\DemandController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\taskController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +20,8 @@ Route::get('/settings', [GeneralController::class,'getSettings']);
 Route::get('/cities', [GeneralController::class,'cities']);
 Route::get('/sectors', [GeneralController::class,'sectors']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
-Route::apiResource('/contacts', DemandController::class);
+Route::POST('/emails', [EmailController::class,'store']);
+Route::delete('/emails/{id}', [EmailController::class,'destroy']);
 
 // protected Routes
 Route::group([

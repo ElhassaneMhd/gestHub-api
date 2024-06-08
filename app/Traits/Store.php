@@ -153,7 +153,15 @@ trait Store
             $project->intern_id = $validatedProject['intern_id']; 
             $project->save();
         foreach ($validatedProject['teamMembers'] as $teamMemberId) {
+            $id = Intern::find($teamMemberId)->profile->id;
+             $notifData = [
+                'activity'=>'You have been assigned a new project',
+                'object'=>$project->subject,
+                'action'=>'newProject',
+                'receiver'=>$id
+            ];
             $project->interns()->attach($teamMemberId);
+            $this->storeNotification($notifData);
         }
         foreach ($request->tasks  as $taskData) {
             $task = new Task;

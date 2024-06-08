@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
-use App\Models\Demand;
+use App\Models\Email;
 use App\Models\Intern;
 use App\Models\Notification;
 use App\Models\Offer;
@@ -21,7 +21,7 @@ class GeneralController extends Controller
 {
     use Get,Store,Delete;
     public function __construct(){
-        $this->middleware('role:admin|super-admin')->only(['setAppSettings','getAcceptedUsers','storeNewIntern','multipleActions']);
+        $this->middleware('role:admin|super-admin')->only(['setAppSettings','getAcceptedUsers','storeNewIntern']);
     }
     public function index(Request $request,$data){
         return $this->GetAll($data,);
@@ -94,6 +94,19 @@ class GeneralController extends Controller
             }
             DB::commit();
             return response()->json(['message' => count($ids).'applications deleted succefully' ], 200);
+        }
+        if ($data == "emails" && $action== 'delete') {
+            DB::beginTransaction();
+            foreach ($ids as $id) {
+                $email = Email::find($id);
+                if (!$email) {
+                    DB::rollBack();
+                    return response()->json(['message' => 'cannot delete undefined email!'], 404);
+                }
+                $email->delete();
+            }
+            DB::commit();
+            return response()->json(['message' => count($ids).'emails deleted succefully' ], 200);
         }
         if ($data == "sessions" && in_array($action,['delete','abort'])) {
             DB::beginTransaction();
