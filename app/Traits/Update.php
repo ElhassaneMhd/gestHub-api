@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 use App\Models\Project;
-use App\Models\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
@@ -103,6 +102,19 @@ trait Update
             'teamMembers.*' => 'exists:interns,id',
         ]);
         $project->update($validatedProject);
+        foreach($data['teamMembers'] as $teamMember){
+            if(!in_array($teamMember,$project->interns()->pluck('intern_id')->toArray()) ){
+            $notifData = [
+                'activity'=>'You have been assigned a new project',
+                'object'=>$project->subject,
+                'action'=>'newProject',
+                'receiver'=>$teamMember
+            ];
+            $this->storeNotification($notifData);
+
+            };
+
+        }
         if ($data->has('teamMembers')){
             foreach($tasks as $task){
                 if(!in_array($task->intern_id ,$data['teamMembers'])){
@@ -116,7 +128,6 @@ trait Update
         return $project;
     }
     public function updateTask($request,$task){
-        $profile = $task->intern->profile;
         $validatedData = $request->validate([
         'title' => 'nullable|max:255',
         'description' => 'nullable|string',
@@ -126,15 +137,7 @@ trait Update
         'intern_id' => 'nullable|exists:interns,id',
         'project_id' => 'exists:projects,id',
     ]);
-        if ($validatedData['status'] === 'Done') {
-            $notifData = [
-                'activity'=>'Your task has been completed succesfully',
-                'object'=>$task->title,
-                'action'=>'completedTask',
-                'receiver'=>$profile->id
-            ];
-            $this->storeNotification($notifData);
-        }
+       
         $task->update($validatedData);
         $this->updateProjectStatus($task->project_id);
         return $task;
@@ -146,6 +149,25 @@ trait Update
         $doneCount = $project->tasks()->where('status', 'Done')->count();
         if ($doneCount > 0 && $todoCount == 0 && $progressCount == 0) {
             $project->status = "Completed";
+               $teamMembers = $project->interns;
+            $supervisor = $project->supervisor;
+            foreach($teamMembers as $teamMember){
+                $notifData = [
+                    'activity'=>'One of your assigned projects is completed',
+                    'object'=>$project->subject,
+                    'action'=>'completedProject',
+                    'receiver'=>$teamMember->profile->id
+                ];
+                $this->storeNotification($notifData);
+            }
+            $notifData = [
+                    'activity'=>'One of your assigned projects is completed',
+                    'object'=>$project->subject,
+                    'action'=>'completedProject',
+                    'receiver'=>$supervisor->profile->id
+                ];
+            $this->storeNotification($notifData);
+                
         } elseif ($progressCount > 0 || $doneCount > 0) {
             $project->status = "In Progress";
         } else {

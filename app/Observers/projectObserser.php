@@ -26,25 +26,8 @@ class projectObserser
 
     public function updated(Project $project): void
     {
-        $teamMembers = $project->interns;
-        $supervisor = $project->supervisor;
         $data = ['action' => 'Update', 'model' => 'Project', 'activity'=>'Updated project : ','object'=>$project->subject ];
-            foreach($teamMembers as $teamMember){
-                $notifData = [
-                    'activity'=>'One of your assigned projects is completed',
-                    'object'=>$project->subject,
-                    'action'=>'completedProject',
-                    'receiver'=>$teamMember->profile->id
-                ];
-                $this->storeNotification($notifData);
-            }
-             $notifData = [
-                    'activity'=>'One of your assigned projects is completed',
-                    'object'=>$project->subject,
-                    'action'=>'completedProject',
-                    'receiver'=>$supervisor->profile->id
-                ];
-                $this->storeNotification($notifData);
+            
         $this->storeActivite($data);
     }
 

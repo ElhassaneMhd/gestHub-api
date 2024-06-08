@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Email;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EmailController extends Controller
 {
@@ -25,6 +26,13 @@ class EmailController extends Controller
         $email->subject = $request->subject;
         $email->message = $request->message;
         $email->save();
+    }
+    public function response(Request $request){
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        Mail::to($request->email)->send(new \App\Mail\Mail());
     }
     public function destroy($id){
         $email = Email::find($id);

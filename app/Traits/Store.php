@@ -312,6 +312,11 @@ trait Store
           $files = $request->file($fileType);
           $name =$files->getClientOriginalName();
           $unique = uniqid();
+          if($fileType==='appLogo'){
+            $uniqueName = 'appLogo.png';
+        }else{
+              $uniqueName = $unique.$name;
+          }
         if (in_array($fileType ,['avatar',"appLogo"]) ) {
             $request->validate([
                 $fileType => 'file|mimes:jpg,JPG,jpeg,JPEG,PNG,png,svg,SVG|max:5120',
@@ -325,10 +330,10 @@ trait Store
             $this->deletOldFiles($element, $fileType);
         }
          $element->files()->create(
-                    ['url' =>'/'.$fileType.'/'.$unique.$name,
+                    ['url' =>'/'.$fileType.'/'.$uniqueName,
                         'type' => $fileType]
         );
-        $files->move(public_path('/'.$fileType),$unique.$name);
+        $files->move(public_path('/'.$fileType),$uniqueName);
     }
     public function generateAttestation($id){
           $profile = Intern::find($id)->profile;

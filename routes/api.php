@@ -21,7 +21,6 @@ Route::get('/cities', [GeneralController::class,'cities']);
 Route::get('/sectors', [GeneralController::class,'sectors']);
 Route::get('/offers/{id}', [OfferController::class,'show']);
 Route::POST('/emails', [EmailController::class,'store']);
-Route::delete('/emails/{id}', [EmailController::class,'destroy']);
 
 // protected Routes
 Route::group([
@@ -34,6 +33,8 @@ Route::group([
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
     Route::get('/stats', [GeneralController::class,'getStats']);
     Route::get('/offer', [OfferController::class,'GetByIndex']);
+    Route::post('/response', [EmailController::class,'response']);
+    Route::delete('/emails/{id}', [EmailController::class,'destroy']);
     
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)
     Route::get('/users/accepted', [GeneralController::class, 'getAcceptedUsers']);

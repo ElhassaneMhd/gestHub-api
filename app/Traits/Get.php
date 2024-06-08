@@ -112,7 +112,7 @@ trait Get
         }
         elseif($data === 'emails'){
             (Auth::user()->hasRole('admin') || Auth::user()->hasRole('super-admin')) ? $emails = Email::all() :$emails = [];
-                $all[]=$emails ;
+                $all=$emails ;
         }
         if(!isset($all) ){
             return response()->json($all);

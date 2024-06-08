@@ -3,10 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Application;
-use App\Models\Activitie;
-use App\Models\Session;
 use App\Traits\Store;
-use Illuminate\Support\Facades\Cookie;
 
 class applicationObserser
 {
