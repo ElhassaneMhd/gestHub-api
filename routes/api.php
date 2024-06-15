@@ -32,6 +32,7 @@ Route::group([
     Route::GET('/user', [AuthController::class, 'user']);
     Route::POST('/settings', [GeneralController::class, 'setAppSettings']);
     Route::get('/stats', [GeneralController::class,'getStats']);
+    Route::get('/count', [GeneralController::class,'getCount']);
     Route::get('/offer', [OfferController::class,'GetByIndex']);
     Route::post('/response', [EmailController::class,'response']);
     Route::delete('/emails/{id}', [EmailController::class,'destroy']);
