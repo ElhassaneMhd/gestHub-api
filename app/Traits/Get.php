@@ -22,18 +22,27 @@ use Schema;
 
 trait Get
 {
+    public function filterAdmins()
+    {
+        $admins = Admin::all();
+        $filteredAdmins = [];
+        $count = 0;
+        foreach ($admins as $admin) {
+            $profile = $admin->profile;
+            if ($profile->getRoleNames()[0] !== 'super-admin') {
+                $filteredAdmins[] = $this->refactorProfile($profile);
+                $count += 1;
+            }
+        }
+        return compact('filteredAdmins', 'count');
+    }
     public function GetAll($data)
     {
         $profile = Auth::user();
         $all = [];
         if ($data === 'admins') {
-            $admins = Admin::all();
-            foreach ($admins as $admin) {
-                $profile = $admin->profile;
-                if ($profile->getRoleNames()[0] !== 'super-admin') {
-                    $all[] = $this->refactorProfile($profile);
-                }
-            }
+            $admins = $this->filterAdmins()['filteredAdmins'];
+            $all = $admins;
         } elseif ($data === 'supervisors') {
             $supervisors = Supervisor::all();
             foreach ($supervisors as $supervisor) {
@@ -312,7 +321,7 @@ trait Get
     {
         $profile = Auth::user();
 
-        $admins = Admin::all()->count();
+        $admins = $this->filterAdmins()['count'];
         $interns = Intern::all()->count();
         $supervisors = Supervisor::all()->count();
         $users = User::all()->count();
