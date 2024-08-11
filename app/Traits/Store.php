@@ -313,7 +313,7 @@ trait Store
           $name =$files->getClientOriginalName();
           $unique = uniqid();
           if($fileType==='appLogo'){
-            $uniqueName = 'appLogo.png';
+            $uniqueName = 'logo';
         }else{
               $uniqueName = $unique.$name;
           }

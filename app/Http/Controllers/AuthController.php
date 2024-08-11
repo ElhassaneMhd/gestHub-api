@@ -43,7 +43,7 @@ class AuthController extends Controller
         $ip=$request->headers->get('Accept-For');
         $from=$request->headers->get('Accept-From');
         $this->storeSession($profile->id,$token,$from,$ip);
-        $cookie = cookie('token', $token, 60 ); // 1 day
+        $cookie = cookie('token', $token ,720); // 1 day
         return response()->json(['data'=>$this->refactorProfile($profile),'token'=>$token])->withCookie($cookie);
 
     }
@@ -53,7 +53,7 @@ class AuthController extends Controller
         $ip=$request->headers->get('Accept-For');
         $from=$request->headers->get('Accept-From');
         $this->storeSession($profile->id,$token,$from,$ip);
-        $cookie = cookie('token', $token, 60 ); // 1 day
+        $cookie = cookie('token', $token,720 ); // 1 day
 
         return response()->json($this->refactorProfile($profile))->withCookie($cookie);;
     }

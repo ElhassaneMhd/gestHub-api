@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use App\Models\Intern;
 use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -102,13 +103,14 @@ trait Update
             'teamMembers.*' => 'exists:interns,id',
         ]);
         $project->update($validatedProject);
-        foreach($data['teamMembers'] as $teamMember){
-            if(!in_array($teamMember,$project->interns()->pluck('intern_id')->toArray()) ){
+        foreach($data['teamMembers'] as $teamMemberId){
+            if(!in_array($teamMemberId,$project->interns()->pluck('intern_id')->toArray()) ){
+            $id = Intern::find($teamMemberId)->profile->id;
             $notifData = [
                 'activity'=>'You have been assigned a new project',
                 'object'=>$project->subject,
                 'action'=>'newProject',
-                'receiver'=>$teamMember
+                'receiver'=>$id
             ];
             $this->storeNotification($notifData);
 
@@ -137,7 +139,18 @@ trait Update
         'intern_id' => 'nullable|exists:interns,id',
         'project_id' => 'exists:projects,id',
     ]);
-       
+        
+        if(array_key_exists('intern_id', $validatedData)&& $task->intern_id !== $validatedData['intern_id']){
+        $id = Intern::find($validatedData['intern_id'])->profile->id;
+        $notifData = [
+            'activity'=>'You have been assigned a new task',
+             'object'=>$task->project->subject. '/' . $task->title,
+             'action'=>'newTask',
+            'receiver'=>$id
+            ];
+        $this->storeNotification($notifData);
+
+        }
         $task->update($validatedData);
         $this->updateProjectStatus($task->project_id);
         return $task;

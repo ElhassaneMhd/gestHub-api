@@ -2,8 +2,8 @@
 echo "Running composer"
 composer install --no-dev --working-dir=/var/www/html
 
-# echo "generating application key..."
-# php artisan key:generate --show
+echo "generating application key..."
+php artisan key:generate --show
 
 echo "Caching config..."
 php artisan config:cache
@@ -15,7 +15,7 @@ echo "Running migrations..."
 php artisan migrate --force
 
 echo "Optimize"
-php artisan optimize 
+php artisan optimize
 
 mkdir storage/framework/{cache/data,views}
 mkdir public/attestation
