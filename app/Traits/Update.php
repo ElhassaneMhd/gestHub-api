@@ -10,7 +10,7 @@ use Illuminate\Validation\Rules\Password;
 
 trait Update
 {
-    use Refactor;
+    use Refactor,Store;
     public function updateProfile($data,$profile){
         $validatedData = $data->validate([
             'email' => 'email',
@@ -236,7 +236,7 @@ trait Update
                     'subject'=>'Application Approved',
                     'message'=>'Your application has been approved for the offer : '.$application->offer->title
                 ];
-                $this->sendMail($MailData);
+            $this->sendEmail($MailData);
             $this->storeNotification($notifData);
             $this->storeActivite($data);
 
