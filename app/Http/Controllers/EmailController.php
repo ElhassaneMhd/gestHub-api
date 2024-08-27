@@ -37,7 +37,7 @@ class EmailController extends Controller
             'email' => 'required|email',
         ]);
 
-        Mail::to($request->email)->send(new \App\Mail\Mail());
+       // Mail::to($request->email)->send(new \App\Mail\Mail());
     }
     public function destroy($id){
         $email = Email::find($id);

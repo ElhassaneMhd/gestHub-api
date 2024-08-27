@@ -14,8 +14,7 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject;
-    public $message;
+    public $data;
 
     public function __construct($data) {
         $this->data = $data;
