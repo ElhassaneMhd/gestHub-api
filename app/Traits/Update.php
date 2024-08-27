@@ -6,11 +6,10 @@ use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
-use App\Traits\Store;
 
 trait Update
 {
-    use Refactor,Store;
+    use Refactor;
     public function updateProfile($data,$profile){
         $validatedData = $data->validate([
             'email' => 'email',
