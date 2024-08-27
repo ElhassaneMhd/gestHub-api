@@ -353,14 +353,14 @@ trait Store
             'message' => 'Bonjour ' . $intern['firstName'] .' '. $intern['lastName']. ', veuillez trouver ci-joint votre attestation de stage.',
             'pdfPath' =>  $url
         ];
-        $this->sendEmail($data);
         DB::beginTransaction();
-         $profile->files()->create(
+        $profile->files()->create(
             ['url' =>"/".$url,
-                'type' => 'attestation']
+            'type' => 'attestation']
         );
         if($pdf->save(public_path($url))){
             DB::commit();
+            $this->sendEmail($data);
         }else{
             DB::rollBack();
         }
