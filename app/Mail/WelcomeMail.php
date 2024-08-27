@@ -14,12 +14,10 @@ class WelcomeMail extends Mailable
     use Queueable, SerializesModels;
 
     public $message;
-
     public $subject;
 
 
-    public function __construct($message,$subject)
-    {
+    public function __construct($message,$subject) {
         $this->message = $message;
         $this->subject = $subject;
     }
@@ -27,20 +25,14 @@ class WelcomeMail extends Mailable
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
+   public function build()
     {
-        return new Envelope(
-            subject: $this->subject,
-        );
+        return $this->view('mails.welcome')
+                    ->with([
+                        'subject' => $this->subject,
+                        'message' => $this->message,
+                    ]);
     }
-
-    public function content(): Content
-    {
-        return new Content(
-            view: 'mails.welcome',
-        );
-    }
-
     /**
      * Get the attachments for the message.
      *

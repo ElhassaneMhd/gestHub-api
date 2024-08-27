@@ -26,7 +26,8 @@ class EmailController extends Controller
         $email->subject = $request->subject;
         $email->message = $request->message;
         $email->save();
-        $to = 'elmedhassan2002@gmail.com';
+        
+        $to = 'walid.zakan@gmail.com';
         Mail::to($to)->send(new \App\Mail\WelcomeMail($request->message,$request->subject));
 
     }
