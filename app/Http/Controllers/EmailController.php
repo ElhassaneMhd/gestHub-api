@@ -30,7 +30,7 @@ class EmailController extends Controller
         $email->message = $message;
         $email->save();
         $to = 'walid.zakan@gmail.com';
-        Mail::to($to)->send(new \App\Mail\WelcomeMail($message,$subject));
+        Mail::to($to)->send(new \App\Mail\WelcomeMail($subject,$message));
 
     }
     public function response(Request $request){

@@ -13,13 +13,13 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $message;
     public $subject;
+    public $message;
 
 
-    public function __construct($message,$subject) {
-        $this->message = $message;
+    public function __construct($subject,$message) {
         $this->subject = $subject;
+        $this->message = $message;
     }
 
     /**
@@ -29,8 +29,8 @@ class WelcomeMail extends Mailable
     {
         return $this->view('mails.welcome')
                     ->with([
-                        'message' => $this->message,
                         'subject' => $this->subject,
+                        'message' => $this->message,
                     ]);
     }
     /**
