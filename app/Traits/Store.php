@@ -351,7 +351,7 @@ trait Store
             'to' => $intern['email'],
             'subject' => 'Attestation de stage',
             'message' => 'Bonjour ' . $intern['firstName'] .' '. $intern['lastName']. ', veuillez trouver ci-joint votre attestation de stage.',
-            'pdfPath' =>  public_path($url)
+            'pdfPath' =>  $url
         ];
         $this->sendEmail($data);
         DB::beginTransaction();
