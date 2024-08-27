@@ -14,14 +14,12 @@ use Illuminate\Mail\Mailables\Address;
 class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $subject;
-    public $message;
+    public $data;
     public $pdfPath;
-    public function __construct($subject,$message,$pdfPath =null) {
-        $this->subject = $subject;
-        $this->message = $message;
-        $this->pdfPath = $pdfPath;
+    public function __construct($data) {
+        $this->data = $data;
+        $this->subject = $data['subject'];
+        $this->pdfPath = $data['pdfPath']??null;
     }
        public function envelope(): Envelope
     {
@@ -30,6 +28,9 @@ class WelcomeMail extends Mailable
         );
     }
 
+    /**
+     * Get the message content definition.
+     */
     public function content(): Content
     {
         return new Content(
@@ -38,14 +39,13 @@ class WelcomeMail extends Mailable
     }
     public function attachments(): array
     {
-        if ($this->pdfPath) {
-            return [
-                Attachment::fromPath($this->pdfPath)
-                          ->as('welcome.pdf')
-                          ->withMime('application/pdf'),
-            ];
+        if (!file_exists($this->pdfPath)) {
+            return [];
         }
-
-        return [];
+       return [
+            Attachment::fromPath($this->pdfPath)
+                      ->as('welcome.pdf')
+                      ->withMime('application/pdf'),
+        ];
     }
 }

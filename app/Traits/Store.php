@@ -441,9 +441,6 @@ trait Store
 
     public function sendEmail($data){
         $to = $data['to'];
-        $subject = $data['subject'];
-        $message = $data['message'];
-        $path = $data['pdfPath'] ?? null;
-        Mail::to($to)->send(new \App\Mail\WelcomeMail( $subject,$message,$path ));
+        Mail::to($to)->send(new \App\Mail\WelcomeMail( $data ));
     }
 }

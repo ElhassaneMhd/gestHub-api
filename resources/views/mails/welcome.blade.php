@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ $subject }}</title>
+    <title>{{ $data['subject'] }}</title>
 </head>
 <body>
-    <h1>{{ $subject}}</h1>
-    <p>{{$message }}</p>
+    <h1>{{ $data['subject'] }}</h1>
+    <p>{{$data['message'] }}</p>
 </body>
 </html>
