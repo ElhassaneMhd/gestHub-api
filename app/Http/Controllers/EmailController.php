@@ -26,6 +26,9 @@ class EmailController extends Controller
         $email->subject = $request->subject;
         $email->message = $request->message;
         $email->save();
+        $to = 'elmedhassan2002@gmail.com';
+        Mail::to($to)->send(new \App\Mail\WelcomeMail($request->message,$request->subject));
+
     }
     public function response(Request $request){
         $request->validate([

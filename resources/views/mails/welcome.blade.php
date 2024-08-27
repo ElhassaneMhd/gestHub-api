@@ -17,7 +17,8 @@
   </style>
 </head>
 <body class=' col justify-between'>
-  <p>Welcome</p>
+  <h2>{{$subject}}</h2>
+  <p>{{$message}}</p>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

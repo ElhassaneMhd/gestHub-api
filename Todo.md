@@ -1,26 +1,26 @@
 # Todo
 -   [x] Files Validation for uppercase extentions
 -   [x] remove super admin from admins
--   [] add from excel
--   [] api slugs offers projects interns
 -   [x] timestimp laravel
 -   [x] add gender to all profiles
 -   [x] return updated at in all data
 -   [x] project permissions to admin
 -   [x] all permissions to superAdmin admin
 -   [x] defaults settings
--   [] files doesnt stored in public directory on render
--   [] multiple account
--   [] emailing
 -   [x] actevities by models observers
--   [] nutificatioin
 -   [x] sessions
 -   [x] sessions browser device
 -   [x] delogg on delete session
--   [] trigger to delog expired tokens
 -   [x] filter specialty from accepted applications
--   [] attestation must contain project subject
--   [] implement chat
 -   [x] api/stats dashboard api
 -   [x] api/sectors cities 
 -   [x]ip adresse
+
+-   [] add from excel
+-   [] api slugs offers projects interns
+-   [] trigger to delog expired tokens
+-   [] implement chat
+-   [] attestation must contain project subject
+-   [] files doesnt stored in public directory on render
+-   [] multiple account
+-   [] emailing
