@@ -23,7 +23,7 @@ trait Update
                 Password::min(8)->numbers(),
                 'confirmed',
             ]
-        ]); 
+        ]);
         if ($profile->email!==$data['email']){
             $validatedData = $data->validate([
                 'email' => 'email|unique:profiles,email',
@@ -35,9 +35,9 @@ trait Update
                     'string',
                     Password::min(8)->numbers(),
                     'confirmed',
-                ],                
+                ],
             ]);
-        }   
+        }
         DB::beginTransaction();
         $profile->update($validatedData);
         $isCommited = true;
@@ -56,7 +56,7 @@ trait Update
         if ($profile->getRoleNames()[0]=='intern') {
             $intern = $profile->intern;
             $isCommited=$intern->update($otherData);
-        }   
+        }
         if($isCommited){
             DB::commit();
             return response()->json($this->refactorProfile($profile));
@@ -76,16 +76,16 @@ trait Update
                             'required',
                             Password::min(8)->numbers(),
                             'confirmed',
-                        ]   
+                        ]
                     ]);
     if (Hash::check($validatedData['currentPassword'], $profile->password)) {
         if (Hash::check($validatedData['password'], $profile->password)) {
-                return response()->json(['message' => 'Please enter a new password '], 400); 
+                return response()->json(['message' => 'Please enter a new password '], 400);
             }
         $hashedPassword = Hash::make($validatedData['password']);
         $profile->password = $hashedPassword;
         $profile->save();
-        return response()->json(['message' => ' Password updated successfully'], 200); 
+        return response()->json(['message' => ' Password updated successfully'], 200);
     }
     return response()->json(['message' => 'Incorrect current password'], 400);
     }
@@ -122,7 +122,7 @@ trait Update
                 if(!in_array($task->intern_id ,$data['teamMembers'])){
                     $task->intern_id = null;
                     $task->save();
-                }  
+                }
             }
             $project->interns()->detach();
             $project->interns()->attach($data['teamMembers']);
@@ -139,7 +139,7 @@ trait Update
         'intern_id' => 'nullable|exists:interns,id',
         'project_id' => 'exists:projects,id',
     ]);
-        
+
         if(array_key_exists('intern_id', $validatedData)&& $task->intern_id !== $validatedData['intern_id']){
         $id = Intern::find($validatedData['intern_id'])->profile->id;
         $notifData = [
@@ -180,7 +180,7 @@ trait Update
                     'receiver'=>$supervisor->profile->id
                 ];
             $this->storeNotification($notifData);
-                
+
         } elseif ($progressCount > 0 || $doneCount > 0) {
             $project->status = "In Progress";
         } else {
@@ -231,6 +231,12 @@ trait Update
                 'action'=>'acceptedApplication',
                 'receiver'=>$profile->id
                 ];
+                $MailData = [
+                    'to'=>$profile->email,
+                    'subject'=>'Application Approved',
+                    'message'=>'Your application has been approved for the offer : '.$application->offer->title
+                ];
+                $this->sendMail($MailData);
             $this->storeNotification($notifData);
             $this->storeActivite($data);
 

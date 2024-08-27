@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Email;
+use App\Traits\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class EmailController extends Controller
 {
+    use Store;
     public function store(Request $request)
     {
         $countEmail = Email::all()->count();
@@ -29,16 +31,20 @@ class EmailController extends Controller
         $email->subject = $subject;
         $email->message = $message;
         $email->save();
-        $to = 'walid.zakan@gmail.com';
-        Mail::to($to)->send(new \App\Mail\WelcomeMail( ['subject'=>$subject,'message'=>$message] ));
     }
     public function response(Request $request){
         $request->validate([
             'email' => 'required|email',
+            'message' => 'required',
         ]);
-
-       // Mail::to($request->email)->send(new \App\Mail\Mail());
-    }
+        $subject = 'Reponse à votre demande';
+        $data = [
+            'to'=> $request->email,
+            'subject' => $subject,
+            'message' => $request->message,
+        ];
+        $this->sendEmail($data);
+        }
     public function destroy($id){
         $email = Email::find($id);
         if (!$email) {

@@ -19,5 +19,6 @@ class AttestationController extends Controller
     }
     public function generateOneAttestation($id){
       $this->generateAttestation($id);
+
     }
 }

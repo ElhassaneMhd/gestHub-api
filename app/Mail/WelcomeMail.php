@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -14,13 +15,14 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $data;
-
-    public function __construct($data) {
-        $this->data = $data;
-        $this->subject = $data['subject'];
+    public $subject;
+    public $message;
+    public $pdfPath;
+    public function __construct($subject,$message,$pdfPath =null) {
+        $this->subject = $subject;
+        $this->message = $message;
+        $this->pdfPath = $pdfPath;
     }
-
        public function envelope(): Envelope
     {
         return new Envelope(
@@ -28,9 +30,6 @@ class WelcomeMail extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
@@ -39,6 +38,14 @@ class WelcomeMail extends Mailable
     }
     public function attachments(): array
     {
+        if ($this->pdfPath) {
+            return [
+                Attachment::fromPath($this->pdfPath)
+                          ->as('welcome.pdf')
+                          ->withMime('application/pdf'),
+            ];
+        }
+
         return [];
     }
 }

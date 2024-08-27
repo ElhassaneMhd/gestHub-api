@@ -18,6 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules\Password;
 use Jenssegers\Agent\Agent;
 
@@ -105,7 +106,7 @@ trait Store
             'gender' => 'required|in:M,Mme',
             'establishment' => 'required|string'
                     ]);
-         DB::beginTransaction();                  
+         DB::beginTransaction();
             $profile = new Profile;
             $profile->firstName = $validatedData['firstName'];
             $profile->lastName = $validatedData['lastName'];
@@ -115,7 +116,7 @@ trait Store
             $profile->gender = $validatedData['gender'];
             $profile->assignRole('user');
             $profile->save();
-           
+
             $user = new User;
             $user->profile_id = $profile->id;
             $user->academicLevel = $validatedData['academicLevel'];
@@ -150,7 +151,7 @@ trait Store
             $project->status = $validatedProject['status'];
             $project->priority = $validatedProject['priority'];
             $project->supervisor_id = $validatedProject['supervisor_id'];
-            $project->intern_id = $validatedProject['intern_id']; 
+            $project->intern_id = $validatedProject['intern_id'];
             $project->save();
         foreach ($validatedProject['teamMembers'] as $teamMemberId) {
             $id = Intern::find($teamMemberId)->profile->id;
@@ -170,8 +171,8 @@ trait Store
             $task->dueDate = $taskData['dueDate'];
             $task->priority = $taskData['priority'];
             $task->status = $taskData['status'];
-            $task->intern_id = $taskData['intern_id']; 
-            $task->project_id = $project->id; 
+            $task->intern_id = $taskData['intern_id'];
+            $task->project_id = $project->id;
             $task->save();
         }
         return $project;
@@ -192,8 +193,8 @@ trait Store
         $task->dueDate = $validatedData['dueDate'];
         $task->priority = $validatedData['priority'];
         $task->status = $validatedData['status'];
-        $task->intern_id = $validatedData['intern_id']; 
-        $task->project_id = $validatedData['project_id']; 
+        $task->intern_id = $validatedData['intern_id'];
+        $task->project_id = $validatedData['project_id'];
         $task->save();
         $this->updateProjectStatus($task->project_id);
         return $task;
@@ -248,10 +249,10 @@ trait Store
         $applicatione->save();
         $profile=$applicatione->user->profile;
         if ($request->hasFile('cv')&&$profile) {
-            $this->storeOneFile($request, $profile, 'cv');            
+            $this->storeOneFile($request, $profile, 'cv');
         }
         if ($request->hasFile('applicationStage')&&$applicatione) {
-            $this->storeOneFile($request, $applicatione, 'applicationStage');            
+            $this->storeOneFile($request, $applicatione, 'applicationStage');
         }
         return response()->json($this->refactorApplication($applicatione));
     }
@@ -293,7 +294,7 @@ trait Store
             if($otherApplication->id !==$application->id ){
                 $isCommited[]=$otherApplication->delete();
             }
-        } 
+        }
         if(in_array(false||null,$isCommited)){
             DB::rollBack();
             return response()->json(['message'=>'error , save this intern'],400) ;
@@ -306,8 +307,8 @@ trait Store
                 'receiver'=>$profile->id
             ];
             $this->storeNotification($notifData);
-        } 
-    }   
+        }
+    }
     public function storeOneFile($request,$element,$fileType){
           $files = $request->file($fileType);
           $name =$files->getClientOriginalName();
@@ -336,22 +337,29 @@ trait Store
         $files->move(public_path('/'.$fileType),$uniqueName);
     }
     public function generateAttestation($id){
-          $profile = Intern::find($id)->profile;
-          $intern = $this->refactorProfile($profile);
-          $unique = uniqid();
+        $profile = Intern::find($id)->profile;
+        $intern = $this->refactorProfile($profile);
+        $unique = uniqid();
+        $url ="attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf";
         view()->share('attestations.attestation',$intern);
         $pdf = Pdf::loadView('attestations.attestation', $intern);
-        
+
         if ($profile->files->count()>0){
             $this->deletOldFiles($profile, 'attestation');
         }
-        
+        $data = [
+            'to' => $intern['email'],
+            'subject' => 'Attestation de stage',
+            'message' => 'Bonjour ' . $intern['fullName'] . ', veuillez trouver ci-joint votre attestation de stage.',
+            'pdfPath' =>  public_path($url)
+        ];
+        $this->sendEmail($data);
         DB::beginTransaction();
          $profile->files()->create(
-            ['url' =>"/attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf",
+            ['url' =>"/".$url,
                 'type' => 'attestation']
         );
-        if($pdf->save(public_path("attestation/{$unique}{$intern['firstName']}{$intern['firstName']}.pdf"))){
+        if($pdf->save(public_path($url))){
             DB::commit();
         }else{
             DB::rollBack();
@@ -410,7 +418,7 @@ trait Store
         $session = Session::where('token', Cookie::get('token'))->first();
         ($session)?$sessionId = $session->id:$sessionId = null;
         (auth()->user())? $profileId = auth()->user()->id:$profileId = null;
-    
+
         $activity = new Activitie();
         $activity->session_id = $sessionId;
         $activity->profile_id =  $profileId;
@@ -429,5 +437,13 @@ trait Store
         $notification->receiver = $data['receiver'];
         $notification->initiator = $initiatorId;
         $notification->save();
+    }
+
+    public function sendEmail($data){
+        $to = $data['to'];
+        $subject = $data['subject'];
+        $message = $data['message'];
+        $path = $data['pdfPath'] ?? null;
+        Mail::to($to)->send(new \App\Mail\WelcomeMail( $subject,$message,$path ));
     }
 }
