@@ -39,6 +39,7 @@ class WelcomeMail extends Mailable
     }
     public function attachments(): array
     {
+        dump($this->pdfPath);
         if (!file_exists($this->pdfPath)) {
             return [];
         }
