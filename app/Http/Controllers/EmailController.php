@@ -20,15 +20,17 @@ class EmailController extends Controller
             'subject' => 'required',
             'email' => 'required|email'
         ]);
+        $subject = $request->subject;
+        $message = $request->message;
+
         $email = new Email();
         $email->fullName = $request->fullName;
         $email->email = $request->email;
-        $email->subject = $request->subject;
-        $email->message = $request->message;
+        $email->subject = $subject;
+        $email->message = $message;
         $email->save();
-        
         $to = 'walid.zakan@gmail.com';
-        Mail::to($to)->send(new \App\Mail\WelcomeMail($request->message,$request->subject));
+        Mail::to($to)->send(new \App\Mail\WelcomeMail($message,$subject));
 
     }
     public function response(Request $request){
