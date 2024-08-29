@@ -23,4 +23,4 @@
 -   [] attestation must contain project subject
 -   [] files doesnt stored in public directory on render
 -   [] multiple account
--   [] emailing
+-   [o] emailing

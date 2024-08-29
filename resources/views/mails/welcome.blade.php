@@ -44,8 +44,12 @@
                             <!-- CTA Button -->
                             <table cellspacing="0" cellpadding="0" style="margin: auto;">
                                 <tr>
-                                    <td align="center" style="background-color: #fb923c; padding: 10px 20px; border-radius: 5px;">
-                                        <a href="https://gesthub.netlify.app/login" target="_blank" style="color: #ffffff; text-decoration: none; font-weight: bold;">visiter le site</a>
+                                    <td align="center" style="background-color: green; padding: 10px 20px; border-radius: 5px;">
+                                        @if ($data['pdfPath'])
+                                            <a href="https://gesthub.netlify.app/assets/{{ $data['pdfPath'] }}" style="color: #ffffff; text-decoration: none; font-weight: bold;">Show Document</a>
+                                        @else
+                                            <a href="https://gesthub.netlify.app/login" target="_blank" style="color: #ffffff; text-decoration: none; font-weight: bold;">visiter le site</a>
+                                        @endif
                                     </td>
                                 </tr>
                             </table>
@@ -58,13 +62,13 @@
                     </tr>
                     <!-- Footer -->
                     <tr>
-                        <td class="footer" style="background-color: #333333; padding: 40px; text-align: center; color: white; font-size: 14px;">
+                        <td class="footer" style="background-color: #6f42c1; padding: 40px; text-align: center; color: white; font-size: 14px;">
                         Copyright &copy; 2024 | GestHub
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
-    </table>
+    </table>w
 </body>
 </html>
