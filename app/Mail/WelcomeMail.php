@@ -45,7 +45,7 @@ class WelcomeMail extends Mailable
         dump($this->pdfPath);
        return [
             Attachment::fromPath('https://gesthub.netlify.app/assets/'.$this->pdfPath)
-                      ->as('welcome.pdf')
+                      ->as('GestDoc.pdf')
                       ->withMime('application/pdf'),
         ];
     }
