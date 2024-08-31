@@ -43,7 +43,7 @@ class EmailController extends Controller
         if (!$email) {
             return response()->json(['message' => 'Email not found!'], 404);
         }
-        $email->isReplyed = true;
+        $email->isReplyed = 'true';
         $email->save();
         $data = [
             'to'=> $request->email,
