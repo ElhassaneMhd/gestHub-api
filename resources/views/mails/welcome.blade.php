@@ -43,7 +43,7 @@
                     <!-- Body -->
                     <tr>
                         <td class="body" style="padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;">
-                            {{ $data['message'] }}
+                            {!! $data['message'] !!}
                         </td>
                     </tr>
 

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('fullName');
             $table->string('subject');
             $table->text('message');
-            $table->string('isReplyed')->default('false');
+            $table->string('isReplied')->default('false');
+            $table->string('ip');
             $table->timestamps();
         });
     }

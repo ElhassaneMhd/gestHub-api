@@ -12,7 +12,13 @@ class EmailController extends Controller
     public function store(Request $request)
     {
         $countEmail = Email::all()->count();
-        if($countEmail > 30){
+        $ip=$request->headers->get('Accept-For');
+        $countRequest = Email::where('ip',$ip)->count();
+
+        if($countRequest > 5){
+            return response()->json(['message' => 'You have reached the limit of sending requests!'], 403);
+        }
+        if($countEmail > 100){
             $firstEmail = Email::first();
             $firstEmail->delete();
         }
@@ -30,6 +36,7 @@ class EmailController extends Controller
         $email->email = $request->email;
         $email->subject = $subject;
         $email->message = $message;
+        $email->ip = $ip;
         $email->save();
     }
     public function response(Request $request){
@@ -43,7 +50,7 @@ class EmailController extends Controller
         if (!$email) {
             return response()->json(['message' => 'Email not found!'], 404);
         }
-        $email->isReplyed = 'true';
+        $email->isReplied = 'true';
         $email->save();
         $data = [
             'to'=> $request->email,
