@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{ $data['subject'] }}</title>
+    <title><?php echo e($data['subject']); ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -36,14 +36,16 @@
                     <tr>
                         <td class="header"
                             style="background-color: #fb923c; padding: 40px; text-align: center; color: white; font-size: 24px;">
-                            {{ $data['subject'] }}
+                            <?php echo e($data['subject']); ?>
+
                         </td>
                     </tr>
 
                     <!-- Body -->
                     <tr>
                         <td class="body" style="padding: 40px; text-align: left; font-size: 16px; line-height: 1.6;">
-                            {{ $data['message'] }}
+                            <?php echo e($data['message']); ?>
+
                         </td>
                     </tr>
 
@@ -55,15 +57,15 @@
                                 <tr>
                                     <td align="center"
                                         style="background-color: green; padding: 10px 20px; border-radius: 5px;">
-                                        @if (isset($data['pdfPath']) && $data['pdfPath'])
-                                            <a href="https://gesthub.netlify.app/assets/{{ $data['pdfPath'] }}"
+                                        <?php if(isset($data['pdfPath']) && $data['pdfPath']): ?>
+                                            <a href="https://gesthub.netlify.app/assets/<?php echo e($data['pdfPath']); ?>"
                                                 style="color: #ffffff; text-decoration: none; font-weight: bold;">Show
                                                 Document</a>
-                                        @else
+                                        <?php else: ?>
                                             <a href="https://gesthub.netlify.app/login" target="_blank"
                                                 style="color: #ffffff; text-decoration: none; font-weight: bold;">visiter
                                                 le site</a>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             </table>
@@ -89,3 +91,4 @@
 </body>
 
 </html>
+<?php /**PATH D:\Project\Stage Project\API\resources\views/mails/welcome.blade.php ENDPATH**/ ?>

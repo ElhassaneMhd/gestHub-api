@@ -34,7 +34,7 @@ Route::group([
     Route::get('/stats', [GeneralController::class,'getStats']);
     Route::get('/count', [GeneralController::class,'getCount']);
     Route::get('/offer', [OfferController::class,'GetByIndex']);
-    Route::post('/response', [EmailController::class,'response']);
+    Route::post('/emails/reply', [EmailController::class,'response']);
     Route::delete('/emails/{id}', [EmailController::class,'destroy']);
     
     //get all data => projects , admins , tasks ,supervisors , users ( NB data must be pluriel)

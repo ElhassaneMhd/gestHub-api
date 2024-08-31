@@ -36,11 +36,11 @@ class EmailController extends Controller
         $request->validate([
             'email' => 'required|email',
             'message' => 'required',
+            'subject' => 'required',
         ]);
-        $subject = 'Reponse à votre demande';
         $data = [
             'to'=> $request->email,
-            'subject' => $subject,
+            'subject' => $request->subject,
             'message' => $request->message,
         ];
         $this->sendEmail($data);
