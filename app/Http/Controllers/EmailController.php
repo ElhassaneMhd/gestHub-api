@@ -34,10 +34,17 @@ class EmailController extends Controller
     }
     public function response(Request $request){
         $request->validate([
+            'email_id' => 'required|exists:emails,id',
             'email' => 'required|email',
             'message' => 'required',
             'subject' => 'required',
         ]);
+        $email = Email::find($request->email_id);
+        if (!$email) {
+            return response()->json(['message' => 'Email not found!'], 404);
+        }
+        $email->isReplyed = true;
+        $email->save();
         $data = [
             'to'=> $request->email,
             'subject' => $request->subject,
