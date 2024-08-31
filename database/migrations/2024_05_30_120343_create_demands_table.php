@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('fullName');
             $table->string('subject');
             $table->text('message');
+            $table->boolean('isReplyeed')->default(false);
             $table->timestamps();
         });
     }
