@@ -16,14 +16,8 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
+      text-align: center;
     }
-    .div{
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-    }
-
     /* Header and Footer */
     header, footer {
       background-color: #f0f0f0bf;
@@ -45,13 +39,14 @@
     a {
       color: #ffffff;
       text-decoration: none;
+      cursor: pointer;
     }
     button {
       background-color: #007bff;
       color: #fff;
       border-radius: 0%;
       padding: 10px 20px;
-      cursor: pointer;
+      border: none
     }
 
     @media (max-width: 500px) {
@@ -59,7 +54,7 @@
         max-width: 50%;
       }
     }
-      @media (max-width: 2000px) {
+    @media (max-width: 2000px) {
       .logo {
         max-width: 25%;
       }
@@ -68,14 +63,14 @@
   </style>
 </head>
 <body>
-  <header>
-    <img class="logo" src="{{ asset('appLogo/logo.png') }}" alt="Your Logo">
-  </header>
-  <div class="container">
-      <h2>{{ $data['subject'] }}</h2>
-      <hr/>
+    <header>
+        <img class="logo" src="{{ asset('appLogo/logo.png') }}" alt="Your Logo">
+    </header>
+    <div class="container">
+        <h2>{{ $data['subject'] }}</h2>
+        <hr/>
         <p>{!! $data['message'] !!}</p>
-        <div class="div">
+        <div class="container">
             @if (isset($data['pdfPath']) && $data['pdfPath'])
             <a href="https://gesthub.netlify.app/assets/{{ $data['pdfPath'] }}" target="_blank">
                 <button>Show Document</button>
@@ -87,8 +82,6 @@
             @endif
         </div>
   </div>
-  <footer>
-    Copyright © GestHub
-  </footer>
+  <footer> Copyright © GestHub </footer>
 </body>
 </html>
