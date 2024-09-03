@@ -47,7 +47,7 @@
 </head>
 <body>
   <header>
-    <img src="your-logo.png" alt="Your Logo">
+    <img src="{{ asset('appLogo/logo.png') }}" alt="Your Logo">
   </header>
   <hr/>
   <div class="container">
