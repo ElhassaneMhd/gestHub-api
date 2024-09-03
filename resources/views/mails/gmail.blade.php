@@ -17,6 +17,12 @@
       margin: 0 auto;
       padding: 20px;
     }
+    .div{
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
 
     /* Header and Footer */
     header, footer {
@@ -43,7 +49,7 @@
     button {
       background-color: #007bff;
       color: #fff;
-      border: none;
+      border-radius: 0%;
       padding: 10px 20px;
       cursor: pointer;
     }
@@ -53,7 +59,7 @@
         max-width: 50%;
       }
     }
-      @media (max-width: 1200px) {
+      @media (max-width: 2000px) {
       .logo {
         max-width: 25%;
       }
@@ -69,15 +75,17 @@
       <h2>{{ $data['subject'] }}</h2>
       <hr/>
         <p>{!! $data['message'] !!}</p>
-        @if (isset($data['pdfPath']) && $data['pdfPath'])
-        <button>
-            <a href="https://gesthub.netlify.app/assets/{{ $data['pdfPath'] }}" target="_blank">Show Document</a>
-        </button>
-        @else
-        <button>
-            <a href="https://gesthub.netlify.app" target="_blank">Visit our website</a>
-        </button>
-        @endif
+        <div class="div">
+            @if (isset($data['pdfPath']) && $data['pdfPath'])
+            <a href="https://gesthub.netlify.app/assets/{{ $data['pdfPath'] }}" target="_blank">
+                <button>Show Document</button>
+            </a>
+            @else
+            <a href="https://gesthub.netlify.app" target="_blank">
+                <button>Visit our website</button>
+            </a>
+            @endif
+        </div>
   </div>
   <footer>
     Copyright © GestHub
