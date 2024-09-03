@@ -34,7 +34,7 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.welcome',
+            view: 'mails.gmail',
         );
     }
     public function attachments(): array
