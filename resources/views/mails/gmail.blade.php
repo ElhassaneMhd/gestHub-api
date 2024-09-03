@@ -11,18 +11,16 @@
       padding: 0;
       font-family: Arial, sans-serif;
     }
-
     /* Container */
     .container {
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      border-radius: 5px;
     }
 
     /* Header and Footer */
     header, footer {
-      background-color: #f0f0f0;
+      background-color: #f0f0f0bf;
       padding: 10px;
       text-align: center;
     }
@@ -51,15 +49,19 @@
   <header>
     <img src="your-logo.png" alt="Your Logo">
   </header>
+  <hr/>
   <div class="container">
     <h2>{{ $data['subject'] }}</h2>
         <p>{!! $data['message'] !!}</p>
         @if (isset($data['pdfPath']) && $data['pdfPath'])
+        <button>
             <a href="https://gesthub.netlify.app/assets/{{ $data['pdfPath'] }}" target="_blank">Show Document</a>
+        </button>
         @else
+        <button>
             <a href="https://gesthub.netlify.app" target="_blank">Visit our website</a>
+        </button>
         @endif
-    <button>Click here to do something</button>
   </div>
   <footer>
     Copyright © GestHub
