@@ -47,14 +47,15 @@
       padding: 10px 20px;
       cursor: pointer;
     }
-    @media (max-width: 1200) {
-      .logo {
-        max-width: 25%;
-      }
-    }
+
     @media (max-width: 500px) {
       .logo {
-        max-width: 100%;
+        max-width: 50%;
+      }
+    }
+      @media (max-width: 1200px) {
+      .logo {
+        max-width: 25%;
       }
     }
 
