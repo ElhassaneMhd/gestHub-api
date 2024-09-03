@@ -30,13 +30,14 @@
       background-color: #fff;
       padding: 20px;
     }
-    img {
-      max-width: 50%;
-      height: auto;
+
+    .logo {
+      display: block;
+      margin: 0 auto;
     }
     /* Buttons and Links */
     a {
-      color: #007bff;
+      color: #ffffff;
       text-decoration: none;
     }
     button {
@@ -46,15 +47,26 @@
       padding: 10px 20px;
       cursor: pointer;
     }
+    @media (max-width: 1200) {
+      .logo {
+        max-width: 25%;
+      }
+    }
+    @media (max-width: 500px) {
+      .logo {
+        max-width: 100%;
+      }
+    }
+
   </style>
 </head>
 <body>
   <header>
-    <img src="{{ asset('appLogo/logo.png') }}" alt="Your Logo">
+    <img class="logo" src="{{ asset('appLogo/logo.png') }}" alt="Your Logo">
   </header>
-  <hr/>
   <div class="container">
-    <h2>{{ $data['subject'] }}</h2>
+      <h2>{{ $data['subject'] }}</h2>
+      <hr/>
         <p>{!! $data['message'] !!}</p>
         @if (isset($data['pdfPath']) && $data['pdfPath'])
         <button>
