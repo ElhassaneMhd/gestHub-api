@@ -30,7 +30,10 @@
       background-color: #fff;
       padding: 20px;
     }
-
+    img {
+      max-width: 50%;
+      height: auto;
+    }
     /* Buttons and Links */
     a {
       color: #007bff;
