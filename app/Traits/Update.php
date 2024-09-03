@@ -233,7 +233,8 @@ trait Update
                 $MailData = [
                     'to'=>$profile->email,
                     'subject'=>'Application Approved',
-                    'message'=>'Your application has been approved for the offer : '.$application->offer->title
+                    'message'=>"Congratulations 👏,  your application has been approved for the " .$application->offer->title ." position! Your skills and experience align perfectly with our requirements,
+                         and we're excited to have you join our team. We look forward to working together and seeing your contributions to our project."
                 ];
             $this->sendEmail($MailData);
             $this->storeNotification($notifData);

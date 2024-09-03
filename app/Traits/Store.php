@@ -350,7 +350,7 @@ trait Store
         $data = [
             'to' => $intern['email'],
             'subject' => 'Attestation de stage',
-            'message' => 'Bonjour ' . $intern['firstName'] .' '. $intern['lastName']. ', veuillez trouver ci-joint votre attestation de stage.',
+            'message' => 'Bonjour ' . $intern['firstName'] .' '. $intern['lastName']. ", Veuillez trouver ci-joint l'attestation de votre stage. Celle-ci atteste de votre présence et de vos missions effectuées au sein de notre entreprise. N'hésitez pas à nous contacter si vous avez besoin de plus d'informations.",
             'pdfPath' =>  $url
         ];
         DB::beginTransaction();

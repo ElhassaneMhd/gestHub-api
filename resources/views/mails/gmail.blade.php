@@ -42,7 +42,7 @@
       cursor: pointer;
     }
     button {
-      background-color: #007bff;
+      background-color:#7566d8;
       color: #fff;
       border-radius: 0%;
       padding: 10px 20px;
