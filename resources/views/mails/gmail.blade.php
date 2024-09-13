@@ -42,11 +42,12 @@
       cursor: pointer;
     }
     button {
-      background-color:#7566d8;
-      color: #fff;
-      border-radius: 0%;
-      padding: 10px 20px;
-      border: none
+        background-color:#7566d8;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
     }
 
     @media (max-width: 500px) {
