@@ -11,8 +11,8 @@ php artisan config:cache
 echo "Caching routes..."
 php artisan route:cache
 
-#echo "Running migrations..."
-#php artisan migrate:fresh --seed --force
+echo "Running migrations..."
+php artisan migrate:fresh --seed --force
 
 echo "Optimize"
 php artisan optimize
