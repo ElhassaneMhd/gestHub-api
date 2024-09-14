@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173','https://gesthub.netlify.app'],
+    'allowed_origins' => ['null','http://localhost:5173','https://gesthub.netlify.app'],
 
     'allowed_origins_patterns' => [],
 

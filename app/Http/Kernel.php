@@ -22,7 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\CorsMiddleware::class,
-        \App\Http\Middleware\CheckOrigin::class,
+      //  \App\Http\Middleware\CheckOrigin::class,
     ];
 
     /**
@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
      */
 
 
-    
+
 
     protected $middlewareGroups = [
         'web' => [
