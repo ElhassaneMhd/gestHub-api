@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('initiator')->nullable();
             $table->foreign('initiator')->nullable()->references('id')->on('profiles');
             $table->unsignedBigInteger('receiver')->nullable();
-            $table->foreign('receiver')->references('id')->on('profiles');
+            $table->foreign('receiver')->references('id')->on('profiles')->nullOnDelete();
             $table->string('activity');
             $table->string('object')->nullable();;
             $table->string('action');
