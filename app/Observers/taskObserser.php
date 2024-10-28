@@ -18,7 +18,7 @@ class taskObserser
              'action'=>'newTask',
             'receiver'=>$profile->id??null
             ];
-        $this->storeNotification($notifData);
+        $profile && $this->storeNotification($notifData);
 
         $this->storeActivite($data);
 
