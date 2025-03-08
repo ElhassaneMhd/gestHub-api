@@ -13,6 +13,7 @@ composer install --no-dev --working-dir=/var/www/html
 # php artisan optimize
 
 echo "Running migrations..."
+php artisan migrate:fresh
 php artisan db:seed --force
 
 
