@@ -11,9 +11,17 @@ php artisan config:cache
 echo "Caching routes..."
 php artisan route:cache
 
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+
+
 echo "Running migrations..."
-php artisan migrate --force
-php artisan migrate --seed --force
+# php artisan migrate --force
+# php artisan migrate --seed --force
+php artisan migrate:reset
+php artisan migrate:fresh --seed --force
 
 echo "Optimize"
 php artisan optimize
