@@ -13,7 +13,7 @@ php artisan key:generate --show
 # php artisan optimize
 
 echo "Running migrations..."
-php artisan db:seed
+php artisan db:seed --force
 
 
 # mkdir storage/framework/{cache/data,views}

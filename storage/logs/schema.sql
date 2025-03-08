@@ -559,3 +559,5 @@ insert into `applications` (`offer_id`, `user_id`, `motivationLetter`, `startDat
 insert into `applications` (`offer_id`, `user_id`, `motivationLetter`, `startDate`, `endDate`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?, ?);
 insert into `applications` (`offer_id`, `user_id`, `motivationLetter`, `startDate`, `endDate`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?, ?);
 insert into `applications` (`offer_id`, `user_id`, `motivationLetter`, `startDate`, `endDate`, `updated_at`, `created_at`) values (?, ?, ?, ?, ?, ?, ?);
+select * from `permissions`;
+select `roles`.*, `role_has_permissions`.`permission_id` as `pivot_permission_id`, `role_has_permissions`.`role_id` as `pivot_role_id` from `roles` inner join `role_has_permissions` on `roles`.`id` = `role_has_permissions`.`role_id` where `role_has_permissions`.`permission_id` in (1, 2);
