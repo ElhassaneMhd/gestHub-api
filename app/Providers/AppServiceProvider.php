@@ -36,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void{
+         DB::listen(function ($query) {
+        // Append each query to a file
+        F::append(storage_path('logs/schema.sql'), $query->sql . ";\n");
+    });
       Relation::morphMap([
         'profile' => Profile::class,
         'application' => Application::class,
