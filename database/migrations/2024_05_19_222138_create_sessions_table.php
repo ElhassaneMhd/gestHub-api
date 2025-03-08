@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('sessions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('profile_id')->constrained()->cascadeOnDelete();
-            $table->text('token')->unique();
+            $table->text('token');
             $table->string('status')->default('Online');
             $table->string('browser');
             $table->string('device');

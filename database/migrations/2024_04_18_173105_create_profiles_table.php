@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('firstName');
             $table->string('lastName');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->fullText(['firstName', 'lastName', 'email']);
             $table->string('password');
             $table->string('gender');    
