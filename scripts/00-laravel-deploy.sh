@@ -17,9 +17,9 @@ php artisan optimize
 echo "Running migrations..."
 # php artisan migrate --force
 # php artisan migrate --seed --force
-php artisan migrate:reset
-php artisan migrate:fresh --seed --force
-
+# php artisan migrate:reset
+# php artisan migrate:fresh --seed --force
+php artisan db:seed
 
 
 mkdir storage/framework/{cache/data,views}
